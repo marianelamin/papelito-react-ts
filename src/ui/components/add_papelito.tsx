@@ -1,17 +1,21 @@
 import react, { useState } from 'react'
 import { Papelito } from '../models/papelito'
 import { Button } from 'ui/styles'
+import { TicTacToe } from 'ui/views/tictactoe'
 
 interface AddPapelitoIO {
   onSavePapelito: Function
 }
 
 export const AddPapelito = (props: AddPapelitoIO) => {
+  const HEADER_ADD_PAPELITO = 'Add a Papelito'
+  const SAVE_PAPELITO = 'Save Papelito'
+  const PAPELITO_LABEL = 'Papelito'
+
   const initialText: string = ''
   const [text, setText] = useState<string>(initialText)
 
   const onChangeText = (event: any) => {
-    console.log(event.target.value)
     setText(event.target.value)
   }
 
@@ -32,9 +36,9 @@ export const AddPapelito = (props: AddPapelitoIO) => {
 
   return (
     <div>
-      <h2>Mis Papelitos</h2>
+      <h2>{HEADER_ADD_PAPELITO}</h2>
       <label>
-        Papelito:
+        {PAPELITO_LABEL}:
         <input
           id="addPapelitoField"
           type="text"
@@ -44,7 +48,7 @@ export const AddPapelito = (props: AddPapelitoIO) => {
           onKeyDown={onEnterSaveNewPapelito}
         />
       </label>
-      <Button onClick={onClickSaveNewPapelito}>Save Papelito</Button>
+      <Button onClick={onClickSaveNewPapelito}>{SAVE_PAPELITO}</Button>
     </div>
   )
 }
