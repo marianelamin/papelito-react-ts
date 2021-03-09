@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button } from 'ui/styles'
 import { Papelito } from 'ui/models/papelito'
 import { AddPapelito } from 'ui/components/add_papelito'
+import { PapelitoBowl } from 'ui/components/papelito_bolw'
 
 // ---------------------------
 
@@ -32,6 +33,9 @@ const PapelitoList = (props: PapelitoListIO) => {
 // ---------------------------
 
 const PapelitoWrapper = () => {
+  const [papelitoShown, setPapelitoShown] = useState<Papelito | undefined>(
+    undefined
+  )
   const [papelitoList, setPapelitoList] = useState<Papelito[]>([
     new Papelito('La casa roja', false, 1),
     new Papelito('temperatura es alta', false, 2),
@@ -48,6 +52,8 @@ const PapelitoWrapper = () => {
   }
 
   function deletePapelito(index: number) {
+    // if papelito deletes was the one shown, update this
+    if (papelitoList[index] === papelitoShown) setPapelitoShown(undefined)
     console.log(index)
     let newPapelitoList = [...papelitoList]
     newPapelitoList.splice(index, 1)
@@ -75,7 +81,7 @@ const PapelitoWrapper = () => {
     let selectedPapelito = papelitoList[papelitoIndex]
     console.log(`lanzate un papelito ahi:`)
     console.log(selectedPapelito)
-    return selectedPapelito
+    setPapelitoShown(selectedPapelito)
   }
 
   // todo: there is something going on with the correct filtered list
@@ -92,6 +98,8 @@ const PapelitoWrapper = () => {
       <AddPapelito onSavePapelito={saveNewPapelito}></AddPapelito>
       <PapelitoBowl
         papelitoList={papelitosInBowl}
+        papelitoShown={papelitoShown}
+        bowlSize={papelitosInBowl.length}
         papelitoDrawn={drawPapelito}
         papelitoGuessed={guessPapelito}
       ></PapelitoBowl>
@@ -101,88 +109,4 @@ const PapelitoWrapper = () => {
 
 // ---------------------------
 
-interface PapelitoBowlIO {
-  papelitoList: Papelito[]
-  papelitoDrawn: Function
-  papelitoGuessed: Function
-}
-
-const PapelitoBowl = (props: PapelitoBowlIO) => {
-  const papelitoQuestionMark = new Papelito('?')
-  const [papelitoShown, setPapelitoShown] = useState<Papelito>(
-    papelitoQuestionMark
-  )
-  const [showPapelito, setShowPapelito] = useState<boolean>(false)
-
-  const drawPapelito = () => {
-    console.log(hasPapelitoBeenDrawn())
-
-    if (props.papelitoList.length > 0) {
-      setShowPapelito(true)
-      return setPapelitoShown(props.papelitoDrawn())
-    } else {
-      return null
-    }
-  }
-
-  const guessPapelito = () => {
-    setShowPapelito(false)
-    var p = new Papelito(papelitoShown.text, true, papelitoShown.id)
-    console.log(`papelito set to guessed:`)
-    console.log(p)
-    setPapelitoShown(papelitoQuestionMark)
-    return props.papelitoGuessed(p)
-  }
-
-  const bowlSize = () => props.papelitoList.length
-  const hasPapelitoBeenDrawn = () => {
-    return (
-      props.papelitoList.find((papel) => papel.id == papelitoShown.id) !==
-      undefined
-    )
-  }
-
-  return (
-    <div>
-      <h2>Bowl</h2> <span>total: {bowlSize()}</span>
-      <div>
-        <PapelitoDisplay
-          papelito={papelitoShown}
-          showPapelito={showPapelito}
-        ></PapelitoDisplay>
-      </div>
-      <button onClick={drawPapelito} disabled={bowlSize() === 0}>
-        Draw
-      </button>
-      <button
-        onClick={guessPapelito}
-        disabled={bowlSize() === 0 || !hasPapelitoBeenDrawn()}
-      >
-        Guessed
-      </button>
-    </div>
-  )
-}
-
-// ---------------------------
-
-interface PapelitoDisplayIO {
-  papelito: Papelito
-  showPapelito: boolean
-}
-
-const PapelitoDisplay = (props: PapelitoDisplayIO) => {
-  return props.showPapelito ? (
-    <div>
-      <p>{props.papelito.text}</p>
-      <span>[{props.papelito.id}] - </span>
-      <span>({props.papelito.guessed ? 'true' : 'false'})</span>
-    </div>
-  ) : (
-    <div>nothing to show yet</div>
-  )
-}
-
-// ---------------------------
-
-export { PapelitoList, PapelitoWrapper, PapelitoBowl }
+export { PapelitoList, PapelitoWrapper }
