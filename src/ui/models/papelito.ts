@@ -2,6 +2,7 @@ export class Papelito {
   text: string
   guessed: boolean
   id: number | null | undefined
+  author: string
 
   constructor(
     _text: string,
@@ -9,6 +10,7 @@ export class Papelito {
     _id?: number | undefined | null
   ) {
     this.text = _text
+    this.author = ''
     if (_guessed) this.guessed = _guessed
     else this.guessed = false
     if (_id) this.id = _id
@@ -16,7 +18,12 @@ export class Papelito {
   }
 
   public toString() {
-    const map = { text: this.text, guessed: this.guessed, id: this.id }
+    const map = {
+      text: this.text,
+      guessed: this.guessed,
+      id: this.id,
+      author: this.author,
+    }
 
     return map.toString()
   }

@@ -40,11 +40,12 @@ const PapelitoWrapper = () => {
     new Papelito('La casa roja', false, 1),
     new Papelito('temperatura es alta', false, 2),
   ])
-
+  const playerName = 'Marianela'
   let papelitoIndex
 
   const saveNewPapelito = (papelito: Papelito) => {
     let newPapelitoList = [...papelitoList]
+    papelito.author = playerName
     newPapelitoList.push(papelito)
     console.log(papelito)
     console.log(newPapelitoList)
@@ -91,6 +92,11 @@ const PapelitoWrapper = () => {
 
   return (
     <div>
+      <div style={{ display: 'flex', justifyContent: 'end' }}>
+        <span>
+          Player: <b>{playerName}</b>
+        </span>
+      </div>
       <PapelitoList
         papelitoList={papelitoList}
         deletePapelito={deletePapelito}
