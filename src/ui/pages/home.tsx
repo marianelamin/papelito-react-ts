@@ -7,12 +7,14 @@ const Home: FC = () => {
   let roomCode
 
   function goToRoom() {
-    roomCode = 'AAAA'
+    roomCode = 'AAAAAA'
+    console.log('join a room')
     history.push(`/room/${roomCode}`)
   }
   function createRoom() {
     // Todo: create a room and get the room code back
-    roomCode = 'AAAA'
+    roomCode = 'AAAAAA'
+    console.log('create a room')
     history.push(`/room/${roomCode}`)
   }
   return (
