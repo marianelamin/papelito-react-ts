@@ -1,23 +1,35 @@
-export class Papelito {
+import Player from './player'
+
+class Papelito {
   text: string
   guessed: boolean
   id: number | null | undefined
-  author: string
+  author: Player | null | undefined
 
   constructor(
     _text: string,
     _guessed?: boolean,
-    _id?: number | undefined | null
+    _id?: number,
+    _author?: Player
   ) {
     this.text = _text
-    this.author = ''
     if (_guessed) this.guessed = _guessed
     else this.guessed = false
     if (_id) this.id = _id
     else this.id = null
+    if (_author) this.author = _author
+    else this.author = null
   }
 
-  public toString() {
+  static fromAnotherPapelito(papelito: Papelito) {
+    let newPapelito = new Papelito(papelito.text)
+    newPapelito.author = papelito.author
+    newPapelito.guessed = papelito.guessed
+    newPapelito.id = papelito.id
+    return newPapelito
+  }
+
+  toString(): string {
     const map = {
       text: this.text,
       guessed: this.guessed,
@@ -28,3 +40,5 @@ export class Papelito {
     return map.toString()
   }
 }
+
+export default Papelito
