@@ -1,6 +1,6 @@
 import react, { useState } from 'react'
-import { Papelito } from '../models/papelito'
 import { Button } from 'ui/styles'
+import { Papelito } from 'ui/models/all_models'
 import { TicTacToe } from 'ui/views/tictactoe'
 
 interface AddPapelitoIO {

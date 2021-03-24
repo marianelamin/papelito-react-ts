@@ -1,5 +1,5 @@
 import react, { useState } from 'react'
-import { Papelito } from '../models/papelito'
+import { Papelito } from '../models/all_models'
 
 // ---------------------------
 
@@ -29,11 +29,7 @@ export const PapelitoBowl = (props: PapelitoBowlIO) => {
   const guessPapelito = () => {
     if (props.papelitoShown !== undefined) {
       setShowPapelito(false)
-      var p = new Papelito(
-        props.papelitoShown.text,
-        true,
-        props.papelitoShown.id
-      )
+      var p = Papelito.fromAnotherPapelito(props.papelitoShown)
       console.log(`papelito set to guessed:`)
       console.log(p)
       //   setPapelitoShown(undefined)
