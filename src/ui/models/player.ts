@@ -15,7 +15,8 @@ class Player extends Person {
   }
 
   toString() {
-    return `{ name: ${this.name}, activeInTurn: ${this.activeInTurn} }`
+    let map = { name: this.name, activeInTurn: this.activeInTurn }
+    return map.toString()
   }
 }
 

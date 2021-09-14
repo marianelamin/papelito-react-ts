@@ -28,3 +28,7 @@ export const Block = styled.div`
 export const Button = styled.button`
   width: 145px;
 `
+
+export const ActionButtonContainer = styled.div`
+  display: flex;
+`

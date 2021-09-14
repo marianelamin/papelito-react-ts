@@ -3,27 +3,27 @@ import { Button } from 'ui/styles'
 import { Papelito } from 'ui/models/all_models'
 import { TicTacToe } from 'ui/views/tictactoe'
 
-interface AddPapelitoIO {
+interface AddPapelitoComponentIO {
   onSavePapelito: Function
 }
 
-export const AddPapelito = (props: AddPapelitoIO) => {
+export const AddPapelitoComponent = (props: AddPapelitoComponentIO) => {
   const HEADER_ADD_PAPELITO = 'Add a Papelito'
   const SAVE_PAPELITO = 'Save Papelito'
   const PAPELITO_LABEL = 'Papelito'
 
   const initialText: string = ''
-  const [text, setText] = useState<string>(initialText)
+  const [papelitoText, setPapelitoText] = useState<string>(initialText)
 
   const onChangeText = (event: any) => {
-    setText(event.target.value)
+    setPapelitoText(event.target.value)
   }
 
   const savePapelito = () => {
     let generatedId = new Date().valueOf()
-    if (text !== '')
-      props.onSavePapelito(new Papelito(text, false, generatedId))
-    setText(initialText)
+    if (papelitoText !== '')
+      props.onSavePapelito(new Papelito(papelitoText, false, generatedId))
+    setPapelitoText(initialText)
   }
 
   const onEnterSaveNewPapelito = (event: any) => {
@@ -43,7 +43,7 @@ export const AddPapelito = (props: AddPapelitoIO) => {
           id="addPapelitoField"
           type="text"
           placeholder="Enter new papelito"
-          value={text}
+          value={papelitoText}
           onChange={onChangeText}
           onKeyDown={onEnterSaveNewPapelito}
         />

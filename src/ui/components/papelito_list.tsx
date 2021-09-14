@@ -1,22 +1,26 @@
 import { Papelito } from 'ui/models/all_models'
 import react from 'react'
 
-interface PapelitoListIO {
+interface PapelitoListComponentIO {
   papelitoList: Papelito[]
-  deletePapelito: Function
+  onDeleteItem: Function
+  onSendToBowl: Function
 }
 
-const PapelitoList = (props: PapelitoListIO) => {
+const PapelitoListComponent = (props: PapelitoListComponentIO) => {
   return (
     <div>
       <h2>Papelitos List</h2>
       <ol>
-        {props.papelitoList.map((papelito, index) => (
-          <li key={index}>
+        {props.papelitoList.map((papelito) => (
+          <li key={papelito.id}>
             <div>
               {papelito.id} ({papelito.guessed ? 'guessed' : 'not guessed'}) -{' '}
               {papelito.text} -
-              <button onClick={() => props.deletePapelito(index)}>Del</button>
+              <button onClick={() => props.onDeleteItem(papelito)}>Del</button>
+              <button onClick={() => props.onSendToBowl(papelito)}>
+                Throw in Bowl
+              </button>
             </div>
           </li>
         ))}
@@ -25,4 +29,4 @@ const PapelitoList = (props: PapelitoListIO) => {
   )
 }
 
-export { PapelitoList }
+export { PapelitoListComponent }

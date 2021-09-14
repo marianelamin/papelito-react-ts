@@ -1,18 +1,22 @@
 import React, { FC } from 'react'
 import { useParams } from 'react-router-dom'
 import { RoomRouteParams } from 'routes'
-import { PapelitoWrapper } from 'ui/views/papelito_game'
+
+import PapelitoWrapper from 'ui/views/papelito_game'
 import { TicTacToe } from 'ui/views/tictactoe'
+import { useRoom } from 'hooks/use_room'
 
 const Room: FC = () => {
   const { id } = useParams<RoomRouteParams>()
+  const { isFetching, room } = useRoom(id)
 
   return (
     <div>
       <h1>
-        Room Page (<span> {id} </span>)
+        Room Code: <span> {id} </span>
       </h1>
-      <PapelitoWrapper></PapelitoWrapper>
+      <pre>Room Details: {room}</pre>
+      <PapelitoWrapper room={room}></PapelitoWrapper>
       <div> PAPELITO por {process.env.REACT_APP_AUTHOR}</div>
     </div>
   )

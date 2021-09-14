@@ -1,46 +1,35 @@
 import react, { useState } from 'react'
 import { Papelito } from '../models/all_models'
+import { PapelitoDisplayComponent } from './papelito_display'
 
 // ---------------------------
 
-interface PapelitoBowlIO {
+interface PapelitoBowlComponentIO {
   bowlSize: number
-  papelitoList?: Papelito[]
-  papelitoShown: Papelito | undefined
-  papelitoDrawn: Function
-  papelitoGuessed: Function
+  currentPapelitoDisplay: Papelito | undefined
+  onDrawPapelito: Function
+  onGuessPapelito: Function
 }
 
-export const PapelitoBowl = (props: PapelitoBowlIO) => {
+const PapelitoBowlComponent = (props: PapelitoBowlComponentIO) => {
   const [showPapelito, setShowPapelito] = useState<boolean>(false)
-  //   const [papelitoShown, setPapelitoShown] = useState<Papelito | undefined>(
-  // undefined
-  //   )
 
   const drawPapelito = () => {
-    props.papelitoDrawn()
-    // if (props.bowlSize > 0) {
-    //   setShowPapelito(true)
-    //   return setPapelitoShown(props.papelitoDrawn())
-    // }
-    // return null
+    props.onDrawPapelito()
   }
 
   const guessPapelito = () => {
-    if (props.papelitoShown !== undefined) {
+    if (props.currentPapelitoDisplay !== undefined) {
       setShowPapelito(false)
-      var p = Papelito.fromAnotherPapelito(props.papelitoShown)
+      var p = Papelito.clone(props.currentPapelitoDisplay)
       console.log(`papelito set to guessed:`)
       console.log(p)
-      //   setPapelitoShown(undefined)
-      return props.papelitoGuessed(p)
+      return props.onGuessPapelito(p)
     }
   }
 
   const bowlSize = () => props.bowlSize
-  const hasPapelitoBeenDrawn = () => {
-    return props.papelitoShown !== undefined
-  }
+  const hasPapelitoBeenDrawn = () => props.currentPapelitoDisplay !== undefined
 
   const disableDraw = () => bowlSize() === 0
   const disableGuess = () => bowlSize() === 0 || !hasPapelitoBeenDrawn()
@@ -49,7 +38,9 @@ export const PapelitoBowl = (props: PapelitoBowlIO) => {
     <div>
       <h2>Bowl</h2> <span>total: {bowlSize()}</span>
       <div>
-        <PapelitoDisplay papelito={props.papelitoShown}></PapelitoDisplay>
+        <PapelitoDisplayComponent
+          papelito={props.currentPapelitoDisplay}
+        ></PapelitoDisplayComponent>
       </div>
       <button onClick={drawPapelito} disabled={disableDraw()}>
         Draw
@@ -61,21 +52,4 @@ export const PapelitoBowl = (props: PapelitoBowlIO) => {
   )
 }
 
-// ---------------------------
-
-interface PapelitoDisplayIO {
-  papelito: Papelito | undefined
-  showPapelito?: boolean // prob no going to be used
-}
-
-const PapelitoDisplay = (props: PapelitoDisplayIO) => {
-  return props.papelito !== undefined ? (
-    <div>
-      <p>{props.papelito.text}</p>
-      <span>[{props.papelito.id}] - </span>
-      <span>({props.papelito.guessed ? 'true' : 'false'})</span>
-    </div>
-  ) : (
-    <div>nothing to show yet</div>
-  )
-}
+export { PapelitoBowlComponent }

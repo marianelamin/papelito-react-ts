@@ -21,7 +21,7 @@ class Papelito {
     else this.author = null
   }
 
-  static fromAnotherPapelito(papelito: Papelito) {
+  static clone(papelito: Papelito) {
     let newPapelito = new Papelito(papelito.text)
     newPapelito.author = papelito.author
     newPapelito.guessed = papelito.guessed
