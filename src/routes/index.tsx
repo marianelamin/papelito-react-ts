@@ -1,14 +1,12 @@
-import React, { lazy, Suspense } from 'react'
+import { Suspense } from 'react'
 import { Route, Switch } from 'react-router'
-
-const Home = lazy(() => import('ui/pages/home'))
-const Room = lazy(() => import('ui/pages/room'))
+import lazyViews from './lazy_views'
 
 const Routes = () => (
   <Switch>
     <Suspense fallback={<h1>Loading page ... </h1>}>
-      <Route path="/room/:id" component={Room}></Route>
-      <Route exact path="/" component={Home}></Route>
+      <Route path="/room/:id" component={lazyViews.room}></Route>
+      <Route exact path="/" component={lazyViews.home}></Route>
     </Suspense>
   </Switch>
 )
