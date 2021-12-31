@@ -1,5 +1,5 @@
 import react, { useState } from 'react'
-import { Papelito } from '../models/all_models'
+import { Papelito } from '../../papelito-models'
 import { PapelitoDisplayComponent } from './papelito_display'
 
 // ---------------------------

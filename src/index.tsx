@@ -5,15 +5,20 @@ import reportWebVitals from 'reportWebVitals'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
-import store from './redux/store'
+import store from './+redux/store'
 
-import Routes from 'routes'
+import { Suspense } from 'react'
+import { Route } from 'react-router'
+import { Routes } from 'react-router-dom'
+import lazyViews from './routes/lazy_views'
+
+import AppRoutes from './routes'
 
 ReactDOM.render(
   <StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <Routes />
+        <AppRoutes />
       </BrowserRouter>
     </Provider>
   </StrictMode>,

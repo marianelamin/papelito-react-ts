@@ -1,5 +1,5 @@
 import react from 'react'
-import { ActionButtonContainer } from 'ui/styles'
+// import { ActionButtonContainer } from 'ui/styles'
 
 interface ActionItem {
   onClickHandler: Function
@@ -17,7 +17,7 @@ export const ActionListComponent = (props: ActionListComponentIO) => {
       <ol>
         {props.listItems.map((item, index) => (
           <li key={index}>
-            <ActionButtonContainer>
+            <div style={{ display: 'flex' }}>
               <div style={{ padding: '0 1rem' }}>{item.renderName}</div>
               {props.actionItems.map((action, index) => (
                 <button
@@ -27,7 +27,7 @@ export const ActionListComponent = (props: ActionListComponentIO) => {
                   {action.actionLabel}
                 </button>
               ))}
-            </ActionButtonContainer>
+            </div>
           </li>
         ))}
       </ol>

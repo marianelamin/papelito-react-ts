@@ -1,4 +1,4 @@
-import { Papelito } from 'ui/models/all_models'
+import { Papelito } from 'papelito-models'
 import react from 'react'
 
 interface PapelitoListComponentIO {

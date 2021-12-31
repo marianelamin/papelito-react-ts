@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { Button } from 'ui/styles'
 import { ActionListComponent } from 'ui/components/action_list'
 
-import { Papelito, Player, Team, Room } from 'ui/models/all_models'
+import { Papelito, Player, Team, Room } from 'papelito-models'
 
 import { AddPapelitoComponent } from 'ui/components/add_papelito'
 import { PapelitoListComponent } from 'ui/components/papelito_list'
@@ -10,10 +9,10 @@ import { PapelitoBowlComponent } from 'ui/components/papelito_bolw'
 import { useDispatch, useSelector } from 'react-redux'
 
 // import bowlActions from 'redux/actions/bowl_actions'
-import * as bowlSlice from 'redux/reducers/bowl/bowlSlice'
-import * as papelitoSlice from 'redux/reducers/papelito/papelitoSlice'
-import { RootState, useAppDispatch } from 'redux/store'
-import { PapelitoActions } from 'redux/actions/enum_actions'
+import * as bowlSlice from '+redux/bowl/bowl_slice'
+import * as papelitoSlice from '+redux/papelito/papelito_slice'
+import { RootState, useAppDispatch } from '+redux/store'
+import { GameActions } from '+redux/enum_actions'
 
 // ---------------------------
 

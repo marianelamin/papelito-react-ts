@@ -1,7 +1,7 @@
 import react, { useState } from 'react'
-import { Button } from 'ui/styles'
-import { Papelito } from 'ui/models/all_models'
-import { TicTacToe } from 'ui/views/tictactoe'
+// import { Button } from 'ui/styles'
+import { Papelito, Player } from 'papelito-models'
+// import { TicTacToe } from 'ui/views/tictactoe'
 
 interface AddPapelitoComponentIO {
   onSavePapelito: Function
@@ -14,19 +14,22 @@ export const AddPapelitoComponent = (props: AddPapelitoComponentIO) => {
 
   const initialText: string = ''
   const [papelitoText, setPapelitoText] = useState<string>(initialText)
+  const [currentPlayer, setCurrentPlayer] = useState<Player>(new Player())
+
+  const savePapelito = () => {
+    let generatedId = new Date().valueOf()
+    let newPap
+    if (papelitoText !== '')
+      newPap = new Papelito(generatedId, papelitoText, currentPlayer, false)
+    props.onSavePapelito(newPap)
+    setPapelitoText(initialText)
+  }
 
   const onChangeText = (event: any) => {
     setPapelitoText(event.target.value)
   }
 
-  const savePapelito = () => {
-    let generatedId = new Date().valueOf()
-    if (papelitoText !== '')
-      props.onSavePapelito(new Papelito(papelitoText, false, generatedId))
-    setPapelitoText(initialText)
-  }
-
-  const onEnterSaveNewPapelito = (event: any) => {
+  const onEnterText = (event: any) => {
     if (event.key === 'Enter') savePapelito()
   }
 
@@ -45,10 +48,10 @@ export const AddPapelitoComponent = (props: AddPapelitoComponentIO) => {
           placeholder="Enter new papelito"
           value={papelitoText}
           onChange={onChangeText}
-          onKeyDown={onEnterSaveNewPapelito}
+          onKeyDown={onEnterText}
         />
       </label>
-      <Button onClick={onClickSaveNewPapelito}>{SAVE_PAPELITO}</Button>
+      <button onClick={onClickSaveNewPapelito}>{SAVE_PAPELITO}</button>
     </div>
   )
 }

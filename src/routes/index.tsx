@@ -1,18 +1,31 @@
 import { Suspense } from 'react'
-import { Route, Switch } from 'react-router'
+import { Route } from 'react-router'
+import { Routes } from 'react-router-dom'
 import lazyViews from './lazy_views'
 
-const Routes = () => (
-  <Switch>
-    <Suspense fallback={<h1>Loading page ... </h1>}>
-      <Route path="/room/:id" component={lazyViews.room}></Route>
-      <Route exact path="/" component={lazyViews.home}></Route>
-    </Suspense>
-  </Switch>
+const AppRoutes = () => (
+  <Routes>
+    <Route
+      path="/room/:id"
+      element={
+        <Suspense fallback={<h1>...</h1>}>
+          <lazyViews.room />
+        </Suspense>
+      }
+    ></Route>
+    <Route
+      path="/"
+      element={
+        <Suspense fallback={<h1>...</h1>}>
+          <lazyViews.home />
+        </Suspense>
+      }
+    ></Route>
+  </Routes>
 )
 
 export interface RoomRouteParams {
   id: string
 }
 
-export default Routes
+export default AppRoutes

@@ -1,24 +1,24 @@
-import { Papelito } from 'ui/models/all_models'
+import { Papelito } from 'papelito-models'
 
-const fetchAllPapelitos = (roomId: string) => {
+export const fetchAllPapelitos = (roomId: string) => {
   // TODO: dispatch fetch all papelitos action
   console.log(`room requested: ${roomId}...`)
   return [
-    new Papelito(`room es ${roomId}`),
-    new Papelito('hola'),
-    new Papelito('la cosa esta difcil 2'),
-    new Papelito('la tercera es la vencida'),
+    new Papelito('12', `room es ${roomId}`),
+    new Papelito('adf3', 'hola'),
+    new Papelito('234', 'la cosa esta difcil 2'),
+    new Papelito('232', 'la tercera es la vencida'),
   ]
 }
-const addPapelito = (roomId: string, papelito: Papelito) => {
+export const addPapelito = (roomId: string, papelito: Papelito) => {
   // add papelito action
 }
-const removePapelito = (roomId: string, papelito: Papelito) => {
+export const removePapelito = (roomId: string, papelito: Papelito) => {
   // TODO: remove papelito
 }
 
-const guessPapelito = (roomId: string, papelito: Papelito) => {
+export const guessPapelito = (roomId: string, papelito: Papelito) => {
   // TODO: mark the guessed boolean as true
 }
 
-export default { fetchAllPapelitos, addPapelito, removePapelito, guessPapelito }
+export default this

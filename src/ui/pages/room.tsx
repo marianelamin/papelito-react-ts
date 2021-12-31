@@ -3,11 +3,11 @@ import { useParams } from 'react-router-dom'
 import { RoomRouteParams } from 'routes'
 
 import PapelitoWrapper from 'ui/views/papelito_game'
-import { TicTacToe } from 'ui/views/tictactoe'
 import { useRoom } from 'hooks/use_room'
 
 const Room: FC = () => {
-  const { id } = useParams<RoomRouteParams>()
+  // const { id } = useParams<RoomRouteParams>()
+  const id = 'AAAAAA'
   const { isFetching, room } = useRoom(id)
 
   return (
