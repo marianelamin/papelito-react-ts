@@ -10,7 +10,7 @@ interface PapelitoListComponentIO {
 const PapelitoListComponent = (props: PapelitoListComponentIO) => {
   return (
     <div>
-      <h2>Papelitos List</h2>
+      <h2>My list of Papelitos</h2>
       <ol>
         {props.papelitoList.map((papelito) => (
           <li key={papelito.id}>
@@ -18,13 +18,13 @@ const PapelitoListComponent = (props: PapelitoListComponentIO) => {
               {papelito.id} ({papelito.guessed ? 'guessed' : 'not guessed'}) -{' '}
               {papelito.text} -
               <button onClick={() => props.onDeleteItem(papelito)}>Del</button>
-              <button onClick={() => props.onSendToBowl(papelito)}>
-                Throw in Bowl
-              </button>
             </div>
           </li>
         ))}
       </ol>
+      <button onClick={() => props.onSendToBowl(props.papelitoList)}>
+        Throw ALL in Bowl
+      </button>
     </div>
   )
 }

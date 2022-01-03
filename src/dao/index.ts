@@ -1,7 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getFirestore, collection, getDocs } from 'firebase/firestore/lite'
 import { getAuth, signInAnonymously } from 'firebase/auth'
-import { addDoc } from 'firebase/firestore'
 export {
   collection,
   doc,
@@ -10,8 +9,8 @@ export {
   setDoc,
   addDoc,
   updateDoc,
-  onSnapshot,
-} from 'firebase/firestore'
+} from 'firebase/firestore/lite'
+export { onSnapshot } from 'firebase/firestore'
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -27,6 +26,21 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)
+
+export const collectionReference = (collectionName: string) =>
+  collection(db, collectionName)
+console.log(
+  `dbURL are the same: ${
+    app.options.databaseURL === firebaseConfig.databaseURL
+  }`
+) // true
+console.log(`collection reference:`)
+getDocs(collectionReference('gameRooms'))
+  .then((_) => {
+    console.log(_.docs.map((doc) => ({ id: doc.id, data: doc.data() })))
+    console.log('PASO 1')
+  })
+  .catch((e) => console.error(e))
 
 export const auth = getAuth()
 // signInAnonymously(auth)

@@ -10,7 +10,7 @@ export const create = async () => {
   try {
     // create room document
 
-    const anyRef = collectionsRef.anyRef('gameRooms')
+    // const anyRef = collectionsRef.anyRef('gameRooms')
 
     await collectionsRef
       .addDoc(collectionsRef.roomRef(), FirestoreRoom.fromRoom(newRoom))
@@ -20,10 +20,9 @@ export const create = async () => {
       })
     //  update code with id
     await collectionsRef
-      .updateDoc(
-        collectionsRef.doc(collectionsRef.roomRef(), newRoom.id),
-        FirestoreRoom.fromRoom(newRoom)
-      )
+      .updateDoc(collectionsRef.doc(collectionsRef.roomRef(), newRoom.id), {
+        id: newRoom.id,
+      })
       .then(() => {
         console.log('successfully updated code and id')
       })

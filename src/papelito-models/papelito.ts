@@ -3,7 +3,7 @@ import { MapAndClone } from 'dao/firebase_helpers'
 
 class Papelito implements MapAndClone<Papelito> {
   constructor(
-    public id: string | number = -1,
+    public id: string,
     public text: string = '',
     public author: Player = new Player(),
     public guessed: boolean = false,

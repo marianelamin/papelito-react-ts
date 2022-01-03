@@ -5,8 +5,9 @@ import { PapelitoDisplayComponent } from './papelito_display'
 // ---------------------------
 
 interface PapelitoBowlComponentIO {
+  papelitoList?: Papelito[]
+  currentPapelitoDisplay?: Papelito | undefined
   bowlSize: number
-  currentPapelitoDisplay: Papelito | undefined
   onDrawPapelito: Function
   onGuessPapelito: Function
 }

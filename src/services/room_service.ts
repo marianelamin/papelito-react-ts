@@ -6,29 +6,29 @@ export const joinRoom = async (roomCode: string, playerName: string) => {
   console.log(`room requested: ${roomCode}...`)
 
   let room: Room = await roomDao.getDetailsById(roomCode)
-  let playerCreated = await playerService.createPlayer(room.id, playerName)
+  let playerCreated: Player = await playerService.addPlayerToRoom(
+    room.id,
+    playerName
+  )
 
   return { room: room, player: playerCreated }
+}
+
+export const createJustRoom = async () => {
+  return await roomDao.create().then((room) => {
+    console.log(`Room created: ${room.id}`)
+    return room
+  })
 }
 
 export const createRoom = async (playerName: string) => {
   console.log(`creating room for player: ${playerName}...`)
 
   //create a room
-  let room: Room
-  let roomCreated = await roomDao.create().then((newRoom) => {
-    room = newRoom
-    console.log(room)
-    console.log(`need to create player with name ${playerName}`)
-    return room
-  })
+  let room: Room = await createJustRoom()
+  let player: Player = await playerService.addPlayerToRoom(room.id, playerName)
 
-  let playerCreated = await playerService.createPlayer(
-    roomCreated.id,
-    playerName
-  )
-
-  return { room: roomCreated, player: playerCreated }
+  return { room: room, player: player }
 }
 
 export const getRooms = () => {
@@ -37,6 +37,14 @@ export const getRooms = () => {
       console.log(room)
     })
     return roomsList
+  })
+}
+
+export const getRoomById = (id: string) => {
+  return roomDao.getDetailsById(id).then((room) => {
+    console.log(`Room retrieved from firestore ${room.id}`)
+    console.log(room)
+    return room
   })
 }
 

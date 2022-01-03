@@ -20,7 +20,12 @@ export const AddPapelitoComponent = (props: AddPapelitoComponentIO) => {
     let generatedId = new Date().valueOf()
     let newPap
     if (papelitoText !== '')
-      newPap = new Papelito(generatedId, papelitoText, currentPlayer, false)
+      newPap = new Papelito(
+        generatedId + '',
+        papelitoText,
+        currentPlayer,
+        false
+      )
     props.onSavePapelito(newPap)
     setPapelitoText(initialText)
   }

@@ -6,6 +6,6 @@
 
 import { GameActions, Action } from '+redux/enum_actions'
 
-export const getAllTeamsAction = (): Action<any> => ({
-  type: GameActions.GET_ALL_TEAMS,
-})
+// export const getAllTeamsAction = (): Action<any> => ({
+//   type: GameActions.GET_ALL_TEAMS,
+// })
