@@ -1,5 +1,4 @@
 import { Papelito } from 'papelito-models'
-import { GameActions, Action } from '+redux/enum_actions'
 
 // export const getAllPapelitosAction = (): Action<any> => ({
 //   type: GameActions.GET_ALL_PAPELITOS,

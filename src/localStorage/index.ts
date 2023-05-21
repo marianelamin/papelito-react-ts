@@ -1,17 +1,40 @@
 class PapelitoLocalStorage {
+  static readonly ROOM_ID = 'roomId'
+  static readonly PLAYER_ID = 'playerId'
+
   static setRoomId(id: string) {
-    localStorage.setItem('roomId', id)
+    localStorage.setItem(PapelitoLocalStorage.ROOM_ID, id)
   }
+
   static getRoomId() {
-    return localStorage.getItem('roomId')
+    return localStorage.getItem(PapelitoLocalStorage.ROOM_ID)
+  }
+
+  static removeRoomId() {
+    localStorage.removeItem(PapelitoLocalStorage.ROOM_ID)
   }
 
   static setPlayerId(id: string) {
-    localStorage.setItem('playerId', id)
+    localStorage.setItem(PapelitoLocalStorage.PLAYER_ID, id)
   }
 
   static getPlayerId() {
-    return localStorage.getItem('playerId')
+    return localStorage.getItem(PapelitoLocalStorage.PLAYER_ID)
+  }
+
+  static removePlayerId() {
+    localStorage.removeItem(PapelitoLocalStorage.PLAYER_ID)
+  }
+
+  static clear() {
+    localStorage.clear()
+  }
+
+  static getRoomAndPlayerId() {
+    return {
+      roomId: PapelitoLocalStorage.getRoomId() ?? '',
+      myPlayerId: PapelitoLocalStorage.getPlayerId() ?? '',
+    }
   }
 }
 

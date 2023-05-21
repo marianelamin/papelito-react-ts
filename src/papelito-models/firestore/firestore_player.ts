@@ -31,6 +31,6 @@ export class FirestorePlayer implements MapAndClone<FirestorePlayer> {
   }
 
   toPlayer(): Player {
-    return new Player(this.id, this.name, false, this.order, this.team_id)
+    return new Player(this.id, this.name, this.order, this.team_id)
   }
 }

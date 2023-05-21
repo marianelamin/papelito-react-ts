@@ -1,4 +1,5 @@
 import { MapAndClone } from 'dao/firebase_helpers'
+import { Papelito, Player } from 'papelito-models'
 
 export class FirestorePapelito implements MapAndClone<FirestorePapelito> {
   id: string = '-1'
@@ -30,5 +31,24 @@ export class FirestorePapelito implements MapAndClone<FirestorePapelito> {
     c.id = item.id
 
     return c
+  }
+
+  static fromPapelito(papelito: Papelito) {
+    return new FirestorePapelito(
+      papelito.text,
+      papelito.author.id,
+      papelito.guessed,
+      papelito.inBowl
+    )
+  }
+
+  toPapelito(): Papelito {
+    return new Papelito(
+      this.id,
+      this.text,
+      new Player(this.player_id, this.player_id),
+      this.is_guessed,
+      this.is_in_bowl
+    )
   }
 }

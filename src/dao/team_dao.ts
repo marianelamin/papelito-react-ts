@@ -12,6 +12,9 @@ export const getTeamDetails = (roomCode: string, teamId: string): Team => {
   return newTeam
 }
 
+// todo: doubt this shuld be done on the front end.
+// selecting the teams should be a backend task, randomly grouping the players according to the room
+// settings for teams
 export const createTeam = (roomCode: string, team: Team): Team => {
   console.log(`creating a team`)
   const ref = collectionsRef.teamsRef(roomCode)
@@ -21,6 +24,11 @@ export const createTeam = (roomCode: string, team: Team): Team => {
   collectionsRef.addDoc(ref, FirestoreTeam.fromTeam(newTeam))
 
   return newTeam
+}
+export const removeTeam = (roomCode: string, teamId: string) => {
+  return collectionsRef.deleteDoc(
+    collectionsRef.doc(collectionsRef.teamsRef(roomCode), teamId)
+  )
 }
 
 export default this

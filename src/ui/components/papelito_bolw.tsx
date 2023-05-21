@@ -1,54 +1,77 @@
 import react, { useState } from 'react'
 import { Papelito } from '../../papelito-models'
-import { PapelitoDisplayComponent } from './papelito_display'
+import { PapelitoUnwrappedComponent } from './papelito-unwrapped-component'
+import { PapButton, PapReactiveKnob } from './common'
+import { PapelitoDisplayComponent } from '.'
 
 // ---------------------------
 
 interface PapelitoBowlComponentIO {
-  papelitoList?: Papelito[]
-  currentPapelitoDisplay?: Papelito | undefined
   bowlSize: number
-  onDrawPapelito: Function
-  onGuessPapelito: Function
+  bowlMax: number
+  currentPapelitoDisplay?: Papelito
+  onDrawPapelito: (p: Papelito) => void
+  onGuessPapelito: (p: Papelito) => void
 }
 
 const PapelitoBowlComponent = (props: PapelitoBowlComponentIO) => {
+  const {
+    bowlSize,
+    bowlMax,
+    currentPapelitoDisplay,
+    onDrawPapelito,
+    onGuessPapelito,
+  } = props
+  // console.log('bowlMax', bowlMax)
+  // console.log('bowlSize', bowlSize)
+
   const [showPapelito, setShowPapelito] = useState<boolean>(false)
 
   const drawPapelito = () => {
-    props.onDrawPapelito()
+    currentPapelitoDisplay && onDrawPapelito(currentPapelitoDisplay)
   }
 
   const guessPapelito = () => {
-    if (props.currentPapelitoDisplay !== undefined) {
+    if (currentPapelitoDisplay) {
       setShowPapelito(false)
-      var p = Papelito.clone(props.currentPapelitoDisplay)
-      console.log(`papelito set to guessed:`)
-      console.log(p)
-      return props.onGuessPapelito(p)
+      onGuessPapelito(currentPapelitoDisplay)
     }
   }
 
-  const bowlSize = () => props.bowlSize
-  const hasPapelitoBeenDrawn = () => props.currentPapelitoDisplay !== undefined
+  const hasPapelitoBeenDrawn = () => !!currentPapelitoDisplay
 
-  const disableDraw = () => bowlSize() === 0
-  const disableGuess = () => bowlSize() === 0 || !hasPapelitoBeenDrawn()
+  const disableDraw = () => bowlSize === 0
+  const disableGuess = () => bowlSize === 0 || !hasPapelitoBeenDrawn()
 
   return (
     <div>
-      <h2>Bowl</h2> <span>total: {bowlSize()}</span>
+      <h2>Turn</h2>
+      <PapReactiveKnob
+        label="Bowl----"
+        value={bowlSize}
+        total={bowlMax}
+      ></PapReactiveKnob>
       <div>
-        <PapelitoDisplayComponent
-          papelito={props.currentPapelitoDisplay}
-        ></PapelitoDisplayComponent>
+        {currentPapelitoDisplay && (
+          <PapelitoDisplayComponent
+            papelito={currentPapelitoDisplay}
+            footerActions={
+              <>
+                <PapButton
+                  onClick={drawPapelito}
+                  disabled={disableDraw()}
+                  label="Draw"
+                ></PapButton>
+                <PapButton
+                  onClick={guessPapelito}
+                  disabled={disableGuess()}
+                  label="Guessed"
+                ></PapButton>
+              </>
+            }
+          ></PapelitoDisplayComponent>
+        )}
       </div>
-      <button onClick={drawPapelito} disabled={disableDraw()}>
-        Draw
-      </button>
-      <button onClick={guessPapelito} disabled={disableGuess()}>
-        Guessed
-      </button>
     </div>
   )
 }

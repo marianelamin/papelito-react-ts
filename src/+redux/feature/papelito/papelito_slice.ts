@@ -20,12 +20,15 @@ export const papelitoSlice = createSlice({
     },
     removeFromMyPapelitos: (state, action: PayloadAction<string>) => {
       state.myPapelitos = state.myPapelitos?.filter(
-        (p) => p.id === action.payload
+        (p) => p.id !== action.payload
       )
+    },
+    clearMyPapelitos: (state) => {
+      state.myPapelitos = []
     },
   },
 })
 
-export const {} = papelitoSlice.actions
+export const { removeFromMyPapelitos } = papelitoSlice.actions
 
 export default papelitoSlice.reducer

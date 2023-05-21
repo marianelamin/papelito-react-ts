@@ -2,6 +2,9 @@
   "name": "papelito-react-ts",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Marianela Mendoza"
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^1.7.1",
     "@types/node": "^17.0.5",
@@ -9,6 +12,7 @@
     "firebase": "^9.6.1",
     "primeicons": "^5.0.0",
     "primereact": "^7.1.0",
+    "chart.js": "^3.7.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.6",

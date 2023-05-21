@@ -1,15 +1,20 @@
-import { db } from '../dao'
-import collections from '../dao/collections'
-import { Team } from 'papelito-models'
-import * as team_dao from '../dao/team_dao'
+import { Team, Player } from 'papelito-models'
+import * as teamDao from '../dao/team_dao'
 
-export const createteam = (roomCode: string, teamName: string): Team => {
+export const createTeam = (roomCode: string, teamName: string): Team => {
   console.log(`creating a team ${teamName}`)
   const team: Team = new Team()
 
-  const newTeam: Team = team_dao.createTeam(roomCode, team)
+  const newTeam: Team = teamDao.createTeam(roomCode, team)
 
   return newTeam
+}
+
+export const removeTeam = (roomCode: string, teamId: string) => {
+  console.log(`removing a team ${teamId}`)
+  const team: Team = new Team()
+
+  return teamDao.removeTeam(roomCode, teamId)
 }
 
 export default this

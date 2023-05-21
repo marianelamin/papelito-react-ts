@@ -1,4 +1,4 @@
-import { db, collectionReference, collection } from './index'
+import { db, collection } from './index'
 import collections from './collections'
 import { convertToFromFirestore } from '../dao/firebase_helpers'
 import {
@@ -6,16 +6,25 @@ import {
   FirestoreRoom,
   FirestoreTeam,
   FirestorePapelito,
+  FirestoreTurn,
 } from 'papelito-models/firestore'
-import { addDoc, doc, setDoc, getDocs } from 'firebase/firestore/lite'
+// import { addDoc, doc, setDoc, getDocs } from 'firebase/firestore/lite'
+// export {
+//   doc,
+//   getDoc,
+//   getDocs,
+//   addDoc,
+//   updateDoc,
+// } from 'firebase/firestore/lite'
 export {
+  onSnapshot,
   doc,
   getDoc,
   getDocs,
   addDoc,
+  deleteDoc,
   updateDoc,
-} from 'firebase/firestore/lite'
-export { onSnapshot } from 'firebase/firestore'
+} from 'firebase/firestore'
 
 // export const anyRef = async (collectionName: string) => {
 //   let docRef = collectionReference(collectionName)
@@ -50,3 +59,18 @@ export const papelitoRef = (roomCode: string) =>
   collection(db, collections.papelitos(roomCode)).withConverter(
     convertToFromFirestore<FirestorePapelito>(FirestorePapelito.clone)
   )
+
+export const turnsRef = (roomCode: string) => {
+  return collection(db, collections.turns(roomCode)).withConverter(
+    convertToFromFirestore<FirestoreTurn>(FirestoreTurn.clone)
+  )
+}
+
+//   export function addBatch() {
+//     const batch = batch(db);
+
+// array.forEach((doc) => {
+
+//   batch.set(db.collection('col').doc(), doc);
+// }
+//   }

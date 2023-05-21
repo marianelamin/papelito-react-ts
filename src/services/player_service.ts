@@ -1,3 +1,4 @@
+import PapelitoLocalStorage from 'localStorage'
 import { Player } from 'papelito-models'
 import * as playerDao from '../dao/player_dao'
 
@@ -8,18 +9,18 @@ export const addPlayerToRoom = async (roomCode: string, playerName: string) => {
   return newPlayer
 }
 
-export const getPlayerInRoomById = async (
-  roomCode: string,
-  playerId: string
-) => {
+export const getPlayerById = async (roomCode: string, playerId: string) => {
   console.log(`retrieving a player ${playerId}`)
   return await playerDao.getPlayerById(roomCode, playerId)
 }
 
+export const removePlayerById = async (roomCode: string, playerId: string) => {
+  console.log(`removing a player ${playerId}`)
+  await playerDao.removePlayerById(roomCode, playerId)
+}
+
 // export const getPlayersByTeam = (roomCode: string) => {}
 
-// export const getPlayers = (roomCode: string) => {
-//   let result = playerDao.getGamePlayers(roomCode)
-//   return result
-// }
-export default this
+export const getAllPlayers = async (roomCode: string) => {
+  return playerDao.getAllPlayers(roomCode)
+}

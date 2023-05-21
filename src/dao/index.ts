@@ -1,6 +1,18 @@
 import { initializeApp } from 'firebase/app'
-import { getFirestore, collection, getDocs } from 'firebase/firestore/lite'
 import { getAuth, signInAnonymously } from 'firebase/auth'
+import { FirestorePapelito } from 'papelito-models/firestore'
+import {
+  getFirestore,
+  collection,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+  doc,
+  addDoc,
+} from 'firebase/firestore'
+import { Papelito } from 'papelito-models'
 export {
   collection,
   doc,
@@ -9,8 +21,8 @@ export {
   setDoc,
   addDoc,
   updateDoc,
-} from 'firebase/firestore/lite'
-export { onSnapshot } from 'firebase/firestore'
+  onSnapshot,
+} from 'firebase/firestore'
 
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -27,20 +39,60 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 export const db = getFirestore(app)
 
-export const collectionReference = (collectionName: string) =>
-  collection(db, collectionName)
+// const collectionReference = (collectionName: string) =>
+//   collection(db, collectionName)
+
 console.log(
   `dbURL are the same: ${
     app.options.databaseURL === firebaseConfig.databaseURL
   }`
-) // true
-console.log(`collection reference:`)
-getDocs(collectionReference('gameRooms'))
-  .then((_) => {
-    console.log(_.docs.map((doc) => ({ id: doc.id, data: doc.data() })))
-    console.log('PASO 1')
-  })
-  .catch((e) => console.error(e))
+)
+// true
+// console.log(`collection reference:`)
+// getDocs(collectionReference('gameRooms'))
+//   .then((_) => {
+//     console.log(_.docs.map((doc) => ({ id: doc.id, data: doc.data() })))
+//     console.log('PASO 1')
+//   })
+//   .catch((e) => console.error(e))
+
+// console.log(`onSnapshot testing:`)
+// let papelito = new FirestorePapelito(
+//   'some text',
+//   'jbUoOduiY1XtncKx5exs',
+//   false,
+//   false
+// )
+// addDoc(
+//   collectionReference('gameRooms/nlvg717HcEthx29jerVL/bowl'),
+//   papelito.toMap()
+// )
+//   .then((addedDoc) => {
+//     const newPap = addedDoc.id
+//     console.log(`Added pap`, addedDoc)
+//     return getDoc(addedDoc)
+
+//     // addedDoc.id
+//     // console.log(`Added pap ${papelito.id}`)
+//     // return papelito
+//   })
+//   .then((doc) => {
+//     console.log('doc', doc)
+//     let pap = doc.data()
+//     pap = { ...pap, id: doc.id }
+//     console.log('saved pap', pap)
+//     return pap
+//   })
+
+// export const subs = onSnapshot(
+//   // query(collection(db, 'gameRooms')),
+//   doc(db, 'gameRooms', '7w1yEFNRjWQdYo4VVUaS'),
+//   (_) => {
+//     // console.log(_.docs.map((doc) => ({ id: doc.id, data: doc.data() })))
+//     console.log('leer o q?', _)
+//   },
+//   (e) => console.error(e)
+// )
 
 export const auth = getAuth()
 // signInAnonymously(auth)
@@ -52,8 +104,3 @@ export const auth = getAuth()
 //     const errorMessage = error.message;
 //     // ...
 //   });
-
-// addDoc(collection(db, 'gameRooms'), {
-//   field1: 'Name',
-//   field2: 'testCollection',
-// })

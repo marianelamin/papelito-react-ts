@@ -1,24 +1,25 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState, AppDispatch } from '+redux/store'
 import Papelito from 'papelito-models/papelito'
-import * as papelitoService from 'services/papelito_service'
+import { papelitoService } from 'services'
+import { removeFromMyPapelitos } from '+redux/feature/papelito/papelito_slice'
 
 const BOWL_FEATURE_KEY: string = 'bowl'
 
 export interface BowlState {
-  guessed: Papelito[]
-  bowl: Papelito[]
-  currentPapelito?: Papelito
   loaded: boolean
   loading: boolean
+  bowlSize: number
+  guessedSize: number
+  currentPapelito?: Papelito
   error?: Error
 }
 
 const initialState: BowlState = {
   loaded: false,
   loading: false,
-  bowl: [],
-  guessed: [],
+  bowlSize: 0,
+  guessedSize: 0,
 }
 
 export const bowlSlice = createSlice({
@@ -26,8 +27,8 @@ export const bowlSlice = createSlice({
   initialState,
   reducers: {
     setBowl: (state, action: PayloadAction<Papelito[]>) => {
-      state.bowl = action.payload.filter((p) => !p.guessed)
-      state.guessed = action.payload.filter((p) => p.guessed)
+      state.bowlSize = action.payload.length //filter((p) => !p.guessed)
+      state.guessedSize = action.payload.filter((p) => p.guessed).length
     },
     setCurrentPapelito: (state, action: PayloadAction<Papelito>) => {
       // call service to mark a papelito as drawn (not in bowl)
@@ -35,9 +36,22 @@ export const bowlSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(addToBowl.fulfilled, (state, action) => {})
+    builder.addCase(addToBowl.pending, (state, action) => {
+      state.loading = true
+      state.loaded = false
+    })
+    builder.addCase(addToBowl.fulfilled, (state, action) => {
+      state.bowlSize = state.bowlSize + 1
+      state.loading = false
+      state.loaded = true
+    })
+    builder.addCase(addToBowl.rejected, (state, action) => {
+      state.error = new Error(`${action.payload}`)
+      state.loading = false
+      state.loaded = false
+    })
     builder.addCase(getBowl.fulfilled, (state, action) => {})
-    builder.addCase(drawOnePapelito.fulfilled, (state, action) => {})
+    // builder.addCase(drawOnePapelito.fulfilled, (state, action) => {})
     builder.addCase(putBackPapelito.fulfilled, (state, action) => {})
     builder.addCase(disputePapelito.fulfilled, (state, action) => {})
   },
@@ -46,8 +60,8 @@ export const bowlSlice = createSlice({
 // thunk
 
 export const addToBowl = createAsyncThunk<
-  string,
-  Papelito[],
+  Papelito,
+  Papelito,
   {
     // Optional fields for defining thunkApi field types
     dispatch: AppDispatch
@@ -56,8 +70,17 @@ export const addToBowl = createAsyncThunk<
 >(`${BOWL_FEATURE_KEY}/addToBowl`, async (data, thunkApi) => {
   let state: RootState = thunkApi.getState()
   console.log('peek state before:', state)
-  let papAdded = await papelitoService.addToBowl(state.room.roomId, data)
-  return ''
+  let id = state.room?.room?.id
+  if (id) {
+    try {
+      let pap = await papelitoService.addToBowl(id, data)
+      thunkApi.dispatch(removeFromMyPapelitos(data.id)) // papelitoService.removePapelito(id, pap)
+      return pap
+    } catch (error) {
+      throw new Error('no added, error in pap service. addToBowl')
+    }
+  }
+  throw new Error('no room id available')
 })
 
 export const getBowl = createAsyncThunk<
@@ -71,26 +94,29 @@ export const getBowl = createAsyncThunk<
 >(`${BOWL_FEATURE_KEY}/getBowl`, async (data, thunkApi) => {
   let state: RootState = thunkApi.getState()
   console.log('peek state before:', state)
-  let allPapelitos = await papelitoService.fetchAllPapelitos(state.room.roomId)
-  thunkApi.dispatch(bowlSlice.actions.setBowl(allPapelitos))
-  console.log('peek state before:', state)
+  let id = state.room?.room?.id
+  if (id) {
+    let allPapelitos = await papelitoService.fetchAllPapelitos(id)
+    thunkApi.dispatch(bowlSlice.actions.setBowl(allPapelitos))
+    console.log('peek state before:', state)
+  }
   return ''
 })
 
-export const drawOnePapelito = createAsyncThunk<
-  Papelito,
-  void,
-  {
-    // Optional fields for defining thunkApi field types
-    dispatch: AppDispatch
-    state: RootState
-  }
->(`${BOWL_FEATURE_KEY}/drawOnePapelito`, async (data, thunkApi) => {
-  let state: RootState = thunkApi.getState()
-  console.log('peek state before:', state)
-  let drawnPapelito = await papelitoService.drawOnePapelito(state.room.roomId)
-  return drawnPapelito
-})
+// export const drawOnePapelito = createAsyncThunk<
+//   Papelito,
+//   void,
+//   {
+//     // Optional fields for defining thunkApi field types
+//     dispatch: AppDispatch
+//     state: RootState
+//   }
+// >(`${BOWL_FEATURE_KEY}/drawOnePapelito`, async (data, thunkApi) => {
+//   let state: RootState = thunkApi.getState()
+//   console.log('peek state before:', state)
+//   let drawnPapelito = await papelitoService.drawOnePapelito(state.room.roomId)
+//   return drawnPapelito
+// })
 
 export const putBackPapelito = createAsyncThunk<
   string,
@@ -103,10 +129,10 @@ export const putBackPapelito = createAsyncThunk<
 >(`${BOWL_FEATURE_KEY}/putBackPapelito`, async (data, thunkApi) => {
   let state: RootState = thunkApi.getState()
   console.log('peek state before:', state)
-  let papPutBack = await papelitoService.putBackPapelito(
-    state.room.roomId,
-    data
-  )
+  // let papPutBack = await papelitoService.putBackPapelito(
+  //   state.room.roomId,
+  //   data
+  // )
   return ''
 })
 
@@ -121,10 +147,10 @@ export const disputePapelito = createAsyncThunk<
 >(`${BOWL_FEATURE_KEY}/disputePapelito`, async (data, thunkApi) => {
   let state: RootState = thunkApi.getState()
   console.log('peek state before:', state)
-  let papDisputed = await papelitoService.disputePapelito(
-    state.room.roomId,
-    data
-  )
+  // let papDisputed = await papelitoService.disputePapelito(
+  //   state.room.roomId,
+  //   data
+  // )
   return ''
 })
 

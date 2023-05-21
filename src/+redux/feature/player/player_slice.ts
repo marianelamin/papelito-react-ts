@@ -1,41 +1,28 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
-import * as playerService from 'services/player_service'
-import { AppDispatch } from '+redux/store'
+import { playerService } from 'services'
 import { Player } from 'papelito-models'
+import PapelitoLocalStorage from 'localStorage'
 
 const PLAYER_FEATURE_KEY = 'player'
 
 export interface PlayerState {
-  id: string
-  name?: string
-  activeInTurn?: boolean
-  order?: number
-  teamId?: string
   loading: boolean
   loaded: boolean
   error?: Error
+  player?: Player
 }
 
 const initialState: PlayerState = {
   loading: false,
   loaded: false,
-  id: '-1',
 }
 
 export const playerSlice = createSlice({
   name: PLAYER_FEATURE_KEY,
   initialState,
   reducers: {
-    getPlayer: (state, action: PayloadAction<string>) => {
-      state.loading = true
-      state.loaded = false
-    },
     setCurrentPlayer: (state, action: PayloadAction<Player>) => {
-      state.id = action.payload.id
-      state.name = action.payload.name
-      state.order = action.payload.order
-      state.activeInTurn = action.payload.activeInTurn
-      state.teamId = action.payload.teamId
+      state.player = action.payload
       state.loading = false
       state.loaded = true
     },
@@ -46,21 +33,27 @@ export const playerSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(addPlayerToRoom.fulfilled, (state, action) => {
-      state.id = action.payload.id
-      state.name = action.payload.name
-      state.order = action.payload.order
-      state.activeInTurn = action.payload.activeInTurn
-      state.teamId = action.payload.teamId
+    builder.addCase(getMyPlayerById.pending, (state, action) => {
+      state.loading = true
+      state.loaded = false
+    })
+    builder.addCase(getMyPlayerById.fulfilled, (state, action) => {
+      state.player = action.payload
       state.loading = false
       state.loaded = true
     })
-    builder.addCase(getPlayerById.fulfilled, (state, action) => {
-      state.id = action.payload.id
-      state.name = action.payload.name
-      state.order = action.payload.order
-      state.activeInTurn = action.payload.activeInTurn
-      state.teamId = action.payload.teamId
+    builder.addCase(getMyPlayerById.rejected, (state, action) => {
+      state.loading = false
+      state.loaded = true
+      state.error = new Error(`${action.payload}`)
+    })
+    builder.addCase(addPlayerToRoom.fulfilled, (state, action) => {
+      state.player = action.payload
+      state.loading = false
+      state.loaded = true
+    })
+    builder.addCase(removeMyPlayer.fulfilled, (state, action) => {
+      state.player = undefined // or can i just leave this out
       state.loading = false
       state.loaded = true
     })
@@ -68,35 +61,59 @@ export const playerSlice = createSlice({
 })
 
 // thunks
-export const addPlayerToRoom = createAsyncThunk(
+const addPlayerToRoom = createAsyncThunk(
   `${PLAYER_FEATURE_KEY}/addPlayerToRoom`,
   async (data: { roomId: string; playerName: string }, thunkAPI) => {
     return await playerService.addPlayerToRoom(data.roomId, data.playerName)
   }
 )
+export const getMyPlayerById = createAsyncThunk(
+  `${PLAYER_FEATURE_KEY}/getMyPlayerById`,
+  async (data: void, thunkAPI) => {
+    // todo: should get these values from state and nto local storage
+    const { roomId, myPlayerId } = PapelitoLocalStorage.getRoomAndPlayerId()
+    return await playerService.getPlayerById(roomId, myPlayerId)
+  }
+)
 export const getPlayerById = createAsyncThunk(
   `${PLAYER_FEATURE_KEY}/getPlayerById`,
   async (data: { roomId: string; playerId: string }, thunkAPI) => {
-    return await playerService.getPlayerInRoomById(data.roomId, data.playerId)
+    return await playerService.getPlayerById(data.roomId, data.playerId)
   }
 )
-export function addPlayerToRoomTh(playerName: string) {
-  // And then creates and returns the async thunk function:
-  return async function addPlayerToRoomThunk(
-    appDispatch: AppDispatch,
-    getState: Function
-  ) {
-    // ✅ Now we can use the text value and send it to the server
-    const state = getState()
-    console.log(`Peeking at state before:`, state)
-    const player: Player = await playerService.addPlayerToRoom(
-      state.room.id,
-      playerName
-    )
-    console.log(`Peeking at state after:`, state)
-    appDispatch(playerSlice.actions.setCurrentPlayer(player))
+export const removePlayerById = createAsyncThunk(
+  `${PLAYER_FEATURE_KEY}/removePlayerById`,
+  async (data: { roomId: string; playerId: string }, thunkAPI) => {
+    return await playerService.removePlayerById(data.roomId, data.playerId)
   }
-}
+)
+
+export const removeMyPlayer = createAsyncThunk(
+  `${PLAYER_FEATURE_KEY}/removeMyPlayer`,
+  async (data: void, thunkAPI) => {
+    // todo: should get these values from state and nto local storage
+    const { roomId, myPlayerId } = PapelitoLocalStorage.getRoomAndPlayerId()
+    return await playerService.removePlayerById(roomId, myPlayerId)
+  }
+)
+
+// function addPlayerToRoomTh(playerName: string) {
+//   // And then creates and returns the async thunk function:
+//   return async function addPlayerToRoomThunk(
+//     appDispatch: AppDispatch,
+//     getState: Function
+//   ) {
+//     // ✅ Now we can use the text value and send it to the server
+//     const state = getState()
+//     console.log(`Peeking at state before:`, state)
+//     const player: Player = await playerService.addPlayerToRoom(
+//       state.room.id,
+//       playerName
+//     )
+//     console.log(`Peeking at state after:`, state)
+//     appDispatch(playerSlice.actions.setCurrentPlayer(player))
+//   }
+// }
 
 export const { setCurrentPlayer } = playerSlice.actions
 

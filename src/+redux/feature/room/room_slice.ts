@@ -1,47 +1,30 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { Room, Player, GameSettings, ActiveTurn } from 'papelito-models'
+import { Room, Player, GameSettings, Turn } from 'papelito-models'
 import { AppDispatch, RootState } from '+redux/store'
-import * as roomService from 'services/room_service'
+import { roomService, gameService } from 'services'
 
 export interface RoomState {
-  roomId: string
-  roomCode: string
-  settings?: GameSettings
-  activeTurn?: ActiveTurn
-  round?: number
   loading: boolean
   loaded: boolean
+  room?: Room
   error?: Error
 }
 
 const initialRoomState: RoomState = {
-  roomId: '-1',
-  roomCode: '-1',
   loading: false,
   loaded: false,
 }
+
 const ROOM_FEATURE_KEY: string = 'room'
 
 export const roomSlice = createSlice({
   name: ROOM_FEATURE_KEY,
   initialState: initialRoomState,
   reducers: {
-    createRoom: (state, action) => {
-      state.loading = true
-      state.loaded = false
-    },
     setRoom: (state, action: PayloadAction<Room>) => {
-      state.roomCode = action.payload.id
-      state.roomId = action.payload.id
-      state.round = action.payload.round
-      state.settings = action.payload.settings
-      state.activeTurn = action.payload.activeTurn
+      state.room = action.payload
       state.loading = false
       state.loaded = true
-    },
-    getRoom: (state, action: PayloadAction<string>) => {
-      state.loading = true
-      state.loaded = false
     },
     setRoomWithError: (state, action: PayloadAction<Error>) => {
       state.loading = false
@@ -50,21 +33,23 @@ export const roomSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(fetchRoomById.pending, (state, action) => {
+      state.loading = true
+      state.loaded = false
+    })
     builder.addCase(fetchRoomById.fulfilled, (state, action) => {
-      state.roomCode = action.payload.id
-      state.roomId = action.payload.id
-      state.round = action.payload.round
-      state.settings = action.payload.settings
-      state.activeTurn = action.payload.activeTurn
+      state.room = action.payload
+      state.loading = false
+      state.loaded = true
+    })
+
+    builder.addCase(fetchRoomById.rejected, (state, action) => {
+      state.error = new Error(`${action.payload}`)
       state.loading = false
       state.loaded = true
     })
     builder.addCase(createJustRoom.fulfilled, (state, action) => {
-      state.roomCode = action.payload.id
-      state.roomId = action.payload.id
-      state.round = action.payload.round
-      state.settings = action.payload.settings
-      state.activeTurn = action.payload.activeTurn
+      state.room = action.payload
       state.loading = false
       state.loaded = true
     })
@@ -84,6 +69,18 @@ export const createJustRoom = createAsyncThunk(
     return await roomService.createJustRoom()
   }
 )
+export const exitRoom = createAsyncThunk<
+  void,
+  void,
+  { dispatch: AppDispatch; state: RootState }
+>(`${ROOM_FEATURE_KEY}/exitRoom`, async (data: void, { getState }) => {
+  const state: RootState = getState()
+
+  return await gameService.exitRoom(
+    state.room.room?.id ?? '',
+    state.currentPlayer.player?.id ?? ''
+  )
+})
 
 export function getRoomTh() {
   // And then creates and returns the async thunk function:

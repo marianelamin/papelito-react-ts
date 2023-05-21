@@ -1,5 +1,5 @@
 import { MapAndClone } from 'dao/firebase_helpers'
-import { ActiveTurn, GameSettings } from '.'
+import { Turn, GameSettings } from '.'
 
 class Room implements MapAndClone<Room> {
   constructor(
@@ -8,7 +8,7 @@ class Room implements MapAndClone<Room> {
     public password: string = '',
     public privateRoom: boolean = false,
     public settings: GameSettings = new GameSettings(),
-    public activeTurn: ActiveTurn = new ActiveTurn(),
+    public activeTurn: Turn = new Turn(false), // remove in the future
     public round: number = 1
   ) {}
 

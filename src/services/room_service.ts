@@ -1,6 +1,6 @@
 import { Player, Team, Room } from 'papelito-models'
 import * as roomDao from '../dao/room_dao'
-import * as playerService from 'services/player_service'
+import { playerService } from 'services'
 
 export const joinRoom = async (roomCode: string, playerName: string) => {
   console.log(`room requested: ${roomCode}...`)
@@ -31,19 +31,23 @@ export const createRoom = async (playerName: string) => {
   return { room: room, player: player }
 }
 
-export const getRooms = () => {
-  return roomDao.getAll().then((roomsList) => {
-    roomsList.forEach((room) => {
-      console.log(room)
-    })
-    return roomsList
-  })
+export const remove = async (roomId: string) => {
+  return await roomDao.remove(roomId)
 }
+
+// export const getRooms = () => {
+//   return roomDao.getAll().then((roomsList) => {
+//     roomsList.forEach((room) => {
+//       console.log(room)
+//     })
+//     return roomsList
+//   })
+// }
 
 export const getRoomById = (id: string) => {
   return roomDao.getDetailsById(id).then((room) => {
-    console.log(`Room retrieved from firestore ${room.id}`)
-    console.log(room)
+    // console.log(`Room retrieved from firestore ${room.id}`)
+    // console.log(room)
     return room
   })
 }

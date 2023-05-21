@@ -1,37 +1,41 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import Player from 'papelito-models/player'
-import Team from 'papelito-models/team'
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-const players = [
-  new Player('Marianela'),
-  new Player('Majana'),
-  new Player('Juan Carlos'),
-  new Player('Jorge Marin'),
-]
+import { AppDispatch, RootState } from '+redux/store'
+import { teamService } from 'services'
+import { Player, Team } from 'papelito-models'
 
-const currentTeam = new Team()
-currentTeam.id = '23'
-currentTeam.name = 'A'
-currentTeam.players = players
+const TEAMS_FEATURE_KEY: string = 'teams'
+
+export interface TeamsState {
+  loaded: boolean
+  loading: boolean
+  error?: Error
+  allPlayers: Player[]
+  allTeams: Team[]
+  currentTeamId?: string
+}
+
+const initialState: TeamsState = {
+  loading: false,
+  loaded: false,
+  allTeams: [],
+  allPlayers: [],
+}
 
 export const teamsSlice = createSlice({
-  name: 'teams',
-  initialState: {
-    allTeams: [currentTeam],
-    currentTeam: currentTeam,
-    currentPlayer: currentTeam.players[2],
-  },
+  name: TEAMS_FEATURE_KEY,
+  initialState,
   reducers: {
-    setCurrentTeam: (state, action: PayloadAction<Team>) => {
-      state.currentTeam = action.payload
+    setCurrentTeamId: (state, action: PayloadAction<string>) => {
+      state.currentTeamId = action.payload
     },
-    setCurrentPlayer: (state, action: PayloadAction<Player>) => {
-      state.currentPlayer = action.payload
+    setAllTeams: (state, action: PayloadAction<Team[]>) => {
+      state.allTeams = action.payload
     },
-    addTeam: (state, action: PayloadAction<Team>) => {
-      state.allTeams = state.allTeams.concat(action.payload)
+    setAllPlayers: (state, action: PayloadAction<Player[]>) => {
+      state.allPlayers = action.payload
     },
-    addPlayer: (state, action: PayloadAction<any>) => {
+    addPlayerToTeam: (state, action: PayloadAction<any>) => {
       let teamId: string = action.payload.teamId
       let player: Player = action.payload.player
 
@@ -41,16 +45,43 @@ export const teamsSlice = createSlice({
         }
       })
     },
-    removePlayer: (state, action) => {
+    removePlayerFromTeam: (state, action) => {
+      // nice to have feature
       state.allTeams = action.payload
     },
-    incrementScore: (state, action: PayloadAction<Team>) => {
-      state.currentTeam.score += 1
+    incrementScoreOnTeam: (state, action: PayloadAction<Team>) => {
+      state.allTeams = state.allTeams.map((team) => {
+        if (state.currentTeamId == team.id) {
+          team.score += 1
+        }
+        return team
+      })
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchAllPlayers.fulfilled, (state, action) => {
+      state.loaded = true
+      console.log('extra reducers action payload', action.payload)
+    })
   },
 })
 
-export const { setCurrentPlayer, setCurrentTeam, addTeam, incrementScore } =
-  teamsSlice.actions
+export const fetchAllPlayers = createAsyncThunk<
+  void,
+  void,
+  {
+    dispatch: AppDispatch
+    state: RootState
+  }
+>(`${TEAMS_FEATURE_KEY}/fetchAllPlayers`, async (data, thunkApi) => {
+  // ✅ Now we can use the text value and send it to the server
+  let state: RootState = thunkApi.getState()
+  console.log(`Peeking at state before:`, state)
+  const players: Player[] = [] //await teamsService.getAllPlayers(state.room.roomId)
+  thunkApi.dispatch(teamsSlice.actions.setAllPlayers(players))
+  console.log(`Peeking at state after:`, state)
+})
+
+export const {} = teamsSlice.actions
 
 export default teamsSlice.reducer

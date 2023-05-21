@@ -7,18 +7,22 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 
 import {
   papelitoReducer,
-  bowlReducer,
-  teamReducer,
   playerReducer,
+  teamReducer,
   roomReducer,
+  bowlReducer,
+  // gameReducer,
 } from './index'
 
 const rootReducer = combineReducers({
-  room: roomReducer.roomSlice.reducer,
-  currentPlayer: playerReducer.playerSlice.reducer,
-  papelito: papelitoReducer.papelitoSlice.reducer,
-  bowl: bowlReducer.bowlSlice.reducer,
-  teams: teamReducer.teamsSlice.reducer,
+  room: roomReducer.roomSlice.reducer, // myRoomDetails
+  currentPlayer: playerReducer.playerSlice.reducer, // myPlayerDetails
+  papelito: papelitoReducer.papelitoSlice.reducer, // myPapelitosDetails
+  teams: teamReducer.teamsSlice.reducer, // myTeamDetails
+  // allPlayers: teamReducer.teamsSlice.reducer, // allPlayers
+  bowl: bowlReducer.bowlSlice.reducer, // bowlDetails
+  // activeTurn: turnsReducer.turnSlice.reducer, // shoudl contain active
+  // gamestats:
 })
 
 // const composedEnhancer = composeWithDevTools(applyMiddleware(thunk))

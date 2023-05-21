@@ -17,8 +17,8 @@ export function convertToFromFirestore<T extends MapAndClone<T>>(
       options: firebase.SnapshotOptions
     ): T => {
       const data = snapshot.data(options) as any as T
-      console.log(`instance of ${typeof data}`)
-      console.log(data)
+      // console.log(`instance of ${typeof data}`)
+      // console.log(data)
       //   return T.clone(data)
       return cloneCb(data)
     },

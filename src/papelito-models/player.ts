@@ -4,7 +4,6 @@ class Player implements MapAndClone<Player> {
   constructor(
     public id: string = '-1',
     public name: string = '',
-    public activeInTurn: boolean = false,
     public order: number = 0,
     public teamId: string = '-1'
   ) {}
@@ -17,22 +16,16 @@ class Player implements MapAndClone<Player> {
     return {
       id: this.id,
       name: this.name,
-      activeInTurn: this.activeInTurn,
       order: this.order,
     }
   }
 
   static clone(player: Player): Player {
-    return new Player(player.id, player.name, player.activeInTurn, player.order)
+    return new Player(player.id, player.name, player.order)
   }
 
   static fromJson(map: Map<string, any>) {
-    return new Player(
-      map.get('id'),
-      map.get('name'),
-      map.get('activeInTurn'),
-      map.get('order')
-    )
+    return new Player(map.get('id'), map.get('name'), map.get('order'))
   }
 }
 

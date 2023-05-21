@@ -1,7 +1,7 @@
 import { MapAndClone } from 'dao/firebase_helpers'
 import { Room } from 'papelito-models'
 import GameSettings from 'papelito-models/game_settings'
-import ActiveTurn from 'papelito-models/active_turn'
+import Turn from 'papelito-models/turn'
 
 // should be firestore objects only, no custom classes
 
@@ -12,12 +12,12 @@ export class FirestoreRoom implements MapAndClone<FirestoreRoom> {
     public code: string,
     public password: string,
     public is_room_private_room: boolean,
-    public active_round_number: number,
+    public active_round_number: number, //** @todo: should remove */
 
-    public active_player_id: string,
-    public active_team_id: string,
-    public papelitos_guessed: number,
-    public timer_count: number,
+    public active_player_id: string, //** @todo: should remove */
+    public active_team_id: string, //** @todo: should remove */
+    public papelitos_guessed: number, //** @todo: should remove */
+    public timer_count: number, //** @todo: should remove */
 
     public settings_papelito_per_player: number,
     public settings_papelito_text_limit: number,
@@ -77,7 +77,8 @@ export class FirestoreRoom implements MapAndClone<FirestoreRoom> {
         this.time_per_turn,
         this.total_rounds
       ),
-      new ActiveTurn(
+      new Turn( // remove this from here
+        false,
         this.active_player_id,
         this.active_team_id,
         this.papelitos_guessed,

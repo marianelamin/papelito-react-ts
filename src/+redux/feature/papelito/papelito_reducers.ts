@@ -1,7 +1,7 @@
 // reducers are functions that calculate the new value of my state
 import { Papelito, Team } from 'papelito-models'
-import { GameActions, Action } from '../../enum_actions'
-import * as papelitoService from 'services/papelito_service'
+
+import { papelitoService } from 'services'
 
 // export interface PapelitosState {
 //   id: string

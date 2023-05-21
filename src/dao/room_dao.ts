@@ -42,8 +42,8 @@ export const getDetailsById = async (id: string) => {
       .then((doc) => {
         let retrievedRoom = (doc.data() as FirestoreRoom).toRoom()
         retrievedRoom.id = doc.id
-        console.log(`room retrieved:`)
-        console.log(retrievedRoom)
+        // console.log(`room retrieved:`)
+        // console.log(retrievedRoom)
 
         return retrievedRoom
       })
@@ -54,9 +54,8 @@ export const getDetailsById = async (id: string) => {
 }
 
 export const getAll = async () => {
-  const ref = collectionsRef.roomRef()
   let res: Room[] = []
-  const snapshot = await collectionsRef.getDocs(ref)
+  const snapshot = await collectionsRef.getDocs(collectionsRef.roomRef())
   snapshot.forEach((doc) => {
     let room = doc.data() as FirestoreRoom
     room.id = doc.id
@@ -64,6 +63,12 @@ export const getAll = async () => {
     console.log(`${doc.id} => ${room}`)
   })
   return res
+}
+
+export const remove = (roomId: string) => {
+  return collectionsRef.deleteDoc(
+    collectionsRef.doc(collectionsRef.roomRef(), roomId)
+  )
 }
 
 export default this

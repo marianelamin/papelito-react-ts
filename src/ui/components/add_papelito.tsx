@@ -1,13 +1,13 @@
 import react, { useState } from 'react'
-// import { Button } from 'ui/styles'
 import { Papelito, Player } from 'papelito-models'
-// import { TicTacToe } from 'ui/views/tictactoe'
+import { PapButton, PapInputText } from './common'
 
 interface AddPapelitoComponentIO {
   onSavePapelito: Function
 }
 
-export const AddPapelitoComponent = (props: AddPapelitoComponentIO) => {
+const AddPapelitoComponent = (props: AddPapelitoComponentIO) => {
+  const { onSavePapelito } = props
   const HEADER_ADD_PAPELITO = 'Add a Papelito'
   const SAVE_PAPELITO = 'Save Papelito'
   const PAPELITO_LABEL = 'Papelito'
@@ -26,7 +26,7 @@ export const AddPapelitoComponent = (props: AddPapelitoComponentIO) => {
         currentPlayer,
         false
       )
-    props.onSavePapelito(newPap)
+    onSavePapelito(newPap)
     setPapelitoText(initialText)
   }
 
@@ -45,18 +45,30 @@ export const AddPapelitoComponent = (props: AddPapelitoComponentIO) => {
   return (
     <div>
       <h2>{HEADER_ADD_PAPELITO}</h2>
-      <label>
-        {PAPELITO_LABEL}:
-        <input
-          id="addPapelitoField"
+
+      <PapInputText
+        id="addPapelitoField"
+        label={PAPELITO_LABEL}
+        value={papelitoText}
+        onValueChange={onChangeText}
+        onKeyDown={onEnterText}
+      ></PapInputText>
+      {/* <input
+          id=
           type="text"
           placeholder="Enter new papelito"
           value={papelitoText}
           onChange={onChangeText}
           onKeyDown={onEnterText}
         />
-      </label>
-      <button onClick={onClickSaveNewPapelito}>{SAVE_PAPELITO}</button>
+      </label> */}
+      <PapButton
+        icon="pi pi-save"
+        label={SAVE_PAPELITO}
+        onClick={onClickSaveNewPapelito}
+      ></PapButton>
     </div>
   )
 }
+
+export { AddPapelitoComponent }

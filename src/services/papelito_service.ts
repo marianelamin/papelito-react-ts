@@ -22,19 +22,20 @@ export const guessPapelito = (roomId: string, papelito: Papelito) => {
   // TODO: mark the guessed boolean as true
 }
 
-export const addToBowl = (roomId: string, papelitos: Papelito[]) => {
-  return papelitoDao.addToBowl(roomId, papelitos)
+export const addToBowl = (roomId: string, papelito: Papelito) => {
+  return papelitoDao.addToBowl(roomId, papelito)
+  // return papelitoDao.addToBowl(roomId, papelitos)
 }
 
 // bowl type of services
 
-export const drawOnePapelito = (roomId: string) =>
-  papelitoDao.drawOnePapelito(roomId)
+// export const drawOnePapelito = (roomId: string) =>
+//   papelitoDao.drawOnePapelito(roomId)
 
-export const putBackPapelito = (roomId: string, papelitoId: string) =>
-  papelitoDao.putBackPapelito(roomId, papelitoId)
+// export const putBackPapelito = (roomId: string, papelitoId: string) =>
+//   papelitoDao.putBackPapelito(roomId, papelitoId)
 
-export const disputePapelito = (roomId: string, papelitoId: string) =>
-  papelitoDao.disputePapelito(roomId, papelitoId)
+// export const disputePapelito = (roomId: string, papelitoId: string) =>
+//   papelitoDao.disputePapelito(roomId, papelitoId)
 
 export default this

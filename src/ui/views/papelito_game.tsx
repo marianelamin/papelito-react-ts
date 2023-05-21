@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
-import { ActionListComponent } from 'ui/components/action_list'
+import React, { useState, useEffect } from 'react'
 
 import { Papelito, Player, Team, Room } from 'papelito-models'
 
-import { AddPapelitoComponent } from 'ui/components/add_papelito'
-import { PapelitoListComponent } from 'ui/components/papelito_list'
-import { PapelitoBowlComponent } from 'ui/components/papelito_bolw'
+import { PapelitoBowlComponent } from 'ui/components'
 import { useSelector } from 'react-redux'
 
 // import bowlActions from 'redux/actions/bowl_actions'
 import { roomSlice, RoomState } from '+redux/feature/room/room_slice'
 import { playerSlice, PlayerState } from '+redux/feature/player/player_slice'
+import {
+  teamsSlice,
+  TeamsState,
+  fetchAllPlayers,
+} from '+redux/feature/team/team_slice'
 import { bowlSlice, BowlState, addToBowl } from '+redux/feature/bowl/bowl_slice'
 import {
   papelitoSlice,
@@ -22,67 +24,36 @@ import { RootState, useAppDispatch } from '+redux/store'
 
 // ---------------------------
 
-const PapelitoWrapper = (props: any) => {
+const PapelitoWrapper = (props: { currentPlayer?: Player }) => {
+  const { currentPlayer } = props
+
+  // useEffect(() => {
+  //   // make this into a hook
+  //   appDispatch(fetchAllPlayers())
+  //   return () => {
+  //     console.log('clean up when done.. effect done')
+  //   }
+  // }, [])
   // from redux store
   const appDispatch = useAppDispatch()
 
-  const room: RoomState = useSelector<RootState, RoomState>(
+  const roomState: RoomState = useSelector<RootState, RoomState>(
     (state) => state.room
   )
-  const currentPlayer = useSelector<RootState, Player>(
-    (state) =>
-      new Player(
-        state.currentPlayer.id,
-        state.currentPlayer.name,
-        state.currentPlayer.activeInTurn,
-        state.currentPlayer.order,
-        state.currentPlayer.teamId
-      )
-  )
 
-  const teams = useSelector<RootState, Team[]>((state) => state.teams.allTeams)
-  const currentTeam = useSelector<RootState, Team>(
-    (state) => state.teams.currentTeam
-  )
-
-  const myPapelitoList = useSelector<RootState, Papelito[]>(
-    (state) => state.papelito.myPapelitos
-  )
-
-  const papelitosInBowl = useSelector<RootState, Papelito[]>((state) => {
-    console.log(state)
-    return state.bowl.bowl
+  const bowlState = useSelector<RootState, BowlState>((state) => {
+    // console.log(state.bowl.bowlSize)
+    return state.bowl
   })
 
-  const players = currentTeam.players.map((player: Player) =>
-    playerTransform(player)
-  )
+  const players = useSelector<RootState, Player[]>((state) => {
+    return state.teams.allPlayers
+  })
 
   // to be kept in component
   const [papelitoShown, setPapelitoShown] = useState<Papelito | undefined>(
     undefined
   )
-
-  // no api calls, only on redux state
-  const saveNewPapelito = (papelitoToSave: Papelito) => {
-    papelitoToSave.author = currentPlayer
-    console.log(papelitoToSave)
-    appDispatch(papelitoSlice.actions.addToMyPapelitos(papelitoToSave))
-  }
-
-  // no api calls, only on redux state
-  function deletePapelito(papelitoToRemove: Papelito) {
-    // if papelito deletes was the one shown, update this
-    if (papelitoToRemove === papelitoShown) setPapelitoShown(undefined)
-    appDispatch(
-      papelitoSlice.actions.removeFromMyPapelitos(papelitoToRemove.id)
-    )
-  }
-
-  // this one will get papelitos written but not in bown yet, once they are in bowl owner ca no longer delete or edit.
-  const throwPapelitoInBowl = (papelitosToBowl: Papelito[]) => {
-    appDispatch(addToBowl(papelitosToBowl))
-  }
 
   const guessPapelito = (papelitoGuessed: any) => {
     console.log('this papelito should be marked as guessed')
@@ -91,97 +62,70 @@ const PapelitoWrapper = (props: any) => {
   }
 
   const drawPapelito = () => {
-    let papelitos = papelitosInBowl
-    let selectedPapelito =
-      papelitos[Math.floor(Math.random() * papelitos.length)]
-    console.log(`lanzate un papelito ahi:`)
-    console.log(selectedPapelito)
-    setPapelitoShown(selectedPapelito)
+    /** @todo: make an API call to Firestore get a papelito */
+    // let papelitos = bowlState
+    // let selectedPapelito =
+    //   papelitos[Math.floor(Math.random() * papelitos.length)]
+    // console.log(`lanzate un papelito ahi:`)
+    // console.log(selectedPapelito)
+    // setPapelitoShown(selectedPapelito)
   }
 
   const deletePlayer = (player: Player) => console.log(`delete: ${player}`)
 
-  const passBowlToPlayer = (player: Player) => {
-    players.map((item) => {
-      if (item.item === player) {
-        item.item.activeInTurn = true
-      } else {
-        item.item.activeInTurn = false
-      }
-      console.log(`passBowlToPlayer: `)
-      console.log(player)
+  // const passBowlToPlayer = (player: Player) => {
+  //   players.map((p) => {
+  //     if (p == player) {
+  //       p.id == room.activeTurn?.activePlayerId
+  //     } else {
+  //       p.activeInTurn = false
+  //     }
+  //     console.log(`passBowlToPlayer: `)
+  //     console.log(player)
 
-      return item
-    })
-  }
+  //     return p
+  //   })
+  // }
 
-  function playerTransform(player: Player) {
-    return { renderName: player.name, item: player }
-  }
-
-  const playerActionItems = [
-    {
-      onClickHandler: deletePlayer,
-      actionLabel: 'Delete',
-    },
-    {
-      onClickHandler: passBowlToPlayer,
-      actionLabel: 'Pass Bowl',
-    },
-  ]
+  // const playerActionItems = [
+  //   {
+  //     onClickHandler: deletePlayer,
+  //     actionLabel: 'Delete',
+  //   },
+  //   {
+  //     onClickHandler: () => {},
+  //     actionLabel: 'Pass Bowl',
+  //   },
+  // ]
 
   return (
     <div>
-      <div>
-        <h3>Current Player</h3>
-        <pre>{JSON.stringify(currentPlayer, null, 2)}</pre>
-      </div>
-      <hr />
-      <ActionListComponent
-        listItems={players}
-        actionItems={playerActionItems}
-      ></ActionListComponent>
       <hr />
       <div style={{ display: 'flex', justifyContent: 'end' }}>
         <span>
-          Player: <b>{currentPlayer.name}</b> (
-          {currentPlayer.activeInTurn ? 'Your turn' : 'Not your turn'})
+          Player: <b>{currentPlayer?.name}</b> (
+          {currentPlayer?.id == roomState.room?.activeTurn?.activePlayerId
+            ? 'Your turn'
+            : 'Not your turn'}
+          )
         </span>
       </div>
-
-      {/* Go in its own component,  this is only for when the player is "writing" papelitos but has not put them into the bowl */}
-      <PapelitoListComponent
-        papelitoList={myPapelitoList}
-        onDeleteItem={deletePapelito}
-        onSendToBowl={throwPapelitoInBowl}
-      ></PapelitoListComponent>
-
-      <AddPapelitoComponent
-        onSavePapelito={saveNewPapelito}
-      ></AddPapelitoComponent>
-
-      <hr />
-      {/* These are the papelitos that are ready tobe used in the game */}
-      <div>
-        <h3>Papelitos in Bowl</h3>
-        <ol>
-          {papelitosInBowl.map((papelito: Papelito) => (
-            <li key={papelito.id}>
-              <div>
-                {papelito.id} ({papelito.guessed ? 'guessed' : 'not guessed'}) -{' '}
-                {papelito.text}
-              </div>
-            </li>
-          ))}
-        </ol>
-      </div>
       <PapelitoBowlComponent
-        papelitoList={papelitosInBowl}
         currentPapelitoDisplay={papelitoShown}
-        bowlSize={papelitosInBowl.length}
+        bowlMax={
+          players.length * (roomState.room?.settings?.papelitoPerPlayer ?? 1)
+        }
+        bowlSize={bowlState.bowlSize}
         onDrawPapelito={drawPapelito}
         onGuessPapelito={guessPapelito}
       ></PapelitoBowlComponent>
+      <div>
+        <h3>Bowl State | Not for now, but for when the game actually starts</h3>
+        <pre>{JSON.stringify(bowlState, null, 2)}</pre>
+      </div>
+
+      <hr />
+      {/* These are the papelitos that are ready to be used in the game */}
     </div>
   )
 }
