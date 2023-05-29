@@ -6,7 +6,7 @@ import { exitRoom } from '+redux/feature/room/room_slice'
 
 import { useRoom } from 'hooks'
 
-import { PapelitoGame } from 'ui/views/papelito_game'
+import { PapelitoGame } from 'ui/components/papelito_game'
 import { PapSpeedDial } from 'ui/components/common'
 import { PlayerListComponent } from 'ui/components'
 import { ToolbarContainer } from './toolbar_container'

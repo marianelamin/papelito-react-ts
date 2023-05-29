@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
-import { PapelitoLocalStorage } from '../localStorage'
+import { PapelitoLocalStorage } from '../local-storage'
 import { RootState, useAppDispatch } from '+redux/store'
 import { getMyPlayerById } from '+redux/feature/player/player_slice'
 import { fetchRoomById } from '+redux/feature/room/room_slice'

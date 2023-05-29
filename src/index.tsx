@@ -11,7 +11,7 @@ import 'primereact/resources/primereact.min.css' //core css
 import 'primeicons/primeicons.css' //icons
 
 import store from './+redux/store'
-import AppRoutes from './routes'
+import AppRoutes from './ui/routes'
 
 ReactDOM.render(
   <StrictMode>

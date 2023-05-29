@@ -1,6 +1,6 @@
 import react, { useState } from 'react'
 import { Papelito } from '../../papelito-models'
-import { PapelitoUnwrappedComponent } from './papelito-unwrapped-component'
+import { PapelitoUnwrappedComponent } from './papelito_unwrapped_component'
 import { PapButton, PapReactiveKnob } from './common'
 import { PapelitoDisplayComponent } from '.'
 

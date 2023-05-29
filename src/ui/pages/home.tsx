@@ -1,10 +1,13 @@
 import { FC } from 'react'
-import HomeContainer from 'ui/containers/home_container'
+import HomeContainer from 'ui/views/containers/home_container'
+import { AlertContextProvider } from 'utilities/context/globalAlertContext'
 
 const Home: FC = () => {
   return (
     <div>
-      <HomeContainer></HomeContainer>
+      <AlertContextProvider>
+        <HomeContainer></HomeContainer>
+      </AlertContextProvider>
     </div>
   )
 }

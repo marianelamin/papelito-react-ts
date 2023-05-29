@@ -3,7 +3,7 @@ import { Suspense, useEffect, useState } from 'react'
 // import { Route } from 'react-router'
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import ProtectedRoute, { ProtectedRouteProps } from './guarded-route'
-import { useIsAuthenticated } from '../hooks'
+import { useIsAuthenticated } from '../../hooks'
 import lazyViews from './lazy_views'
 
 const HOME_PATH = '/'

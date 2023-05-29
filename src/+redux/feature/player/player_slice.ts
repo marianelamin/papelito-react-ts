@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { playerService } from 'services'
 import { Player } from 'papelito-models'
-import { PapelitoLocalStorage } from 'localStorage'
+import { PapelitoLocalStorage } from 'local-storage'
 
 const PLAYER_FEATURE_KEY = 'player'
 

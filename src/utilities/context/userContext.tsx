@@ -1,4 +1,4 @@
-import { PapelitoLocalStorage } from 'localStorage'
+import { PapelitoLocalStorage } from 'local-storage'
 import { ReactNode, createContext, useContext } from 'react'
 
 interface User {

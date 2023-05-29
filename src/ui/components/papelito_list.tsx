@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Papelito } from 'papelito-models'
 import { PapButton } from './common'
-import { PapelitoDisplayComponent } from './papelito-display'
+import { PapelitoDisplayComponent } from './papelito_display'
 
 interface PapelitoListComponentIO {
   papelitoList: Papelito[]

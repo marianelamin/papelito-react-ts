@@ -6,9 +6,9 @@ import { RootState, useAppDispatch } from '+redux/store'
 import { notifyError } from 'helpers'
 import { roomSlice, getRoomTh } from '+redux/feature/room/room_slice'
 import { playerSlice } from '+redux/feature/player/player_slice'
-import { PapelitoLocalStorage } from 'localStorage'
+import { PapelitoLocalStorage } from 'local-storage'
 
-import * as roomService from '../../services/room_service'
+import * as roomService from '../../../services/room_service'
 
 import {
   PapDialog,
