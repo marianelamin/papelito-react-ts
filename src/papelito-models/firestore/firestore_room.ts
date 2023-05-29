@@ -2,34 +2,33 @@ import { MapAndClone } from 'dao/firebase_helpers'
 import { Room } from 'papelito-models'
 import GameSettings from 'papelito-models/game_settings'
 import Turn from 'papelito-models/turn'
-
-// should be firestore objects only, no custom classes
-
 export class FirestoreRoom implements MapAndClone<FirestoreRoom> {
   id: string = '-1'
 
   constructor(
     public code: string,
     public password: string,
-    public is_room_private_room: boolean,
-    public active_round_number: number, //** @todo: should remove */
+    public is_private: boolean,
+    public active_round_number: number,
 
-    public active_player_id: string, //** @todo: should remove */
-    public active_team_id: string, //** @todo: should remove */
-    public papelitos_guessed: number, //** @todo: should remove */
-    public timer_count: number, //** @todo: should remove */
+    public active_player_id: string,
+    public active_team_id: string,
+    public papelitos_guessed: number,
+    public timer_count: number,
 
     public settings_papelito_per_player: number,
     public settings_papelito_text_limit: number,
     public total_rounds: number,
-    public time_per_turn: number
+    public time_per_turn: number,
+
+    public created_date: Date
   ) {}
 
   toMap() {
     return {
       code: this.code,
       password: this.password,
-      is_room_private_room: this.is_room_private_room,
+      is_private: this.is_private,
       active_round_number: this.active_round_number,
 
       active_player_id: this.active_player_id,
@@ -41,6 +40,8 @@ export class FirestoreRoom implements MapAndClone<FirestoreRoom> {
       settings_papelito_text_limit: this.settings_papelito_text_limit,
       total_rounds: this.total_rounds,
       time_per_turn: this.time_per_turn,
+
+      created_date: this.created_date,
     }
   }
 
@@ -48,7 +49,7 @@ export class FirestoreRoom implements MapAndClone<FirestoreRoom> {
     let c = new FirestoreRoom(
       item.code,
       item.password,
-      item.is_room_private_room,
+      item.is_private,
       item.active_round_number,
       item.active_player_id,
       item.active_team_id,
@@ -57,7 +58,8 @@ export class FirestoreRoom implements MapAndClone<FirestoreRoom> {
       item.settings_papelito_per_player,
       item.settings_papelito_text_limit,
       item.total_rounds,
-      item.time_per_turn
+      item.time_per_turn,
+      item.created_date
     )
 
     c.id = item.id
@@ -70,7 +72,7 @@ export class FirestoreRoom implements MapAndClone<FirestoreRoom> {
       this.id,
       this.code,
       this.password,
-      this.is_room_private_room,
+      this.is_private,
       new GameSettings(
         this.settings_papelito_per_player,
         this.settings_papelito_text_limit,
@@ -84,7 +86,8 @@ export class FirestoreRoom implements MapAndClone<FirestoreRoom> {
         this.papelitos_guessed,
         this.timer_count
       ),
-      this.total_rounds
+      this.total_rounds,
+      this.created_date
     )
   }
 
@@ -92,7 +95,7 @@ export class FirestoreRoom implements MapAndClone<FirestoreRoom> {
     return new FirestoreRoom(
       room.code,
       room.password,
-      room.privateRoom,
+      room.isPrivate,
       room.round,
       room.activeTurn.activePlayerId,
       room.activeTurn.activeTeamId,
@@ -101,7 +104,8 @@ export class FirestoreRoom implements MapAndClone<FirestoreRoom> {
       room.settings.papelitoPerPlayer,
       room.settings.papelitoTextLimit,
       room.settings.rounds,
-      room.settings.timerTurn
+      room.settings.timerTurn,
+      room.createdDate
     )
   }
 }

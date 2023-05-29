@@ -2,7 +2,7 @@ import * as collectionsRef from './collection_references'
 import { FirestoreRoom } from 'papelito-models/firestore'
 import { Room } from 'papelito-models'
 
-export const create = async () => {
+export const create = async (): Promise<Room> => {
   console.log(`creating room from room dao`)
 
   let newRoom: Room = new Room()
@@ -34,10 +34,9 @@ export const create = async () => {
   }
 }
 
-export const getDetailsById = async (id: string) => {
-  let room = new Room()
+export const getDetailsById = async (id: string): Promise<Room> => {
   try {
-    room = await collectionsRef
+    const room = await collectionsRef
       .getDoc(collectionsRef.doc(collectionsRef.roomRef(), id))
       .then((doc) => {
         let retrievedRoom = (doc.data() as FirestoreRoom).toRoom()
@@ -47,10 +46,10 @@ export const getDetailsById = async (id: string) => {
 
         return retrievedRoom
       })
+    return room
   } catch (error) {
     throw new Error(`Error getting room with id: ${id}`)
   }
-  return room
 }
 
 export const getAll = async () => {

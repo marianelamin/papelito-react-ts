@@ -14,11 +14,11 @@ export const joinRoom = async (roomCode: string, playerName: string) => {
   return { room: room, player: playerCreated }
 }
 
-export const createJustRoom = async () => {
-  return await roomDao.create().then((room) => {
-    console.log(`Room created: ${room.id}`)
-    return room
-  })
+export const createJustRoom = async (): Promise<Room> => {
+  const room = await roomDao.create()
+  console.log(`Room created: ${room.id}`)
+
+  return room
 }
 
 export const createRoom = async (playerName: string) => {
