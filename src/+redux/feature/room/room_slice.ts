@@ -59,13 +59,13 @@ export const roomSlice = createSlice({
 // thunks
 export const fetchRoomById = createAsyncThunk(
   `${ROOM_FEATURE_KEY}/fetchRoomById`,
-  async (id: string, thunkAPI) => {
+  async (id: string) => {
     return await roomService.getRoomById(id)
   }
 )
 export const createJustRoom = createAsyncThunk(
   `${ROOM_FEATURE_KEY}/createJustRoom`,
-  async (thunkAPI) => {
+  async () => {
     return await roomService.createJustRoom()
   }
 )

@@ -5,6 +5,7 @@ import { useAppDispatch } from '+redux/store'
 import { usePlayer } from 'hooks'
 import { removePlayerById } from '+redux/feature/player/player_slice'
 import { useUser } from 'utilities/context/userContext'
+import { useCallback } from 'react'
 
 const PlayerListComponent = () => {
   const appDispatch = useAppDispatch()
@@ -12,12 +13,14 @@ const PlayerListComponent = () => {
 
   const { allPlayers, currentPlayer } = usePlayer(roomId, playerId)
 
-  const removePlayer = (player: Player) => {
+  const removePlayer = useCallback(async (player: Player) => {
     alert(
       `You are removing this player... if this is a mistake the player will have to re join the room, just need to provide the room code`
     )
-    appDispatch(removePlayerById({ roomId, playerId }))
-  }
+    await appDispatch(
+      removePlayerById({ roomId, playerId: player.id })
+    ).unwrap()
+  }, [])
 
   return (
     <div>

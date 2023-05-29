@@ -12,7 +12,7 @@ import { BowlState } from '+redux/feature/bowl/bowl_slice'
 import { usePlayer } from 'hooks'
 import { useUser } from 'utilities/context/userContext'
 
-const PapelitoWrapper = () => {
+export const PapelitoGame = () => {
   const { roomId, userId } = useUser()
 
   const { currentPlayer } = usePlayer(roomId, userId)
@@ -73,7 +73,3 @@ const PapelitoWrapper = () => {
     </div>
   )
 }
-
-// ---------------------------
-
-export default PapelitoWrapper

@@ -19,7 +19,7 @@ export const useRoom = () => {
     if (roomId) {
       const unsubscribe = onSnapshot(
         doc(roomRef(), roomId),
-        (document) => {
+        async (document) => {
           console.log(`Room Changes: `, document.id, document.data())
 
           let r = document.data()?.toRoom()
