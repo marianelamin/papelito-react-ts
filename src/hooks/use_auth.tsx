@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 
-import PapelitoLocalStorage from '../localStorage'
+import { PapelitoLocalStorage } from '../localStorage'
 import { RootState, useAppDispatch } from '+redux/store'
 import { getMyPlayerById } from '+redux/feature/player/player_slice'
 import { fetchRoomById } from '+redux/feature/room/room_slice'
@@ -14,7 +14,8 @@ export const useIsAuthenticated = () => {
   )
 
   useEffect(() => {
-    const { roomId, myPlayerId } = PapelitoLocalStorage.getRoomAndPlayerId()
+    const { roomId, myUserId: myPlayerId } =
+      PapelitoLocalStorage.getRoomAndPlayerId()
 
     if (!roomId || !myPlayerId) {
       // todo: potentially clear local storage here

@@ -1,41 +1,25 @@
-import React, { useState, useEffect } from 'react'
+import { useMemo, useState } from 'react'
 
-import { Papelito, Player, Team, Room } from 'papelito-models'
+import { Papelito, Player } from 'papelito-models'
 
 import { PapelitoBowlComponent } from 'ui/components'
 import { useSelector } from 'react-redux'
 
-// import bowlActions from 'redux/actions/bowl_actions'
-import { roomSlice, RoomState } from '+redux/feature/room/room_slice'
-import { playerSlice, PlayerState } from '+redux/feature/player/player_slice'
-import {
-  teamsSlice,
-  TeamsState,
-  fetchAllPlayers,
-} from '+redux/feature/team/team_slice'
-import { bowlSlice, BowlState, addToBowl } from '+redux/feature/bowl/bowl_slice'
-import {
-  papelitoSlice,
-  PapelitoState,
-} from '+redux/feature/papelito/papelito_slice'
-import { RootState, useAppDispatch } from '+redux/store'
+import { RoomState } from '+redux/feature/room/room_slice'
 
-// ---------------------------
+import { BowlState } from '+redux/feature/bowl/bowl_slice'
+import { RootState } from '+redux/store'
 
-// ---------------------------
+import { usePlayer } from 'hooks'
+import { useUser } from 'utilities/context/userContext'
 
-const PapelitoWrapper = (props: { currentPlayer?: Player }) => {
-  const { currentPlayer } = props
+const PapelitoWrapper = () => {
+  const { roomId, userId } = useUser()
 
-  // useEffect(() => {
-  //   // make this into a hook
-  //   appDispatch(fetchAllPlayers())
-  //   return () => {
-  //     console.log('clean up when done.. effect done')
-  //   }
-  // }, [])
-  // from redux store
-  const appDispatch = useAppDispatch()
+  const { currentPlayer } = usePlayer(roomId, userId)
+
+  console.log({ currentPlayer })
+  const playerName = useMemo(() => currentPlayer?.name, [currentPlayer])
 
   const roomState: RoomState = useSelector<RootState, RoomState>(
     (state) => state.room
@@ -50,65 +34,26 @@ const PapelitoWrapper = (props: { currentPlayer?: Player }) => {
     return state.teams.allPlayers
   })
 
-  // to be kept in component
-  const [papelitoShown, setPapelitoShown] = useState<Papelito | undefined>(
-    undefined
-  )
+  const [papelitoShown, setPapelitoShown] = useState<Papelito>()
 
   const guessPapelito = (papelitoGuessed: any) => {
     console.log('this papelito should be marked as guessed')
     console.log(papelitoGuessed)
-    // dispatcher(bowlSlice. guessPapelitoAction(papelitoGuessed))
   }
 
-  const drawPapelito = () => {
-    /** @todo: make an API call to Firestore get a papelito */
-    // let papelitos = bowlState
-    // let selectedPapelito =
-    //   papelitos[Math.floor(Math.random() * papelitos.length)]
-    // console.log(`lanzate un papelito ahi:`)
-    // console.log(selectedPapelito)
-    // setPapelitoShown(selectedPapelito)
-  }
+  const drawPapelito = () => {}
 
   const deletePlayer = (player: Player) => console.log(`delete: ${player}`)
-
-  // const passBowlToPlayer = (player: Player) => {
-  //   players.map((p) => {
-  //     if (p == player) {
-  //       p.id == room.activeTurn?.activePlayerId
-  //     } else {
-  //       p.activeInTurn = false
-  //     }
-  //     console.log(`passBowlToPlayer: `)
-  //     console.log(player)
-
-  //     return p
-  //   })
-  // }
-
-  // const playerActionItems = [
-  //   {
-  //     onClickHandler: deletePlayer,
-  //     actionLabel: 'Delete',
-  //   },
-  //   {
-  //     onClickHandler: () => {},
-  //     actionLabel: 'Pass Bowl',
-  //   },
-  // ]
 
   return (
     <div>
       <hr />
       <div style={{ display: 'flex', justifyContent: 'end' }}>
-        <span>
-          Player: <b>{currentPlayer?.name}</b> (
-          {currentPlayer?.id == roomState.room?.activeTurn?.activePlayerId
-            ? 'Your turn'
-            : 'Not your turn'}
-          )
-        </span>
+        {` Player: ${playerName} `}(
+        {currentPlayer?.id == roomState.room?.activeTurn?.activePlayerId
+          ? 'Your turn'
+          : 'Not your turn'}
+        )
       </div>
       <PapelitoBowlComponent
         currentPapelitoDisplay={papelitoShown}

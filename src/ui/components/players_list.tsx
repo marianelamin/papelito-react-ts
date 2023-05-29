@@ -1,22 +1,33 @@
-import { useState } from 'react'
 import { Player } from 'papelito-models'
 import { getColor } from '../../helpers'
 import { PapButton } from './common'
+import { useAppDispatch } from '+redux/store'
+import { usePlayer } from 'hooks'
+import { removePlayerById } from '+redux/feature/player/player_slice'
+import { useUser } from 'utilities/context/userContext'
 
-interface PlayerListComponentIO {
-  players: Player[]
-  currentPlayer: Player | undefined
-  removePlayer: (player: Player) => void
-}
+const PlayerListComponent = () => {
+  const appDispatch = useAppDispatch()
+  const { roomId, userId: playerId } = useUser()
 
-const PlayerListComponent = (props: PlayerListComponentIO) => {
-  const { players, currentPlayer, removePlayer } = props
+  const {
+    isFetching: isFetchingAllPlayers,
+    allPlayers,
+    currentPlayer,
+  } = usePlayer(roomId, playerId)
+
+  const removePlayer = (player: Player) => {
+    alert(
+      `You are removing this player... if this is a mistake the player will have to re join the room, just need to provide the room code`
+    )
+    appDispatch(removePlayerById({ roomId, playerId }))
+  }
 
   return (
     <div>
       <h2>Players in Room</h2>
       <ol>
-        {players
+        {allPlayers
           .filter((p) => p.id !== currentPlayer?.id)
           .map((player, index) => (
             <li key={player.id}>

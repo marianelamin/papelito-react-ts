@@ -5,10 +5,11 @@ import { doc, onSnapshot } from 'dao'
 import { roomRef } from 'dao/collection_references'
 import { roomSlice } from '+redux/feature/room/room_slice'
 import { useAppDispatch } from '+redux/store'
-import PapelitoLocalStorage from 'localStorage'
+import { useUser } from 'utilities/context/userContext'
 
-export const useRoom = (i?: string) => {
-  const roomId = PapelitoLocalStorage.getRoomId()
+export const useRoom = () => {
+  const { roomId } = useUser()
+
   const appDispatch = useAppDispatch()
   const [isFetching, setIsFetching] = useState<boolean>(true)
 

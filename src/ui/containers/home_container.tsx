@@ -6,7 +6,7 @@ import { RootState, useAppDispatch } from '+redux/store'
 import { notifyError } from 'helpers'
 import { roomSlice, getRoomTh } from '+redux/feature/room/room_slice'
 import { playerSlice } from '+redux/feature/player/player_slice'
-import PapelitoLocalStorage from 'localStorage'
+import { PapelitoLocalStorage } from 'localStorage'
 
 import * as roomService from '../../services/room_service'
 
@@ -50,7 +50,7 @@ const HomeContainer: FC = () => {
         appDispatch(playerSlice.actions.setCurrentPlayer(res.player))
 
         PapelitoLocalStorage.setRoomId(res.room.id)
-        PapelitoLocalStorage.setPlayerId(res.player.id)
+        PapelitoLocalStorage.setUserId(res.player.id)
         closeDialogAndClearForm()
         navigate('room')
       })
@@ -76,7 +76,7 @@ const HomeContainer: FC = () => {
         appDispatch(roomSlice.actions.setRoom(res.room))
         appDispatch(playerSlice.actions.setCurrentPlayer(res.player))
         PapelitoLocalStorage.setRoomId(res.room.id)
-        PapelitoLocalStorage.setPlayerId(res.player.id)
+        PapelitoLocalStorage.setUserId(res.player.id)
         closeDialogAndClearForm()
         // navigate to the room page
         navigate(`room`)

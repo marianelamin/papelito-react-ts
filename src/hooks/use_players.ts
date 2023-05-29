@@ -9,7 +9,7 @@ import { teamsSlice } from '+redux/feature/team/team_slice'
 import { playerSlice } from '+redux/feature/player/player_slice'
 
 export const usePlayer = (roomId: string, playerId: string) => {
-  const appDispatch = useAppDispatch()
+  // const appDispatch = useAppDispatch()
   const [isFetching, setIsFetching] = useState<boolean>(true)
   const [allPlayers, setAllPlayer] = useState<Player[]>([])
   const [currentPlayer, setCurrentPlayer] = useState<Player>()
@@ -29,15 +29,16 @@ export const usePlayer = (roomId: string, playerId: string) => {
           const p = d.data().toPlayer()
           p.id = d.id
           console.log('leyendo cada uno de los players', p)
+          console.log({ playerId, id: p.id })
           if (playerId === p.id) {
             setCurrentPlayer(p)
-            appDispatch(playerSlice.actions.setCurrentPlayer(p))
+            // appDispatch(playerSlice.actions.setCurrentPlayer(p))
           }
           players.push(p)
         })
 
         setAllPlayer(players)
-        appDispatch(teamsSlice.actions.setAllPlayers(players))
+        // appDispatch(teamsSlice.actions.setAllPlayers(players))
         setIsFetching(false)
       },
       (error) => console.error('aqui esta el error pues: \n', error),
@@ -51,5 +52,5 @@ export const usePlayer = (roomId: string, playerId: string) => {
     }
   }, [roomId, isFetching])
 
-  return { isFetching, allPlayers, currentPlayer }
+  return { currentPlayer, isFetching, allPlayers }
 }

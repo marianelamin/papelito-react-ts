@@ -1,5 +1,5 @@
 import { roomService, papelitoService, playerService } from 'services'
-import PapelitoLocalStorage from 'localStorage'
+import { PapelitoLocalStorage } from 'localStorage'
 
 // start game
 

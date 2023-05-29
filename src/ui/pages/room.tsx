@@ -1,16 +1,13 @@
-import { useIsAuthenticated } from 'hooks'
-import { FC, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { FC, createContext } from 'react'
 import RoomContainer from 'ui/containers/room_container'
-import { useActiveUser } from 'hooks'
+import { UserContextProvider } from 'utilities/context/userContext'
 
 const Room: FC = () => {
-  // const userStatus = useActiveUser()
-
   return (
     <div>
-      {/* <pre> {JSON.stringify(userStatus, null, 2)} </pre> */}
-      <RoomContainer></RoomContainer>
+      <UserContextProvider>
+        <RoomContainer></RoomContainer>
+      </UserContextProvider>
     </div>
   )
 }

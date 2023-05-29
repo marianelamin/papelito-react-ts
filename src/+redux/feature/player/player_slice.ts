@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { playerService } from 'services'
 import { Player } from 'papelito-models'
-import PapelitoLocalStorage from 'localStorage'
+import { PapelitoLocalStorage } from 'localStorage'
 
 const PLAYER_FEATURE_KEY = 'player'
 
@@ -71,7 +71,8 @@ export const getMyPlayerById = createAsyncThunk(
   `${PLAYER_FEATURE_KEY}/getMyPlayerById`,
   async (data: void, thunkAPI) => {
     // todo: should get these values from state and nto local storage
-    const { roomId, myPlayerId } = PapelitoLocalStorage.getRoomAndPlayerId()
+    const { roomId, myUserId: myPlayerId } =
+      PapelitoLocalStorage.getRoomAndPlayerId()
     return await playerService.getPlayerById(roomId, myPlayerId)
   }
 )
@@ -92,7 +93,8 @@ export const removeMyPlayer = createAsyncThunk(
   `${PLAYER_FEATURE_KEY}/removeMyPlayer`,
   async (data: void, thunkAPI) => {
     // todo: should get these values from state and nto local storage
-    const { roomId, myPlayerId } = PapelitoLocalStorage.getRoomAndPlayerId()
+    const { roomId, myUserId: myPlayerId } =
+      PapelitoLocalStorage.getRoomAndPlayerId()
     return await playerService.removePlayerById(roomId, myPlayerId)
   }
 )

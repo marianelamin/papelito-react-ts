@@ -1,68 +1,35 @@
-import React, { FC, useEffect, useState, useRef } from 'react'
+import { FC, useState, useRef } from 'react'
 import { useSelector } from 'react-redux'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
-/** @todo: make PapToolbar and PapToast */
-import { Toolbar } from 'primereact/toolbar'
 import { Toast } from 'primereact/toast'
-
-import PapelitoLocalStorage from 'localStorage'
 
 /** Redux imports */
 import { RootState, useAppDispatch } from '+redux/store'
-import {
-  RoomState,
-  roomSlice,
-  fetchRoomById,
-  exitRoom,
-} from '+redux/feature/room/room_slice'
-import * as papelitoSlice from '+redux/feature/papelito/papelito_slice'
-import {
-  playerSlice,
-  removePlayerById,
-  removeMyPlayer,
-} from '+redux/feature/player/player_slice'
-import * as bowlSlice from '+redux/feature/bowl/bowl_slice'
+import { exitRoom } from '+redux/feature/room/room_slice'
 
 /** Hooks imports */
 import { useRoom, usePlayer } from 'hooks'
 
 /** Model imports */
-import { Papelito, Player, Room, Team } from 'papelito-models'
+import { Papelito, Room, Team } from 'papelito-models'
 
 /** UI Component/View imports */
+import { useUser } from 'utilities/context/userContext'
 import PapelitoWrapper from 'ui/views/papelito_game'
-import {
-  PapChart,
-  PapDialog,
-  PapSideBar,
-  PapSpeedDial,
-  PapToast,
-  PapTooltip,
-} from 'ui/components/common'
+import { PapDialog, PapSpeedDial, PapToast } from 'ui/components/common'
 import { PlayerListComponent } from 'ui/components'
-import { PapelitoListComponent } from 'ui/components/papelito_list'
-import { AddPapelitoComponent } from 'ui/components/add_papelito'
-import { PapelitosComponent } from 'ui/components/papelitos-component'
+import { ToolbarContainer } from './toolbar_container'
 
 const RoomContainer: FC = () => {
-  const roomId = PapelitoLocalStorage.getRoomId() ?? ''
-  const playerId = PapelitoLocalStorage.getPlayerId() ?? ''
-
-  /**
-   * hooks
-   */
   const navigate = useNavigate()
-  const appDispatch = useAppDispatch()
-  // to keep listening to changes inthe room document
-  const {} = useRoom(roomId)
-
-  const {
-    isFetching: isFetchingAllPlayers,
-    allPlayers,
-    currentPlayer,
-  } = usePlayer(roomId, playerId)
   const toast = useRef<Toast>(null)
+
+  const appDispatch = useAppDispatch()
+  const {} = useRoom() // to keep listening to changes in the room document
+  const { roomId, userId } = useUser()
+
+  const { currentPlayer } = usePlayer(roomId, userId)
 
   /**
    *  selectors
@@ -82,10 +49,9 @@ const RoomContainer: FC = () => {
   /**
    * componenet state
    */
-  const [showPlayerDetails, setShowPlayerDetails] = useState<boolean>(false)
-  const [showRoomDetails, setShowRoomDetails] = useState<boolean>(false)
-  const [primaryButtonLoading, setPrimaryButtonLoading] =
-    useState<boolean>(false)
+  const [showPlayerDetails, setShowPlayerDetails] = useState(false)
+  const [showRoomDetails, setShowRoomDetails] = useState(false)
+  const [primaryButtonLoading, setPrimaryButtonLoading] = useState(false)
 
   /**
    * Constants that define components ? maybe
@@ -132,37 +98,6 @@ const RoomContainer: FC = () => {
     },
   ]
 
-  /**
-   * arrow functions
-   */
-  // no api calls, only on redux state
-  const saveNewPapelito = (papelitoToSave: Papelito) => {
-    if (currentPlayer) papelitoToSave.author = currentPlayer
-    console.log(papelitoToSave)
-    appDispatch(
-      papelitoSlice.papelitoSlice.actions.addToMyPapelitos(papelitoToSave)
-    )
-  }
-
-  // no api calls, only on redux state
-  function deletePapelito(papelitoToRemove: Papelito) {
-    appDispatch(
-      papelitoSlice.papelitoSlice.actions.removeFromMyPapelitos(
-        papelitoToRemove.id
-      )
-    )
-  }
-
-  // this one will get papelitos written but not in bown yet, once they are in bowl owner ca no longer delete or edit.
-  const throwPapelitoInBowl = async (papelitoToBowl: Papelito) => {
-    console.log('sending', papelitoToBowl)
-    await appDispatch(bowlSlice.addToBowl(papelitoToBowl))
-
-    // @TODO: I should clear my papelitos only after they have
-    // been successfully added to the bowl
-    // appDispatch(papelitoSlice.papelitoSlice.actions.clearMyPapelitos())
-  }
-
   const leaveRoom = async () => {
     await appDispatch(exitRoom())
 
@@ -171,57 +106,18 @@ const RoomContainer: FC = () => {
 
   return (
     <div>
+      <ToolbarContainer />
       {/* @todo: make this a pap component */}
+      <br />
       <div className="card">
         <div style={{ position: 'relative', height: '5rem' }}>
           <PapSpeedDial items={items}></PapSpeedDial>
         </div>
       </div>
-      <Toolbar
-        left={<h1>Room</h1>}
-        right={
-          <>
-            <PapSideBar icon="pi-chart-bar" btnLabel="Stats">
-              <h1>Stats</h1>
-
-              {/* @todo: pass teams down as a prop */}
-              <PapChart></PapChart>
-              <ol>
-                <li>adf</li>
-                <li>adf</li>
-              </ol>
-
-              <h3>Current Team</h3>
-            </PapSideBar>
-
-            <div style={{ display: 'inline-block', padding: '1rem' }}></div>
-            <PapSideBar icon="pi-user" btnLabel="Papelitos" position="right">
-              <PapelitosComponent
-                papelitoList={myPapelitoList}
-                onDeleteItem={deletePapelito}
-                onSendToBowl={throwPapelitoInBowl}
-                onSavePapelito={saveNewPapelito}
-              ></PapelitosComponent>
-            </PapSideBar>
-          </>
-        }
-      ></Toolbar>
       <br />
 
-      <PlayerListComponent
-        removePlayer={(player: Player) => {
-          alert(
-            `You are removing this player... if this is a mistake the player will have to re join the room, just need to provide the room code`
-          )
-
-          appDispatch(
-            removePlayerById({ roomId: room?.id ?? '', playerId: player.id })
-          )
-        }}
-        players={allPlayers}
-        currentPlayer={currentPlayer}
-      ></PlayerListComponent>
-      <PapelitoWrapper currentPlayer={currentPlayer}></PapelitoWrapper>
+      <PlayerListComponent />
+      <PapelitoWrapper />
       <br />
       <br />
       <div> PAPELITO por {process.env.REACT_APP_AUTHOR}</div>
