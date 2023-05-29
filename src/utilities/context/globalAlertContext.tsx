@@ -1,11 +1,11 @@
 import { Toast } from 'primereact/toast'
 import {
   FC,
+  PropsWithChildren,
   createContext,
   useCallback,
   useContext,
   useRef,
-  useState,
 } from 'react'
 import { PapToast } from 'ui/components/common'
 
@@ -36,59 +36,49 @@ export function useAlert(): AlertParams {
 
 // Context Provider
 
-export const AlertContextProvider: FC = ({ children }) => {
-  const [currentAlert, setCurrentAlert] = useState<AlertConfig>({
-    title: '',
-    text: '',
-  })
-  const { title, text } = currentAlert
-
+export const AlertContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const toast = useRef<Toast>(null)
 
   const enqueueInfoAlert = useCallback(
     (alertconfig: AlertConfig) => {
-      setCurrentAlert({ title: alertconfig.title, text: alertconfig.text })
       toast.current?.show({
         severity: 'info',
         summary: alertconfig.title,
         detail: alertconfig.text,
       })
     },
-    [currentAlert]
+    [toast.current]
   )
 
   const enqueueSuccessAlert = useCallback(
     (alertconfig: AlertConfig) => {
-      setCurrentAlert({ title: alertconfig.title, text: alertconfig.text })
       toast.current?.show({
         severity: 'success',
         summary: alertconfig.title,
         detail: alertconfig.text,
       })
     },
-    [currentAlert]
+    [toast.current]
   )
   const enqueueWarningAlert = useCallback(
     (alertconfig: AlertConfig) => {
-      setCurrentAlert({ title: alertconfig.title, text: alertconfig.text })
       toast.current?.show({
         severity: 'warn',
         summary: alertconfig.title,
         detail: alertconfig.text,
       })
     },
-    [currentAlert]
+    [toast.current]
   )
   const enqueueErrorAlert = useCallback(
     (alertconfig: AlertConfig) => {
-      setCurrentAlert({ title: alertconfig.title, text: alertconfig.text })
       toast.current?.show({
         severity: 'error',
         summary: alertconfig.title,
         detail: alertconfig.text,
       })
     },
-    [currentAlert]
+    [toast.current]
   )
 
   return (

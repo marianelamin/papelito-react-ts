@@ -1,5 +1,4 @@
 import React, { StrictMode } from 'react'
-import ReactDOM from 'react-dom'
 import { unregister, register } from 'core'
 import reportWebVitals from 'reportWebVitals'
 import { BrowserRouter } from 'react-router-dom'
@@ -13,15 +12,17 @@ import 'primeicons/primeicons.css' //icons
 import store from './+redux/store'
 import AppRoutes from './ui/routes'
 
-ReactDOM.render(
+import { createRoot } from 'react-dom/client'
+const container = document.getElementById('root')
+const root = createRoot(container!)
+root.render(
   <StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <AppRoutes />
       </BrowserRouter>
     </Provider>
-  </StrictMode>,
-  document.getElementById('root')
+  </StrictMode>
 )
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,4 +1,4 @@
-import { Card, CardTemplateTypes } from 'primereact/card'
+import { Card } from 'primereact/card'
 
 type PapCardTemplateTypes =
   | React.ReactNode

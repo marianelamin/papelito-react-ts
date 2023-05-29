@@ -6,8 +6,8 @@ import { exitRoom } from '+redux/feature/room/room_slice'
 
 import { useRoom } from 'hooks'
 
-import { PapelitoGame } from 'ui/components/papelito_game'
 import { PapSpeedDial } from 'ui/components/common'
+import { PapelitoGame } from 'ui/components/papelito_game'
 import { PlayerListComponent } from 'ui/components'
 import { ToolbarContainer } from './toolbar_container'
 import {
@@ -18,13 +18,12 @@ import {
 import { useAlert } from 'utilities/context/globalAlertContext'
 
 const RoomContainer: FC = () => {
+  const {} = useRoom() // to keep listening to changes in the room document
+  const appDispatch = useAppDispatch()
   const navigate = useNavigate()
   const { enqueueInfoAlert, enqueueSuccessAlert, enqueueErrorAlert } =
     useAlert()
   const { showModal, hideModal } = useGlobalDialog()
-
-  const appDispatch = useAppDispatch()
-  const {} = useRoom() // to keep listening to changes in the room document
 
   const items = [
     {
@@ -66,7 +65,6 @@ const RoomContainer: FC = () => {
 
   const leaveRoom = async () => {
     await appDispatch(exitRoom()).unwrap()
-
     navigate('/home')
   }
 
@@ -81,8 +79,8 @@ const RoomContainer: FC = () => {
       </div>
       <br />
 
-      <PlayerListComponent />
-      <PapelitoGame />
+      {/* <PlayerListComponent />
+      <PapelitoGame /> */}
       <br />
       <br />
       <div> PAPELITO por {process.env.REACT_APP_AUTHOR}</div>

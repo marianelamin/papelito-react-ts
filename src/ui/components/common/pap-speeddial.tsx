@@ -1,11 +1,11 @@
 import { MenuItem } from 'primereact/menuitem'
 import { Tooltip } from 'primereact/tooltip'
-import { SpeedDial, SpeedDialDirectionType } from 'primereact/speeddial'
+import { SpeedDial, SpeedDialProps } from 'primereact/speeddial'
 
 export const PapSpeedDial = (props: {
   items: MenuItem[]
   showIcon?: string
-  direction?: SpeedDialDirectionType
+  direction?: SpeedDialProps['direction']
 }) => {
   const { items, showIcon = 'pi pi-cog', direction = 'down' } = props
 

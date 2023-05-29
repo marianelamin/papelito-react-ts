@@ -1,4 +1,11 @@
-import { FC, createContext, useCallback, useContext, useState } from 'react'
+import {
+  FC,
+  PropsWithChildren,
+  createContext,
+  useCallback,
+  useContext,
+  useState,
+} from 'react'
 import { PlayerDetailsDialog } from 'ui/components/dialogs/player_details_dialog'
 import { RoomDetailsDialog } from 'ui/components/dialogs/room_details_dialog'
 
@@ -39,7 +46,9 @@ export const useGlobalDialog = (): GlobalDialogContextParams => {
   return context
 }
 
-export const GlobalDialogContextProvider: FC = ({ children }) => {
+export const GlobalDialogContextProvider: FC<PropsWithChildren> = ({
+  children,
+}) => {
   const [currentDialog, setCurrentDialog] = useState<GlobalDialogStore>(
     initialState.currentDialog
   )
