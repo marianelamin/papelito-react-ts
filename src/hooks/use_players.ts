@@ -1,12 +1,9 @@
 import { useEffect, useState } from 'react'
 
 import { Player } from 'papelito-models'
-import { onSnapshot } from 'dao'
 
+import { onSnapshot } from 'dao'
 import { playersRef } from 'dao/collection_references'
-import { useAppDispatch } from '+redux/store'
-import { teamsSlice } from '+redux/feature/team/team_slice'
-import { playerSlice } from '+redux/feature/player/player_slice'
 
 export const usePlayer = (roomId: string, playerId: string) => {
   // const appDispatch = useAppDispatch()
@@ -50,7 +47,7 @@ export const usePlayer = (roomId: string, playerId: string) => {
     return () => {
       unsubscribe()
     }
-  }, [roomId, isFetching])
+  }, [roomId, isFetching, playerId])
 
   return { currentPlayer, isFetching, allPlayers }
 }

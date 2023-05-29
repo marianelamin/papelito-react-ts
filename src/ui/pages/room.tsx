@@ -1,4 +1,4 @@
-import { FC, createContext } from 'react'
+import { FC } from 'react'
 import RoomContainer from 'ui/containers/room_container'
 import { UserContextProvider } from 'utilities/context/userContext'
 

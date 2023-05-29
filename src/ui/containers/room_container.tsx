@@ -43,7 +43,7 @@ const RoomContainer: FC = () => {
   const teams = useSelector<RootState, Team[]>((state) => state.teams.allTeams)
   const currentTeam = useSelector<RootState, Team>(
     (state) =>
-      state.teams.allTeams.filter((t) => t.id == state.teams.currentTeamId)[0]
+      state.teams.allTeams.filter((t) => t.id === state.teams.currentTeamId)[0]
   )
 
   /**
@@ -107,7 +107,6 @@ const RoomContainer: FC = () => {
   return (
     <div>
       <ToolbarContainer />
-      {/* @todo: make this a pap component */}
       <br />
       <div className="card">
         <div style={{ position: 'relative', height: '5rem' }}>

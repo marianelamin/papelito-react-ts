@@ -1,14 +1,13 @@
 import { useMemo, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 import { Papelito, Player } from 'papelito-models'
 
 import { PapelitoBowlComponent } from 'ui/components'
-import { useSelector } from 'react-redux'
 
-import { RoomState } from '+redux/feature/room/room_slice'
-
-import { BowlState } from '+redux/feature/bowl/bowl_slice'
 import { RootState } from '+redux/store'
+import { RoomState } from '+redux/feature/room/room_slice'
+import { BowlState } from '+redux/feature/bowl/bowl_slice'
 
 import { usePlayer } from 'hooks'
 import { useUser } from 'utilities/context/userContext'
@@ -50,7 +49,7 @@ const PapelitoWrapper = () => {
       <hr />
       <div style={{ display: 'flex', justifyContent: 'end' }}>
         {` Player: ${playerName} `}(
-        {currentPlayer?.id == roomState.room?.activeTurn?.activePlayerId
+        {currentPlayer?.id === roomState.room?.activeTurn?.activePlayerId
           ? 'Your turn'
           : 'Not your turn'}
         )

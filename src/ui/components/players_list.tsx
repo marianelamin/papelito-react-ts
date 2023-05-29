@@ -10,11 +10,7 @@ const PlayerListComponent = () => {
   const appDispatch = useAppDispatch()
   const { roomId, userId: playerId } = useUser()
 
-  const {
-    isFetching: isFetchingAllPlayers,
-    allPlayers,
-    currentPlayer,
-  } = usePlayer(roomId, playerId)
+  const { allPlayers, currentPlayer } = usePlayer(roomId, playerId)
 
   const removePlayer = (player: Player) => {
     alert(

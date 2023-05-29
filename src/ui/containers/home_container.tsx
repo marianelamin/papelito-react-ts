@@ -164,8 +164,8 @@ const HomeContainer: FC = () => {
         primaryButtonLoading={room.loading}
         primaryButtonDisabled={
           hideCodeInputText
-            ? playerNameInput.length == 0
-            : roomCodeInput.length == 0 || playerNameInput.length == 0
+            ? playerNameInput.length === 0
+            : roomCodeInput.length === 0 || playerNameInput.length === 0
         }
         showPrimaryButtonError={false}
         showPrimaryButtonErrorText="An error"
