@@ -73,7 +73,7 @@ export const exitRoom = createAsyncThunk<
   void,
   void,
   { dispatch: AppDispatch; state: RootState }
->(`${ROOM_FEATURE_KEY}/exitRoom`, async (data: void, { getState }) => {
+>(`${ROOM_FEATURE_KEY}/exitRoom`, async (data, { getState }) => {
   const state: RootState = getState()
 
   return await gameService.exitRoom(

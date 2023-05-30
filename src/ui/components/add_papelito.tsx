@@ -1,4 +1,4 @@
-import react, { useState } from 'react'
+import { useState } from 'react'
 import { Papelito, Player } from 'papelito-models'
 import { PapButton, PapInputText } from './common'
 

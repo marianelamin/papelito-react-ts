@@ -1,5 +1,5 @@
 import * as collectionsRef from './collection_references'
-import { Player, Papelito } from 'papelito-models'
+import { Papelito } from 'papelito-models'
 import { FirestorePapelito } from 'papelito-models/firestore'
 
 export const getPapelitoDetails = (roomCode: string, papelitoId: string) => {
@@ -48,7 +48,6 @@ export const addToBowl = async (roomCode: string, papelito: Papelito) => {
       FirestorePapelito.fromPapelito(papelito)
     )
     .then((addedDoc) => {
-      const newPap = addedDoc.id
       console.log(`Added pap`, addedDoc)
       return collectionsRef.getDoc(addedDoc)
     })
