@@ -38,20 +38,22 @@ export const JoinRoomDialog = (props: JoinRoomDialogProps) => {
       onPrimaryButton={handlePrimaryButton}
       onVisibleChange={handleClose}
     >
-      <PapInputText
-        id="roomCodeField"
-        label="Room code"
-        value={roomCodeInput}
-        onValueChange={handleChangeRoomText}
-      ></PapInputText>
-
-      <br />
-      <PapInputText
-        id="playerNameField"
-        label="Player name"
-        value={playerNameInput}
-        onValueChange={handleChangePlayerText}
-      ></PapInputText>
+      <div style={{ marginTop: '1rem' }}>
+        <PapInputText
+          id="roomCodeField"
+          label="Room code"
+          value={roomCodeInput}
+          onValueChange={handleChangeRoomText}
+        ></PapInputText>
+      </div>
+      <div style={{ marginTop: '2rem' }}>
+        <PapInputText
+          id="playerNameField"
+          label="Player name"
+          value={playerNameInput}
+          onValueChange={handleChangePlayerText}
+        ></PapInputText>
+      </div>
     </PapDialog>
   )
 }

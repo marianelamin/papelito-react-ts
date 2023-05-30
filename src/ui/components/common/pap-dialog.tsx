@@ -52,7 +52,6 @@ export const PapDialog = (props: PapDialogIO) => {
       draggable={draggable}
       closeOnEscape={closeOnEscape}
       closable={closable}
-      style={{ width: '' }}
       onHide={onHideDialog}
       footer={
         <div
