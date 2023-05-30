@@ -21,7 +21,7 @@ export class FirestoreRoom {
     public total_rounds: number,
     public time_per_turn: number,
 
-    public created_date: Date
+    public created_date: string
   ) {}
 
   static clone(item: FirestoreRoom): FirestoreRoom {
@@ -66,7 +66,7 @@ export class FirestoreRoom {
         this.timer_count
       ),
       this.total_rounds,
-      this.created_date
+      new Date(this.created_date)
     )
   }
 
@@ -84,7 +84,7 @@ export class FirestoreRoom {
       room.settings.papelitoTextLimit,
       room.settings.rounds,
       room.settings.timerTurn,
-      room.createdDate
+      room.createdDate.toISOString()
     )
   }
 }

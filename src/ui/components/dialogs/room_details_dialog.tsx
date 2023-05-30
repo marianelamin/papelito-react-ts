@@ -3,7 +3,7 @@ import { RootState } from '+redux/store'
 import { PapDialog } from '../common'
 import { Room } from 'papelito-models'
 
-import { format } from 'date-fns'
+import { format } from 'date-fns-tz'
 import { useMemo } from 'react'
 
 interface RoomDetailsDialogProps {
@@ -19,7 +19,7 @@ export const RoomDetailsDialog = (props: RoomDetailsDialogProps) => {
   const createdDate = useMemo(() => {
     if (room?.createdDate) {
       try {
-        return format(room.createdDate, 'yyyy-MM-dd')
+        return format(room.createdDate, 'yyyy-MM-dd HH:mm:ss zzz')
       } catch (error) {
         console.error({ error })
         return 'na'
@@ -36,15 +36,15 @@ export const RoomDetailsDialog = (props: RoomDetailsDialogProps) => {
     >
       <div className="card">
         <div>
+          {room?.createdDate && <p>{`created on ${createdDate}`}</p>}
           <h4> {'Settings'}</h4>
+          <p>{`id: ${room?.id}`}</p>
+          <p>{`code: ${room?.code}`}</p>
+          <p>{`Private Room: ${room?.isPrivate ? 'Yes' : 'No'}`}</p>
           <p>{`papelitoPerPlayer: ${room?.settings.papelitoPerPlayer}`}</p>
           <p>{`papelitoTextLimit: ${room?.settings.papelitoTextLimit}`}</p>
           <p>{`timerTurn: ${room?.settings.timerTurn}`}</p>
           <p>{`rounds: ${room?.settings.rounds}`}</p>
-
-          <p>{`id: ${room?.id}`}</p>
-          <p>{`code: ${room?.code}`}</p>
-          <p>{`Private Room: ${room?.isPrivate ? 'Yes' : 'No'}`}</p>
 
           <h3>{'ActiveTurn:'}</h3>
           <p>{`active: ${room?.activeTurn.active}`}</p>
@@ -52,9 +52,7 @@ export const RoomDetailsDialog = (props: RoomDetailsDialogProps) => {
           <p>{`activeTeamId: ${room?.activeTurn.activeTeamId}`}</p>
           <p>{`guessedPapelitos: ${room?.activeTurn.guessedPapelitos}`}</p>
           <p>{`timerCount: ${room?.activeTurn.timerCount}`}</p>
-
-          <p>{`Round: ${room?.round}`}</p>
-          {room?.createdDate && <p>{`createdDate: ${createdDate}`}</p>}
+          <p>{`round: ${room?.round}`}</p>
 
           <pre style={{ display: 'flex', background: 'lightgray' }}>
             {JSON.stringify(room, null, 2)}
