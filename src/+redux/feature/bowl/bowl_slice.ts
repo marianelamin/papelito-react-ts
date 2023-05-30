@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState, AppDispatch } from '+redux/store'
-import Papelito from 'papelito-models/papelito'
+import { Papelito } from 'papelito-models/papelito'
 import { papelitoService } from 'services'
 import { removeFromMyPapelitos } from '+redux/feature/papelito/papelito_slice'
 

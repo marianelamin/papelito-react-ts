@@ -28,7 +28,7 @@ export const createRoom = async (playerName: string) => {
   let room: Room = await createJustRoom()
   let player: Player = await playerService.addPlayerToRoom(room.id, playerName)
 
-  return { room: room, player: player }
+  return { room, player }
 }
 
 export const remove = async (roomId: string) => {

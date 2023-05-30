@@ -1,11 +1,12 @@
 import { InputText } from 'primereact/inputtext'
+import { ChangeEventHandler, KeyboardEventHandler } from 'react'
 
 interface PapInputTextIO {
   id: string
   label?: string
   value: string
-  onValueChange: (v: any) => void
-  onKeyDown?: (v: any) => void
+  onValueChange: ChangeEventHandler<HTMLInputElement> | undefined
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement> | undefined
 }
 
 export const PapInputText = (props: PapInputTextIO) => {

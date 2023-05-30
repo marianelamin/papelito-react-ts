@@ -1,31 +1,21 @@
-import { MapAndClone } from 'dao/firebase_helpers'
-import { Papelito, Player } from 'papelito-models'
+import { Papelito, defaultPlayer } from 'papelito-models'
 
-export class FirestorePapelito implements MapAndClone<FirestorePapelito> {
+export class FirestorePapelito {
   id: string = '-1'
 
   constructor(
     public text: string,
-    public player_id: string,
     public is_guessed: boolean,
-    public is_in_bowl: boolean
+    public is_in_bowl: boolean,
+    public author_id?: string
   ) {}
-
-  toMap() {
-    return {
-      text: this.text,
-      player_id: this.player_id,
-      is_guessed: this.is_guessed,
-      is_in_bowl: this.is_in_bowl,
-    }
-  }
 
   static clone(item: FirestorePapelito): FirestorePapelito {
     let c = new FirestorePapelito(
       item.text,
-      item.player_id,
       item.is_guessed,
-      item.is_in_bowl
+      item.is_in_bowl,
+      item.author_id
     )
 
     c.id = item.id
@@ -36,9 +26,9 @@ export class FirestorePapelito implements MapAndClone<FirestorePapelito> {
   static fromPapelito(papelito: Papelito) {
     return new FirestorePapelito(
       papelito.text,
-      papelito.author.id,
       papelito.guessed,
-      papelito.inBowl
+      papelito.inBowl,
+      papelito.author?.id
     )
   }
 
@@ -46,9 +36,16 @@ export class FirestorePapelito implements MapAndClone<FirestorePapelito> {
     return new Papelito(
       this.id,
       this.text,
-      new Player(this.player_id, this.player_id),
       this.is_guessed,
-      this.is_in_bowl
+      this.is_in_bowl,
+      this.author_id
+        ? {
+            id: this.author_id,
+            name: defaultPlayer.name,
+            order: defaultPlayer.order,
+            teamId: defaultPlayer.teamId,
+          }
+        : undefined
     )
   }
 }

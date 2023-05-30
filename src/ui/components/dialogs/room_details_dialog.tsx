@@ -1,8 +1,10 @@
-import { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { RootState } from '+redux/store'
 import { PapDialog } from '../common'
 import { Room } from 'papelito-models'
+
+import { format } from 'date-fns'
+import { useMemo } from 'react'
 
 interface RoomDetailsDialogProps {
   close: () => void
@@ -14,29 +16,49 @@ export const RoomDetailsDialog = (props: RoomDetailsDialogProps) => {
     (state) => state.room.room
   )
 
+  const createdDate = useMemo(() => {
+    if (room?.createdDate) {
+      try {
+        return format(room.createdDate, 'yyyy-MM-dd')
+      } catch (error) {
+        console.error({ error })
+        return 'na'
+      }
+    } else return 'na'
+  }, [room])
   return (
     <PapDialog
       headerLabel={'Room Details'}
       visible
-      primaryButtonLabel={'Save'}
-      onPrimaryButton={(data: any) => {
-        console.log('primarybutton has been pressed')
-        console.log('data comming back', data)
-        setTimeout(() => {
-          close()
-        }, 2000)
-      }}
-      onSecondaryButton={(data: any) => {
-        console.log('secondaryButton has been pressed')
-        console.log('data comming back', data)
-        close()
-      }}
+      closable
+      closeOnEscape
       onVisibleChange={() => close()}
     >
-      <div style={{ display: 'flex', background: 'lightgray' }}>
+      <div className="card">
         <div>
-          <p>Room Details: </p>
-          <pre>{JSON.stringify(room, null, 2)}</pre>
+          <h4> {'Settings'}</h4>
+          <p>{`papelitoPerPlayer: ${room?.settings.papelitoPerPlayer}`}</p>
+          <p>{`papelitoTextLimit: ${room?.settings.papelitoTextLimit}`}</p>
+          <p>{`timerTurn: ${room?.settings.timerTurn}`}</p>
+          <p>{`rounds: ${room?.settings.rounds}`}</p>
+
+          <p>{`id: ${room?.id}`}</p>
+          <p>{`code: ${room?.code}`}</p>
+          <p>{`Private Room: ${room?.isPrivate ? 'Yes' : 'No'}`}</p>
+
+          <h3>{'ActiveTurn:'}</h3>
+          <p>{`active: ${room?.activeTurn.active}`}</p>
+          <p>{`activePlayerId: ${room?.activeTurn.activePlayerId}`}</p>
+          <p>{`activeTeamId: ${room?.activeTurn.activeTeamId}`}</p>
+          <p>{`guessedPapelitos: ${room?.activeTurn.guessedPapelitos}`}</p>
+          <p>{`timerCount: ${room?.activeTurn.timerCount}`}</p>
+
+          <p>{`Round: ${room?.round}`}</p>
+          {room?.createdDate && <p>{`createdDate: ${createdDate}`}</p>}
+
+          <pre style={{ display: 'flex', background: 'lightgray' }}>
+            {JSON.stringify(room, null, 2)}
+          </pre>
         </div>
       </div>
     </PapDialog>

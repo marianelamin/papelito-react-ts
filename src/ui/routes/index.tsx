@@ -1,13 +1,11 @@
-import { Suspense, useEffect, useState } from 'react'
+import { Suspense, useEffect } from 'react'
 
-// import { Route } from 'react-router'
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
-import ProtectedRoute, { ProtectedRouteProps } from './guarded_route'
 import { useIsAuthenticated } from '../../hooks'
 import lazyViews from './lazy_views'
 
-const HOME_PATH = '/'
-const ROOM_PATH = '/room'
+export const HOME_PATH = '/'
+export const ROOM_PATH = '/room'
 
 const AppRoutes = () => {
   const { isAuthenticated } = useIsAuthenticated()
@@ -29,19 +27,6 @@ const AppRoutes = () => {
 
   return (
     <Routes>
-      {/* <Route
-        path={ROOM_PATH}
-        element={
-          <ProtectedRoute
-            {...defaultProtectedRouteProps}
-            outlet={
-              <Suspense fallback={<h1>...</h1>}>
-                <lazyViews.room />
-              </Suspense>
-            }
-          />
-        }
-      ></Route> */}
       <Route
         path={ROOM_PATH}
         element={
@@ -49,10 +34,8 @@ const AppRoutes = () => {
             <lazyViews.room />
           </Suspense>
         }
-      ></Route>
-
+      />
       <Route path={ROOM_PATH + '/*'} element={<Navigate to={ROOM_PATH} />} />
-
       <Route
         path={HOME_PATH}
         element={
@@ -60,7 +43,7 @@ const AppRoutes = () => {
             <lazyViews.home />
           </Suspense>
         }
-      ></Route>
+      />
       <Route path="*" element={<Navigate to={HOME_PATH} />} />
     </Routes>
   )

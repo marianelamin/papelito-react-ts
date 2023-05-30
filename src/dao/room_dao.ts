@@ -8,26 +8,23 @@ export const create = async (): Promise<Room> => {
   let newRoom: Room = new Room()
 
   try {
-    // create room document
+    const room = await collectionsRef.addDoc(
+      collectionsRef.roomRef(),
+      FirestoreRoom.fromRoom(newRoom)
+    )
 
-    // const anyRef = collectionsRef.anyRef('gameRooms')
+    console.log('sucess creating room')
+    newRoom.id = newRoom.code = room.id
 
-    await collectionsRef
-      .addDoc(collectionsRef.roomRef(), FirestoreRoom.fromRoom(newRoom))
-      .then((addedDoc) => {
-        console.log('sucess creating room')
-        newRoom.id = newRoom.code = addedDoc.id
-      })
     //  update code with id
-    await collectionsRef
-      .updateDoc(collectionsRef.doc(collectionsRef.roomRef(), newRoom.id), {
+    await collectionsRef.updateDoc(
+      collectionsRef.doc(collectionsRef.roomRef(), newRoom.id),
+      {
         id: newRoom.id,
-      })
-      .then(() => {
-        console.log('successfully updated code and id')
-      })
-    // retrieve generated room document
-    return getDetailsById(newRoom.id)
+      }
+    )
+    console.log('successfully updated code and id')
+    return await getDetailsById(newRoom.id)
   } catch (error) {
     console.error(error)
     throw new Error('Error creating new room')
@@ -41,9 +38,6 @@ export const getDetailsById = async (id: string): Promise<Room> => {
       .then((doc) => {
         let retrievedRoom = (doc.data() as FirestoreRoom).toRoom()
         retrievedRoom.id = doc.id
-        // console.log(`room retrieved:`)
-        // console.log(retrievedRoom)
-
         return retrievedRoom
       })
     return room

@@ -1,5 +1,5 @@
 import * as collectionsRef from './collection_references'
-import { Player } from '../papelito-models'
+import { Player, defaultPlayer } from '../papelito-models'
 import { FirestorePlayer } from 'papelito-models/firestore'
 
 // export const getGamePlayers = async (roomCode: string) => {
@@ -14,8 +14,7 @@ import { FirestorePlayer } from 'papelito-models/firestore'
 export const create = async (roomCode: string, playerName: string) => {
   console.log(`creating a player with name: ${playerName}`)
 
-  const player = new Player()
-  player.name = playerName
+  const player: Player = { ...defaultPlayer, name: playerName }
 
   await collectionsRef
     .addDoc(

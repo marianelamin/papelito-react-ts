@@ -1,13 +1,5 @@
-import { FirestorePapelito } from './firestore_papelito'
-import { FirestorePlayer } from './firestore_player'
-import { FirestoreRoom } from './firestore_room'
-import { FirestoreTeam } from './firestore_team'
-import { FirestoreTurn } from './firestore_turn'
-
-export {
-  FirestorePapelito,
-  FirestorePlayer,
-  FirestoreRoom,
-  FirestoreTeam,
-  FirestoreTurn,
-}
+export * from './firestore_papelito'
+export * from './firestore_player'
+export * from './firestore_room'
+export * from './firestore_team'
+export * from './firestore_turn'

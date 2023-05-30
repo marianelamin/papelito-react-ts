@@ -1,4 +1,4 @@
-class GameSettings {
+export class GameSettings {
   constructor(
     public papelitoPerPlayer: number = 3,
     public papelitoTextLimit: number = 140,
@@ -15,4 +15,3 @@ class GameSettings {
     gameSettings.rounds = map.get('rounds')
   }
 }
-export default GameSettings

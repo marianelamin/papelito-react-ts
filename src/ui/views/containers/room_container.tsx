@@ -21,8 +21,11 @@ const RoomContainer: FC = () => {
   const {} = useRoom() // to keep listening to changes in the room document
   const appDispatch = useAppDispatch()
   const navigate = useNavigate()
-  const { enqueueInfoAlert, enqueueSuccessAlert, enqueueErrorAlert } =
-    useAlert()
+  const {
+    notifyInfoAlert: enqueueInfoAlert,
+    notifySuccessAlert: enqueueSuccessAlert,
+    notifyErrorAlert: enqueueErrorAlert,
+  } = useAlert()
   const { showModal, hideModal } = useGlobalDialog()
 
   const items = [

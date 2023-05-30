@@ -11,9 +11,9 @@ export const getPapelitoDetails = (roomCode: string, papelitoId: string) => {
 export const createPapelito = (roomCode: string, papelito: Papelito) => {
   const fsPapelito = new FirestorePapelito(
     papelito.text,
-    papelito.author.id,
     papelito.guessed,
-    papelito.inBowl
+    papelito.inBowl,
+    papelito.author?.id
   )
   console.log(`creating papelito from papelito  dao`)
   collectionsRef

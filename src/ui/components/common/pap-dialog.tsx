@@ -1,5 +1,4 @@
 import { Dialog } from 'primereact/dialog'
-import { Button } from 'primereact/button'
 import React from 'react'
 import { PapButton } from '.'
 
@@ -7,9 +6,9 @@ interface PapDialogIO {
   /** @todo: add style prop */
   headerLabel: string
   visible: boolean
-  primaryButtonLabel: string
-  onPrimaryButton: (input: any) => any
   onVisibleChange: (value: boolean) => any
+  primaryButtonLabel?: string
+  onPrimaryButton?: (input: any) => any
   primaryButtonLoading?: boolean
   primaryButtonDisabled?: boolean
   showPrimaryButtonError?: boolean
@@ -54,13 +53,7 @@ export const PapDialog = (props: PapDialogIO) => {
       closeOnEscape={closeOnEscape}
       closable={closable}
       style={{ width: '' }}
-      onHide={
-        onHideDialog ??
-        (() => {
-          console.log('Closing dialog')
-          onVisibleChange(false)
-        })
-      }
+      onHide={onHideDialog}
       footer={
         <div
           style={{
@@ -69,13 +62,15 @@ export const PapDialog = (props: PapDialogIO) => {
           }}
         >
           <div>
-            <PapButton
-              label={primaryButtonLabel}
-              loading={primaryButtonLoading}
-              className={showPrimaryButtonError ? 'p-button-danger' : ''}
-              disabled={primaryButtonDisabled}
-              onClick={onPrimaryButton}
-            ></PapButton>
+            {onPrimaryButton ? (
+              <PapButton
+                label={primaryButtonLabel}
+                loading={primaryButtonLoading}
+                className={showPrimaryButtonError ? 'p-button-danger' : ''}
+                disabled={primaryButtonDisabled}
+                onClick={onPrimaryButton}
+              ></PapButton>
+            ) : null}
             <br />
             {showPrimaryButtonError
               ? showPrimaryButtonErrorText ?? (
@@ -93,9 +88,7 @@ export const PapDialog = (props: PapDialogIO) => {
                 onClick={onSecondaryButton}
               ></PapButton>
             </div>
-          ) : (
-            ''
-          )}{' '}
+          ) : null}
         </div>
       }
     >

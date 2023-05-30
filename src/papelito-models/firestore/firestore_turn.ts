@@ -1,6 +1,4 @@
-import { MapAndClone } from 'dao/firebase_helpers'
-
-export class FirestoreTurn implements MapAndClone<FirestoreTurn> {
+export class FirestoreTurn {
   id: string = '-1'
 
   constructor(
@@ -10,16 +8,6 @@ export class FirestoreTurn implements MapAndClone<FirestoreTurn> {
     public papelitos_guessed: number,
     public timer_count: number
   ) {}
-
-  toMap() {
-    return {
-      active: this.active,
-      round_number: this.round_number,
-      player_id: this.player_id,
-      papelitos_guessed: this.papelitos_guessed,
-      timer_count: this.timer_count,
-    }
-  }
 
   static clone(item: FirestoreTurn): FirestoreTurn {
     let c = new FirestoreTurn(

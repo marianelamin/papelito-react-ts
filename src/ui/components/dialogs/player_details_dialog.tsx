@@ -1,7 +1,6 @@
 import { useUser } from 'utilities/context/userContext'
-import { PapDialog } from '../common'
 import { usePlayer } from 'hooks'
-import { useState } from 'react'
+import { PapDialog } from '../common'
 
 interface PlayerDetailsDialogProps {
   close: () => void
@@ -9,38 +8,22 @@ interface PlayerDetailsDialogProps {
 export const PlayerDetailsDialog = (props: PlayerDetailsDialogProps) => {
   const { close } = props
   const { roomId, userId } = useUser()
-
-  const { currentPlayer } = usePlayer(roomId, userId)
-  const [primaryButtonLoading, setPrimaryButtonLoading] = useState(false)
+  const { currentPlayer: user } = usePlayer(roomId, userId)
 
   return (
     <PapDialog
-      headerLabel="Player Details"
+      headerLabel={'Player Details'}
       visible
-      primaryButtonLabel={'Save'}
-      primaryButtonLoading={primaryButtonLoading}
-      primaryButtonDisabled={false}
-      onPrimaryButton={(data: any) => {
-        console.log('data comming back', data)
-        setPrimaryButtonLoading(true)
-        setTimeout(() => {
-          close()
-          setPrimaryButtonLoading(false)
-        }, 2000)
-      }}
-      onSecondaryButton={(data: any) => {
-        console.log('data comming back', data)
-        close()
-      }}
+      closable
+      closeOnEscape
       onVisibleChange={() => close()}
     >
-      <p>
-        Navigation with 2 dialogs showing user details and room details (copy
-        room id to clipboard)
-      </p>
-      <div style={{ display: 'flex', background: 'lightgray' }}>
-        <p>Player Details: </p>
-        <pre>{JSON.stringify(currentPlayer, null, 2)}</pre>
+      <div className={'card'}>
+        <p>Name: {user?.name}</p>
+        <p>Team: {user?.teamId}</p>
+        <pre style={{ display: 'flex', background: 'lightgray' }}>
+          {JSON.stringify(user, null, 2)}
+        </pre>
       </div>
     </PapDialog>
   )

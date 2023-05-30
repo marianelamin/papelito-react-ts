@@ -1,8 +1,8 @@
-import { MapAndClone } from 'dao/firebase_helpers'
 import { Room } from 'papelito-models'
-import GameSettings from 'papelito-models/game_settings'
-import Turn from 'papelito-models/turn'
-export class FirestoreRoom implements MapAndClone<FirestoreRoom> {
+import { GameSettings } from 'papelito-models/game_settings'
+import { Turn } from 'papelito-models/turn'
+
+export class FirestoreRoom {
   id: string = '-1'
 
   constructor(
@@ -23,27 +23,6 @@ export class FirestoreRoom implements MapAndClone<FirestoreRoom> {
 
     public created_date: Date
   ) {}
-
-  toMap() {
-    return {
-      code: this.code,
-      password: this.password,
-      is_private: this.is_private,
-      active_round_number: this.active_round_number,
-
-      active_player_id: this.active_player_id,
-      active_team_id: this.active_team_id,
-      papelitos_guessed: this.papelitos_guessed,
-      timer_count: this.timer_count,
-
-      settings_papelito_per_player: this.settings_papelito_per_player,
-      settings_papelito_text_limit: this.settings_papelito_text_limit,
-      total_rounds: this.total_rounds,
-      time_per_turn: this.time_per_turn,
-
-      created_date: this.created_date,
-    }
-  }
 
   static clone(item: FirestoreRoom): FirestoreRoom {
     let c = new FirestoreRoom(

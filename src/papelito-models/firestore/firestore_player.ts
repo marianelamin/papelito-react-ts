@@ -1,7 +1,6 @@
-import { MapAndClone } from 'dao/firebase_helpers'
 import { Player } from 'papelito-models'
 
-export class FirestorePlayer implements MapAndClone<FirestorePlayer> {
+export class FirestorePlayer {
   id: string = '-1'
 
   constructor(
@@ -9,14 +8,6 @@ export class FirestorePlayer implements MapAndClone<FirestorePlayer> {
     public order: number,
     public team_id: string
   ) {}
-
-  toMap() {
-    return {
-      name: this.name,
-      order: this.order,
-      team_id: this.team_id,
-    }
-  }
 
   static clone(item: FirestorePlayer): FirestorePlayer {
     let c = new FirestorePlayer(item.name, item.order, item.team_id)
@@ -31,6 +22,11 @@ export class FirestorePlayer implements MapAndClone<FirestorePlayer> {
   }
 
   toPlayer(): Player {
-    return new Player(this.id, this.name, this.order, this.team_id)
+    return {
+      id: this.id,
+      name: this.name,
+      order: this.order,
+      teamId: this.team_id,
+    }
   }
 }

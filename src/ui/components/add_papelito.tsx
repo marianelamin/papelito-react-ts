@@ -14,7 +14,9 @@ const AddPapelitoComponent = (props: AddPapelitoComponentIO) => {
 
   const initialText: string = ''
   const [papelitoText, setPapelitoText] = useState<string>(initialText)
-  const [currentPlayer, setCurrentPlayer] = useState<Player>(new Player())
+  const [currentPlayer, setCurrentPlayer] = useState<Player | undefined>(
+    undefined
+  )
 
   const savePapelito = () => {
     let generatedId = new Date().valueOf()
@@ -23,8 +25,9 @@ const AddPapelitoComponent = (props: AddPapelitoComponentIO) => {
       newPap = new Papelito(
         generatedId + '',
         papelitoText,
-        currentPlayer,
-        false
+        false,
+        false,
+        currentPlayer
       )
     onSavePapelito(newPap)
     setPapelitoText(initialText)

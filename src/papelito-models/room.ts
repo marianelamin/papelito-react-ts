@@ -1,7 +1,6 @@
-import { MapAndClone } from 'dao/firebase_helpers'
 import { Turn, GameSettings } from '.'
 
-class Room implements MapAndClone<Room> {
+export class Room {
   constructor(
     public id: string = '-1',
     public code: string = '',
@@ -14,20 +13,7 @@ class Room implements MapAndClone<Room> {
   ) {}
 
   toString() {
-    return this.toMap().toString()
-  }
-
-  toMap() {
-    return {
-      id: this.id,
-      code: this.code,
-      password: this.password,
-      privateRoom: this.isPrivate,
-      settings: this.settings,
-      activeTurn: this.activeTurn,
-      round: this.round,
-      createdDate: this.createdDate,
-    }
+    return JSON.stringify(this)
   }
 
   static clone(room: Room): Room {
@@ -42,20 +28,4 @@ class Room implements MapAndClone<Room> {
       room.createdDate
     )
   }
-
-  static fromJson(map: Map<string, any>) {
-    console.log(`This is the map: ${map}`)
-    return new Room(
-      map.get('id'),
-      map.get('code'),
-      map.get('password'),
-      map.get('privateRoom'),
-      map.get('settings'),
-      map.get('activeTurn'),
-      map.get('round'),
-      map.get('createdDate')
-    )
-  }
 }
-
-export default Room
