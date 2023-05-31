@@ -4,9 +4,11 @@ import { Player } from 'papelito-models'
 
 import { onSnapshot } from 'dao'
 import { playersRef } from 'dao/collection_references'
+import { useUser } from 'utilities/context/userContext'
 
-export const usePlayer = (roomId: string, playerId: string) => {
-  // const appDispatch = useAppDispatch()
+export const usePlayer = () => {
+  const { roomId, userId: playerId } = useUser()
+
   const [isFetching, setIsFetching] = useState<boolean>(true)
   const [allPlayers, setAllPlayer] = useState<Player[]>([])
   const [currentPlayer, setCurrentPlayer] = useState<Player>()
@@ -49,5 +51,5 @@ export const usePlayer = (roomId: string, playerId: string) => {
     }
   }, [roomId, isFetching, playerId])
 
-  return { currentPlayer, isFetching, allPlayers }
+  return { roomId, currentPlayer, isFetching, allPlayers }
 }

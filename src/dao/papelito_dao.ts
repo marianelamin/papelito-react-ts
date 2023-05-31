@@ -37,41 +37,35 @@ export const getPapelitosInBowl = () => {
   console.log(`get papelitos in bowl`)
 }
 
-export const addToBowl = async (roomCode: string, papelito: Papelito) => {
-  console.log(
-    `Use firestore api to send one papelito into the bowl on ${roomCode}`
+export const addSinglePapelito = async (
+  roomCode: string,
+  papelito: Papelito
+): Promise<Papelito> => {
+  const addedDoc = await collectionsRef.addDoc(
+    collectionsRef.papelitoRef(roomCode),
+    FirestorePapelito.fromPapelito(papelito)
   )
+  console.log(`Added pap`, addedDoc)
+  const retrievedDoc = await collectionsRef.getDoc(addedDoc)
 
-  return collectionsRef
-    .addDoc(
-      collectionsRef.papelitoRef(roomCode),
-      FirestorePapelito.fromPapelito(papelito)
-    )
-    .then((addedDoc) => {
-      console.log(`Added pap`, addedDoc)
-      return collectionsRef.getDoc(addedDoc)
-    })
-    .then((doc) => {
-      console.log('doc', doc)
-      const pap = doc.data()?.toPapelito()
-      if (!pap) {
-        throw new Error('Papelito not found')
-      } else {
-        pap.id = doc.id
-        console.log('saved pap', pap)
-        return pap
-      }
-    })
-  // addDoc(
-  //   collectionsRef.papelitoRef(roomCode),
-  //   FirestorePapelito.fromPapelito(papelito)
-  // ).then((addedDoc) => {
-  //   const newPap = addedDoc.id
-  //   console.log(`Added pap`, addedDoc)
-  //   // addedDoc.id
-  //   // console.log(`Added pap ${papelito.id}`)
-  //   return papelito
-  // })
+  console.log('doc', retrievedDoc)
+  const pap = retrievedDoc.data()?.toPapelito()
+  if (!pap) {
+    throw new Error('Papelito not found')
+  } else {
+    pap.id = retrievedDoc.id
+    console.log('saved pap', pap)
+    return pap
+  }
+}
+
+export const addToBowl = async (
+  roomCode: string,
+  papelitos: Papelito[]
+): Promise<Papelito[]> => {
+  return Promise.all(
+    papelitos.map((papelito) => addSinglePapelito(roomCode, papelito))
+  )
 }
 
 export const addToBowlInBulk = (roomCode: string, papelitos: Papelito[]) => {

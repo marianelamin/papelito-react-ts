@@ -1,39 +1,53 @@
 import { useMemo, useState } from 'react'
+import { Steps } from 'primereact/steps'
+
 import { useSelector } from 'react-redux'
 
 import { Papelito, Player } from 'papelito-models'
 
-import { PapelitoBowlComponent } from 'ui/components'
+import { PapelitoBowlComponent, PapelitosComponent } from 'ui/components'
 
 import { RootState } from '+redux/store'
 import { RoomState } from '+redux/feature/room/room_slice'
 import { BowlState } from '+redux/feature/bowl/bowl_slice'
 
 import { usePlayer } from 'hooks'
-import { useUser } from 'utilities/context/userContext'
+import { PapButton } from './common'
+import { Instructions } from './game_instructions'
+
+const viewStyle = { minHeight: '300px' }
+
+const items = [
+  {
+    label: 'Instructions',
+  },
+  {
+    label: 'Submit papelitos',
+  },
+  {
+    label: 'Start game',
+  },
+]
 
 export const PapelitoGame = () => {
-  const { roomId, userId } = useUser()
-
-  const { currentPlayer } = usePlayer(roomId, userId)
-
-  console.log({ currentPlayer })
+  const { currentPlayer } = usePlayer()
   const playerName = useMemo(() => currentPlayer?.name, [currentPlayer])
+
+  const [isReadyToStartGame, setIsReadyToStartGame] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [papelitoShown, setPapelitoShown] = useState<Papelito>()
 
   const roomState: RoomState = useSelector<RootState, RoomState>(
     (state) => state.room
   )
 
   const bowlState = useSelector<RootState, BowlState>((state) => {
-    // console.log(state.bowl.bowlSize)
     return state.bowl
   })
 
   const players = useSelector<RootState, Player[]>((state) => {
     return state.teams.allPlayers
   })
-
-  const [papelitoShown, setPapelitoShown] = useState<Papelito>()
 
   const guessPapelito = (papelitoGuessed: any) => {
     console.log('this papelito should be marked as guessed')
@@ -46,30 +60,71 @@ export const PapelitoGame = () => {
 
   return (
     <div>
-      <hr />
       <div style={{ display: 'flex', justifyContent: 'end' }}>
-        {` Player: ${playerName} `}(
-        {currentPlayer?.id === roomState.room?.activeTurn?.activePlayerId
-          ? 'Your turn'
-          : 'Not your turn'}
-        )
-      </div>
-      <PapelitoBowlComponent
-        currentPapelitoDisplay={papelitoShown}
-        bowlMax={
-          players.length * (roomState.room?.settings?.papelitoPerPlayer ?? 1)
-        }
-        bowlSize={bowlState.bowlSize}
-        onDrawPapelito={drawPapelito}
-        onGuessPapelito={guessPapelito}
-      ></PapelitoBowlComponent>
-      <div>
-        <h3>Bowl State | Not for now, but for when the game actually starts</h3>
-        <pre>{JSON.stringify(bowlState, null, 2)}</pre>
+        <p>
+          <span>Hello </span>
+          <b>{playerName}</b>
+        </p>
       </div>
 
-      <hr />
-      {/* These are the papelitos that are ready to be used in the game */}
+      {!isReadyToStartGame && (
+        <div className="card">
+          <Steps model={items} activeIndex={activeIndex} />
+        </div>
+      )}
+
+      {activeIndex === 0 && (
+        <div style={viewStyle}>
+          <Instructions />
+          <PapButton
+            label={'Next'}
+            onClick={() => setActiveIndex(1)}
+          ></PapButton>
+        </div>
+      )}
+      {activeIndex === 1 && (
+        <div style={viewStyle}>
+          <PapelitosComponent />
+          <PapButton
+            label={'Prev'}
+            onClick={() => setActiveIndex(0)}
+          ></PapButton>
+          <PapButton
+            label={'Next'}
+            onClick={() => setActiveIndex(2)}
+          ></PapButton>
+        </div>
+      )}
+      {activeIndex === 2 && (
+        <div style={viewStyle}>
+          <PapButton
+            label={'Start'}
+            onClick={() => {
+              setActiveIndex(-1)
+              setIsReadyToStartGame(true)
+            }}
+          ></PapButton>
+        </div>
+      )}
+
+      {isReadyToStartGame && (
+        <div style={viewStyle}>
+          <PapelitoBowlComponent
+            currentPapelitoDisplay={papelitoShown}
+            bowlMax={
+              players.length *
+              (roomState.room?.settings?.papelitoPerPlayer ?? 1)
+            }
+            bowlSize={bowlState.bowlSize}
+            onDrawPapelito={drawPapelito}
+            onGuessPapelito={guessPapelito}
+          ></PapelitoBowlComponent>
+          <h3>
+            Bowl State | Not for now, but for when the game actually starts
+          </h3>
+          <pre>{JSON.stringify(bowlState, null, 2)}</pre>
+        </div>
+      )}
     </div>
   )
 }

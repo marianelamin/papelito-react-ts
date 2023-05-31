@@ -1,4 +1,5 @@
 import { Button } from 'primereact/button'
+import { CSSProperties } from 'react'
 
 type PapButtonPositionType = 'top' | 'bottom' | 'left' | 'right'
 
@@ -11,7 +12,7 @@ interface PapButtonIO {
   iconPos?: PapButtonPositionType
   loading?: boolean
   className?: any
-  style?: any
+  style?: CSSProperties
   disabled?: boolean
 }
 
@@ -28,8 +29,7 @@ export const PapButton = (props: PapButtonIO) => {
     iconPos = 'right',
   } = props
 
-  /** @todo: add tooltip funcitonality */
-  const tooltip1 = tooltip || label || 'hhh'
+  const tooltip1 = tooltip ?? label ?? ''
   return (
     <Button
       icon={icon}
@@ -38,6 +38,7 @@ export const PapButton = (props: PapButtonIO) => {
       className={className}
       style={style}
       disabled={disabled}
+      iconPos={iconPos}
       tooltip={tooltip1}
       tooltipOptions={{ position: 'top' }}
     />

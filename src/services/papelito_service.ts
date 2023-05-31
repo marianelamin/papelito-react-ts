@@ -22,8 +22,8 @@ export const guessPapelito = (roomId: string, papelito: Papelito) => {
   // TODO: mark the guessed boolean as true
 }
 
-export const addToBowl = (roomId: string, papelito: Papelito) => {
-  return papelitoDao.addToBowl(roomId, papelito)
+export const addToBowl = (roomId: string, papelitos: Papelito[]) => {
+  return papelitoDao.addToBowl(roomId, papelitos)
   // return papelitoDao.addToBowl(roomId, papelitos)
 }
 

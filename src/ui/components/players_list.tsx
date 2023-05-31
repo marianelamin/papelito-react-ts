@@ -4,14 +4,11 @@ import { PapButton } from './common'
 import { useAppDispatch } from '+redux/store'
 import { usePlayer } from 'hooks'
 import { removePlayerById } from '+redux/feature/player/player_slice'
-import { useUser } from 'utilities/context/userContext'
 import { useCallback } from 'react'
 
 const PlayerListComponent = () => {
   const appDispatch = useAppDispatch()
-  const { roomId, userId: playerId } = useUser()
-
-  const { allPlayers, currentPlayer } = usePlayer(roomId, playerId)
+  const { roomId, allPlayers, currentPlayer } = usePlayer()
 
   const removePlayer = useCallback(async (player: Player) => {
     alert(

@@ -11,7 +11,7 @@ import { PapToast } from 'ui/components/common'
 
 interface AlertConfig {
   title: string
-  text: string
+  text?: string
 }
 
 interface AlertParams {

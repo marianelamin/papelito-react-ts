@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState, AppDispatch } from '+redux/store'
 import { Papelito } from 'papelito-models/papelito'
 import { papelitoService } from 'services'
-import { removeFromMyPapelitos } from '+redux/feature/papelito/papelito_slice'
 
 const BOWL_FEATURE_KEY: string = 'bowl'
 
@@ -41,7 +40,7 @@ export const bowlSlice = createSlice({
       state.loaded = false
     })
     builder.addCase(addToBowl.fulfilled, (state, action) => {
-      state.bowlSize = state.bowlSize + 1
+      state.bowlSize = state.bowlSize + action.payload.length
       state.loading = false
       state.loaded = true
     })
@@ -60,8 +59,8 @@ export const bowlSlice = createSlice({
 // thunk
 
 export const addToBowl = createAsyncThunk<
-  Papelito,
-  Papelito,
+  Papelito[],
+  Papelito[],
   {
     // Optional fields for defining thunkApi field types
     dispatch: AppDispatch
@@ -69,12 +68,10 @@ export const addToBowl = createAsyncThunk<
   }
 >(`${BOWL_FEATURE_KEY}/addToBowl`, async (data, thunkApi) => {
   let state: RootState = thunkApi.getState()
-  console.log('peek state before:', state)
   let id = state.room?.room?.id
   if (id) {
     try {
       let pap = await papelitoService.addToBowl(id, data)
-      thunkApi.dispatch(removeFromMyPapelitos(data.id)) // papelitoService.removePapelito(id, pap)
       return pap
     } catch (error) {
       throw new Error('no added, error in pap service. addToBowl')
@@ -154,6 +151,6 @@ export const disputePapelito = createAsyncThunk<
   return ''
 })
 
-export const {} = bowlSlice.actions
+export const { setBowl, setCurrentPapelito } = bowlSlice.actions
 
 export default bowlSlice.reducer

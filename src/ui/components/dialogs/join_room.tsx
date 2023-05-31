@@ -13,15 +13,15 @@ export const JoinRoomDialog = (props: JoinRoomDialogProps) => {
   const [playerNameInput, setPlayerNameInput] = useState<string>('')
 
   const handlePrimaryButton = useCallback(() => {
-    handleJoin(playerNameInput, roomCodeInput)
+    handleJoin(playerNameInput.trim(), roomCodeInput.trim())
   }, [playerNameInput, roomCodeInput])
 
   const handleChangeRoomText = useCallback((event: any) => {
-    setRoomCodeInput(event.target.value.trim())
+    setRoomCodeInput(event.target.value)
   }, [])
 
   const handleChangePlayerText = useCallback((event: any) => {
-    setPlayerNameInput(event.target.value.trim())
+    setPlayerNameInput(event.target.value)
   }, [])
 
   return (

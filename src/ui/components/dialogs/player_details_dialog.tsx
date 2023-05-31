@@ -1,4 +1,3 @@
-import { useUser } from 'utilities/context/userContext'
 import { usePlayer } from 'hooks'
 import { PapDialog } from '../common'
 
@@ -7,8 +6,7 @@ interface PlayerDetailsDialogProps {
 }
 export const PlayerDetailsDialog = (props: PlayerDetailsDialogProps) => {
   const { close } = props
-  const { roomId, userId } = useUser()
-  const { currentPlayer: user } = usePlayer(roomId, userId)
+  const { currentPlayer: user } = usePlayer()
 
   return (
     <PapDialog

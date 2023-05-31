@@ -1,27 +1,33 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Papelito, Player } from 'papelito-models'
 import { PapButton, PapInputText } from './common'
+import { useAppDispatch } from '+redux/store'
+import { papelitoSlice } from '+redux/feature/papelito/papelito_slice'
 
-interface AddPapelitoComponentIO {
-  onSavePapelito: Function
-}
-
-const AddPapelitoComponent = (props: AddPapelitoComponentIO) => {
-  const { onSavePapelito } = props
+const AddPapelitoComponent = () => {
   const HEADER_ADD_PAPELITO = 'Add a Papelito'
   const SAVE_PAPELITO = 'Save Papelito'
-  const PAPELITO_LABEL = 'Papelito'
+  const PAPELITO_LABEL = 'Text'
+
+  const appDispatch = useAppDispatch()
 
   const initialText: string = ''
   const [papelitoText, setPapelitoText] = useState<string>(initialText)
   const [currentPlayer, setCurrentPlayer] = useState<Player | undefined>(
     undefined
   )
+  const saveNewPapelito = (papelitoToSave: Papelito) => {
+    // if (currentPlayer) papelitoToSave.author = currentPlayer
+    // console.log(papelitoToSave)
+    // appDispatch(
+    //   papelitoSlice.papelitoSlice.actions.addToMyPapelitos(papelitoToSave)
+    // )
+  }
 
-  const savePapelito = () => {
+  const savePapelito = useCallback(() => {
     let generatedId = new Date().valueOf()
     let newPap
-    if (papelitoText !== '')
+    if (papelitoText !== '') {
       newPap = new Papelito(
         generatedId + '',
         papelitoText,
@@ -29,9 +35,11 @@ const AddPapelitoComponent = (props: AddPapelitoComponentIO) => {
         false,
         currentPlayer
       )
-    onSavePapelito(newPap)
+
+      appDispatch(papelitoSlice.actions.addToMyPapelitos(newPap))
+    }
     setPapelitoText(initialText)
-  }
+  }, [papelitoText, currentPlayer, papelitoSlice.actions.addToMyPapelitos])
 
   const onChangeText = (event: any) => {
     setPapelitoText(event.target.value)
@@ -47,8 +55,6 @@ const AddPapelitoComponent = (props: AddPapelitoComponentIO) => {
 
   return (
     <div>
-      <h2>{HEADER_ADD_PAPELITO}</h2>
-
       <PapInputText
         id="addPapelitoField"
         label={PAPELITO_LABEL}
@@ -56,19 +62,12 @@ const AddPapelitoComponent = (props: AddPapelitoComponentIO) => {
         onValueChange={onChangeText}
         onKeyDown={onEnterText}
       ></PapInputText>
-      {/* <input
-          id=
-          type="text"
-          placeholder="Enter new papelito"
-          value={papelitoText}
-          onChange={onChangeText}
-          onKeyDown={onEnterText}
-        />
-      </label> */}
+      <br />
       <PapButton
         icon="pi pi-save"
         label={SAVE_PAPELITO}
         onClick={onClickSaveNewPapelito}
+        disabled={papelitoText.length === 0}
       ></PapButton>
     </div>
   )

@@ -1,92 +1,23 @@
 import { FC } from 'react'
-import { useNavigate } from 'react-router-dom'
-
-import { useAppDispatch } from '+redux/store'
-import { exitRoom } from '+redux/feature/room/room_slice'
-
 import { useRoom } from 'hooks'
 
-import { PapSpeedDial } from 'ui/components/common'
 import { PapelitoGame } from 'ui/components/papelito_game'
-import { PlayerListComponent } from 'ui/components'
 import { ToolbarContainer } from './toolbar_container'
-import {
-  PLAYER_DETAILS_DIALOG,
-  ROOM_DETAILS_DIALOG,
-  useGlobalDialog,
-} from 'utilities/context/globalDialogContext'
-import { useAlert } from 'utilities/context/globalAlertContext'
 
 const RoomContainer: FC = () => {
   const {} = useRoom() // to keep listening to changes in the room document
-  const appDispatch = useAppDispatch()
-  const navigate = useNavigate()
-  const {
-    notifyInfoAlert: enqueueInfoAlert,
-    notifySuccessAlert: enqueueSuccessAlert,
-    notifyErrorAlert: enqueueErrorAlert,
-  } = useAlert()
-  const { showModal, hideModal } = useGlobalDialog()
-
-  const items = [
-    {
-      label: 'Home',
-      icon: 'pi pi-home',
-      command: () => {
-        showModal(ROOM_DETAILS_DIALOG, { close: hideModal })
-        enqueueInfoAlert({
-          title: 'Add',
-          text: 'Data Added',
-        })
-      },
-    },
-    {
-      label: 'Player',
-      icon: 'pi pi-user',
-      command: () => {
-        showModal(PLAYER_DETAILS_DIALOG, { close: hideModal })
-        enqueueSuccessAlert({
-          title: 'Update',
-          text: 'Data Updated',
-        })
-      },
-    },
-    {
-      label: 'Leave Room',
-      icon: 'pi pi-sign-out',
-      command: () => {
-        enqueueErrorAlert({
-          title: 'Leaving',
-          text: 'Leaving Room....',
-        })
-        setTimeout(() => {
-          leaveRoom()
-        }, 1000)
-      },
-    },
-  ]
-
-  const leaveRoom = async () => {
-    await appDispatch(exitRoom()).unwrap()
-    navigate('/home')
-  }
 
   return (
     <div>
       <ToolbarContainer />
       <br />
       <div className="card">
-        <div style={{ position: 'relative', height: '5rem' }}>
-          <PapSpeedDial items={items}></PapSpeedDial>
-        </div>
+        {/* <PlayerListComponent /> */}
+        <PapelitoGame />
+        <br />
+        <br />
+        <div> PAPELITO por {process.env.REACT_APP_AUTHOR}</div>
       </div>
-      <br />
-
-      {/* <PlayerListComponent />
-      <PapelitoGame /> */}
-      <br />
-      <br />
-      <div> PAPELITO por {process.env.REACT_APP_AUTHOR}</div>
     </div>
   )
 }

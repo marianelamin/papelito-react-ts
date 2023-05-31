@@ -12,11 +12,11 @@ export const CreateRoomDialog = (props: CreateRoomDialogProps) => {
   const [displayBasic, setDisplayBasic] = useState(false)
 
   const handlePrimaryButton = useCallback(() => {
-    handleCreate(playerNameInput)
+    handleCreate(playerNameInput.trim())
   }, [playerNameInput])
 
   const handleChangePlayerText = useCallback((event: any) => {
-    setPlayerNameInput(event.target.value.trim())
+    setPlayerNameInput(event.target.value)
   }, [])
 
   return (
@@ -34,12 +34,14 @@ export const CreateRoomDialog = (props: CreateRoomDialogProps) => {
       onVisibleChange={setDisplayBasic}
       onHideDialog={handleClose}
     >
-      <PapInputText
-        id="playerNameField"
-        label="Player name"
-        value={playerNameInput}
-        onValueChange={handleChangePlayerText}
-      ></PapInputText>
+      <div style={{ marginTop: '1rem' }}>
+        <PapInputText
+          id="playerNameField"
+          label="Player name"
+          value={playerNameInput}
+          onValueChange={handleChangePlayerText}
+        ></PapInputText>
+      </div>
     </PapDialog>
   )
 }
