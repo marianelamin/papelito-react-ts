@@ -38,6 +38,25 @@ export const getPlayerById = async (roomCode: string, id: string) => {
     })
 }
 
+export const markPlayerSubmittedPapelitos = async (
+  roomCode: string,
+  id: string
+) => {
+  // todo mark player as submitted papelitos
+  await collectionsRef.updateDoc(
+    collectionsRef.doc(collectionsRef.playersRef(roomCode), id),
+    {
+      has_submitted_papelitos: true,
+    }
+  )
+
+  // return collectionsRef.getDoc().then((doc) => {
+  //   let retrievedPlayer = (doc.data() as FirestorePlayer).toPlayer()
+  //   retrievedPlayer.id = doc.id
+  //   return retrievedPlayer
+  // })
+}
+
 export const removePlayerById = async (roomCode: string, id: string) => {
   return collectionsRef.deleteDoc(
     collectionsRef.doc(collectionsRef.playersRef(roomCode), id)

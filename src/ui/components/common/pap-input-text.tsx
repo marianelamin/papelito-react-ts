@@ -5,12 +5,19 @@ interface PapInputTextIO {
   id: string
   label?: string
   value: string
+  disabled?: boolean
   onValueChange: ChangeEventHandler<HTMLInputElement> | undefined
   onKeyDown?: KeyboardEventHandler<HTMLInputElement> | undefined
 }
 
-export const PapInputText = (props: PapInputTextIO) => {
-  const { id, value, label, onValueChange, onKeyDown } = props
+export const PapInputText = ({
+  id,
+  disabled = false,
+  value,
+  label,
+  onValueChange,
+  onKeyDown,
+}: PapInputTextIO) => {
   return (
     <div className="p-float-label">
       <InputText
@@ -19,6 +26,7 @@ export const PapInputText = (props: PapInputTextIO) => {
         value={value}
         onChange={onValueChange}
         onKeyDown={onKeyDown}
+        disabled={disabled}
       />
       <label htmlFor={id}>{label}</label>
     </div>

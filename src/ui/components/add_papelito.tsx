@@ -1,70 +1,80 @@
 import { useCallback, useState } from 'react'
 import { Papelito, Player } from 'papelito-models'
-import { PapButton, PapInputText } from './common'
-import { useAppDispatch } from '+redux/store'
+import { PapButton, PapInputText, PapTypography } from './common'
+import { RootState, useAppDispatch } from '+redux/store'
 import { papelitoSlice } from '+redux/feature/papelito/papelito_slice'
+import { useSelector } from 'react-redux'
 
 const AddPapelitoComponent = () => {
-  const HEADER_ADD_PAPELITO = 'Add a Papelito'
-  const SAVE_PAPELITO = 'Save Papelito'
+  const SAVE_PAPELITO = 'Add'
   const PAPELITO_LABEL = 'Text'
 
   const appDispatch = useAppDispatch()
 
   const initialText: string = ''
   const [papelitoText, setPapelitoText] = useState<string>(initialText)
-  const [currentPlayer, setCurrentPlayer] = useState<Player | undefined>(
-    undefined
+
+  const papelitos = useSelector<RootState, Papelito[]>(
+    (state) => state.papelito.myPapelitos
   )
-  const saveNewPapelito = (papelitoToSave: Papelito) => {
-    // if (currentPlayer) papelitoToSave.author = currentPlayer
-    // console.log(papelitoToSave)
-    // appDispatch(
-    //   papelitoSlice.papelitoSlice.actions.addToMyPapelitos(papelitoToSave)
-    // )
-  }
 
-  const savePapelito = useCallback(() => {
-    let generatedId = new Date().valueOf()
-    let newPap
-    if (papelitoText !== '') {
-      newPap = new Papelito(
-        generatedId + '',
-        papelitoText,
-        false,
-        false,
-        currentPlayer
-      )
+  const currentPlayer = useSelector<RootState, Player | undefined>(
+    (state) => state.currentPlayer.player
+  )
 
-      appDispatch(papelitoSlice.actions.addToMyPapelitos(newPap))
-    }
-    setPapelitoText(initialText)
-  }, [papelitoText, currentPlayer, papelitoSlice.actions.addToMyPapelitos])
+  const addToList = useCallback(
+    (text: string) => {
+      let generatedId = new Date().valueOf()
+      let newPap
+      if (text !== '') {
+        newPap = new Papelito(
+          generatedId + '',
+          text,
+          false,
+          false,
+          currentPlayer
+        )
+
+        appDispatch(papelitoSlice.actions.addToMyPapelitos(newPap))
+      }
+      setPapelitoText(initialText)
+    },
+    [appDispatch, currentPlayer, papelitoSlice.actions.addToMyPapelitos]
+  )
 
   const onChangeText = (event: any) => {
     setPapelitoText(event.target.value)
   }
 
-  const onEnterText = (event: any) => {
-    if (event.key === 'Enter') savePapelito()
-  }
+  const onEnterText = useCallback(
+    (event: any) => event.key === 'Enter' && addToList(papelitoText),
+    [addToList, papelitoText]
+  )
 
-  const onClickSaveNewPapelito = () => {
-    savePapelito()
-  }
+  const onClickSaveNewPapelito = useCallback(
+    () => addToList(papelitoText),
+    [addToList, papelitoText]
+  )
 
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'baseline',
+        gap: '8px',
+      }}
+    >
       <PapInputText
         id="addPapelitoField"
         label={PAPELITO_LABEL}
         value={papelitoText}
         onValueChange={onChangeText}
         onKeyDown={onEnterText}
+        disabled={
+          currentPlayer?.hasSubmittedPapelitos || papelitos.length === 3
+        }
       ></PapInputText>
-      <br />
       <PapButton
-        icon="pi pi-save"
         label={SAVE_PAPELITO}
         onClick={onClickSaveNewPapelito}
         disabled={papelitoText.length === 0}

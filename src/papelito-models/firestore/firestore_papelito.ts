@@ -40,10 +40,8 @@ export class FirestorePapelito {
       this.is_in_bowl,
       this.author_id
         ? {
+            ...defaultPlayer,
             id: this.author_id,
-            name: defaultPlayer.name,
-            order: defaultPlayer.order,
-            teamId: defaultPlayer.teamId,
           }
         : undefined
     )

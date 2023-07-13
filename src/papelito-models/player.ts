@@ -3,6 +3,7 @@ export interface Player {
   name: string
   order: number
   teamId: string
+  hasSubmittedPapelitos: boolean
 }
 
 export const defaultPlayer: Player = {
@@ -10,4 +11,5 @@ export const defaultPlayer: Player = {
   name: '',
   order: 0,
   teamId: '-1',
+  hasSubmittedPapelitos: false,
 }

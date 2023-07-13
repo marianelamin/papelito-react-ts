@@ -148,27 +148,30 @@ const HomeContainer: FC = () => {
   return (
     <div style={{ textAlign: 'center' }}>
       <h1>Home Page</h1>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '24px',
+          minHeight: '300px',
+          alignItems: 'center',
+        }}
+      >
+        <PapButton
+          label="Join Room"
+          icon="pi pi-external-link"
+          onClick={onShowJoinDialog}
+        />
 
-      <div className="card">
-        <div className="grid">
-          <div className="col-5" style={{ marginBottom: '1rem' }}>
-            <PapButton
-              label="Join Room"
-              icon="pi pi-external-link"
-              onClick={onShowJoinDialog}
-            />
-          </div>
-          <div className="col-2" style={{ marginBottom: '1rem' }}>
-            <PapDivider text="OR"></PapDivider>
-          </div>
-          <div className="col-5">
-            <PapButton
-              label="Create Room"
-              icon="pi pi-external-link"
-              onClick={onShowCreateDialog}
-            />
-          </div>
-        </div>
+        <PapDivider text="OR"></PapDivider>
+
+        <PapButton
+          label="Create Room"
+          icon="pi pi-external-link"
+          onClick={onShowCreateDialog}
+        />
+      </div>
+      <div>
         <p>PAPELITO por {process.env.REACT_APP_AUTHOR}</p>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { Steps } from 'primereact/steps'
 
 import { useSelector } from 'react-redux'
@@ -41,22 +41,31 @@ export const PapelitoGame = () => {
     (state) => state.room
   )
 
-  const bowlState = useSelector<RootState, BowlState>((state) => {
-    return state.bowl
-  })
+  const bowlState = useSelector<RootState, BowlState>((state) => state.bowl)
 
-  const players = useSelector<RootState, Player[]>((state) => {
-    return state.teams.allPlayers
-  })
+  const players = useSelector<RootState, Player[]>(
+    (state) => state.teams.allPlayers
+  )
 
-  const guessPapelito = (papelitoGuessed: any) => {
+  const guessPapelito = useCallback((papelitoGuessed: any) => {
     console.log('this papelito should be marked as guessed')
     console.log(papelitoGuessed)
-  }
+  }, [])
+
+  const goToNext = useCallback(() => {
+    setActiveIndex((prev) => prev + 1)
+  }, [])
+
+  const goToBack = useCallback(() => {
+    setActiveIndex((prev) => prev - 1)
+  }, [])
+
+  const startGame = useCallback(() => {
+    setActiveIndex(-1)
+    setIsReadyToStartGame(true)
+  }, [])
 
   const drawPapelito = () => {}
-
-  const deletePlayer = (player: Player) => console.log(`delete: ${player}`)
 
   return (
     <div>
@@ -67,43 +76,27 @@ export const PapelitoGame = () => {
         </p>
       </div>
 
-      {!isReadyToStartGame && (
-        <div className="card">
-          <Steps model={items} activeIndex={activeIndex} />
-        </div>
-      )}
-
+      {!isReadyToStartGame && <Steps model={items} activeIndex={activeIndex} />}
       {activeIndex === 0 && (
         <div style={viewStyle}>
           <Instructions />
-          <PapButton
-            label={'Next'}
-            onClick={() => setActiveIndex(1)}
-          ></PapButton>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <PapButton label={'Next'} onClick={goToNext}></PapButton>
+          </div>
         </div>
       )}
       {activeIndex === 1 && (
         <div style={viewStyle}>
           <PapelitosComponent />
-          <PapButton
-            label={'Prev'}
-            onClick={() => setActiveIndex(0)}
-          ></PapButton>
-          <PapButton
-            label={'Next'}
-            onClick={() => setActiveIndex(2)}
-          ></PapButton>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <PapButton label={'Prev'} onClick={goToBack}></PapButton>
+            <PapButton label={'Next'} onClick={goToNext}></PapButton>
+          </div>
         </div>
       )}
       {activeIndex === 2 && (
         <div style={viewStyle}>
-          <PapButton
-            label={'Start'}
-            onClick={() => {
-              setActiveIndex(-1)
-              setIsReadyToStartGame(true)
-            }}
-          ></PapButton>
+          <PapButton label={'Start'} onClick={startGame}></PapButton>
         </div>
       )}
 

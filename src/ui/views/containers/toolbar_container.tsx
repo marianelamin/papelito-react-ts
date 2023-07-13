@@ -69,7 +69,7 @@ export const ToolbarContainer = (): JSX.Element => {
 
   return (
     <Toolbar
-      left={
+      start={
         <>
           <h1>Room</h1>
           <PapSpeedDial
@@ -81,7 +81,7 @@ export const ToolbarContainer = (): JSX.Element => {
           ></PapSpeedDial>
         </>
       }
-      right={
+      end={
         <>
           <PapSideBar
             icon="pi-home"

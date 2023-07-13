@@ -19,6 +19,14 @@ export const getPlayerById = async (
   return await playerDao.getPlayerById(roomCode, playerId)
 }
 
+export const markPlayerSubmittedPapelitos = async (
+  roomCode: string,
+  playerId: string
+): Promise<void> => {
+  console.log(`markPlayerSubmittedPapelitos ${playerId}`)
+  await playerDao.markPlayerSubmittedPapelitos(roomCode, playerId)
+}
+
 export const removePlayerById = async (
   roomCode: string,
   playerId: string

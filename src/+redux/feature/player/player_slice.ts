@@ -82,6 +82,15 @@ export const getPlayerById = createAsyncThunk(
     return await playerService.getPlayerById(data.roomId, data.playerId)
   }
 )
+export const markPlayerSubmittedPapelitos = createAsyncThunk(
+  `${PLAYER_FEATURE_KEY}/updatePlayerById`,
+  async (data: { roomId: string; playerId: string }, thunkAPI) => {
+    return await playerService.markPlayerSubmittedPapelitos(
+      data.roomId,
+      data.playerId
+    )
+  }
+)
 export const removePlayerById = createAsyncThunk(
   `${PLAYER_FEATURE_KEY}/removePlayerById`,
   async (data: { roomId: string; playerId: string }, thunkAPI) => {
