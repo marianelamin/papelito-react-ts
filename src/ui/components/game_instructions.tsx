@@ -1,6 +1,6 @@
 export const Instructions = (): JSX.Element => {
   return (
-    <div className="card">
+    <div>
       <p></p>
       <ol>
         <li>Write papelitos</li>
