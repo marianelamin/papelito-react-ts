@@ -8,7 +8,7 @@ export const HOME_PATH = '/'
 export const ROOM_PATH = '/room'
 
 const AppRoutes = () => {
-  const { isAuthenticated } = useIsAuthenticated()
+  const { isAuthenticated, loading } = useIsAuthenticated()
   /** @todo: figure out why this approach is not working, leave open fo now and handle redirecting on room view instead */
   // const [defaultProtectedRouteProps, setDefaultProtectedRouteProps] = useState<
   //   Omit<ProtectedRouteProps, 'outlet'>
@@ -20,6 +20,7 @@ const AppRoutes = () => {
   const navigate = useNavigate()
   /** Terribe hack so goes back to room in case user is authenticated */
   useEffect(() => {
+    console.log('loading: ', loading, '\n\n')
     console.log('verifyinggg... \n\n\n\n', isAuthenticated, '\n\n')
     !isAuthenticated ? navigate(HOME_PATH) : navigate(ROOM_PATH)
     return () => {}
@@ -31,7 +32,7 @@ const AppRoutes = () => {
         path={ROOM_PATH}
         element={
           <Suspense fallback={<h1>...</h1>}>
-            <lazyViews.room />
+            {loading ? <lazyViews.loading /> : <lazyViews.room />}
           </Suspense>
         }
       />
@@ -40,7 +41,7 @@ const AppRoutes = () => {
         path={HOME_PATH}
         element={
           <Suspense fallback={<h1>...</h1>}>
-            <lazyViews.home />
+            {loading ? <lazyViews.loading /> : <lazyViews.home />}
           </Suspense>
         }
       />
