@@ -110,10 +110,6 @@ export const PapelitoGame = () => {
             onDrawPapelito={drawPapelito}
             onGuessPapelito={guessPapelito}
           ></PapelitoBowlComponent>
-          <h3>
-            Bowl State | Not for now, but for when the game actually starts
-          </h3>
-          <pre>{JSON.stringify(bowlState, null, 2)}</pre>
         </div>
       )}
     </div>
