@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react'
 
 interface JoinRoomDialogProps {
   close: () => void
-  join: (playername: string, roomCode: string) => void
+  join: (playername: string, roomCode: string) => Promise<void>
 }
 export const JoinRoomDialog = (props: JoinRoomDialogProps) => {
   const { close: handleClose, join: handleJoin } = props
@@ -12,8 +12,10 @@ export const JoinRoomDialog = (props: JoinRoomDialogProps) => {
   const [roomCodeInput, setRoomCodeInput] = useState<string>('')
   const [playerNameInput, setPlayerNameInput] = useState<string>('')
 
-  const handlePrimaryButton = useCallback(() => {
-    handleJoin(playerNameInput.trim(), roomCodeInput.trim())
+  const handlePrimaryButton = useCallback(async () => {
+    setPrimaryButtonLoading(true)
+    await handleJoin(playerNameInput.trim(), roomCodeInput.trim())
+    setPrimaryButtonLoading(false)
   }, [playerNameInput, roomCodeInput])
 
   const handleChangeRoomText = useCallback((event: any) => {

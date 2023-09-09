@@ -1,6 +1,6 @@
 import { Divider } from 'primereact/divider'
 import { AddPapelitoComponent } from './add_papelito'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 
@@ -14,12 +14,13 @@ import { useAlert } from 'utilities/context/globalAlertContext'
 import { markPlayerSubmittedPapelitos } from '+redux/feature/player/player_slice'
 import { usePlayer } from 'hooks'
 
-const PapelitosComponent = () => {
+const AddPapelitosComponent = () => {
   const appDispatch = useAppDispatch()
   const { roomId, allPlayers, currentPlayer } = usePlayer()
 
   const { notifySuccessAlert } = useAlert()
 
+  const [isSendingToBowl, setIsSendingToBowl] = useState(false)
   const papelitos = useSelector<RootState, Papelito[]>(
     (state) => state.papelito.myPapelitos
   )
@@ -33,6 +34,7 @@ const PapelitosComponent = () => {
 
   // no api calls, only on redux state
   const onSendToBowl = useCallback(async () => {
+    setIsSendingToBowl(true)
     console.log({ currentPlayer })
     if (currentPlayer?.id) {
       await appDispatch(addToBowl(papelitos)).unwrap()
@@ -42,6 +44,7 @@ const PapelitosComponent = () => {
       notifySuccessAlert({
         title: 'Papelitos added to bowl',
       })
+      setIsSendingToBowl(false)
       appDispatch(papelitoSlice.actions.clearMyPapelitos())
     }
   }, [papelitos])
@@ -82,6 +85,7 @@ const PapelitosComponent = () => {
               style={{ alignSelf: 'baseline' }}
               disabled={papelitos.length < 3}
               icon="pi pi-send"
+              loading={isSendingToBowl}
               onClick={onSendToBowl}
             ></PapButton>
           </div>
@@ -91,4 +95,4 @@ const PapelitosComponent = () => {
   )
 }
 
-export { PapelitosComponent }
+export { AddPapelitosComponent as PapelitosComponent }

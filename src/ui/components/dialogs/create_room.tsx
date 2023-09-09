@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react'
 
 interface CreateRoomDialogProps {
   close: () => void
-  create: (playername: string) => void
+  create: (playername: string) => Promise<void>
 }
 export const CreateRoomDialog = (props: CreateRoomDialogProps) => {
   const { close: handleClose, create: handleCreate } = props
@@ -11,8 +11,10 @@ export const CreateRoomDialog = (props: CreateRoomDialogProps) => {
   const [playerNameInput, setPlayerNameInput] = useState<string>('')
   const [displayBasic, setDisplayBasic] = useState(false)
 
-  const handlePrimaryButton = useCallback(() => {
-    handleCreate(playerNameInput.trim())
+  const handlePrimaryButton = useCallback(async () => {
+    setPrimaryButtonLoading(true)
+    await handleCreate(playerNameInput.trim())
+    setPrimaryButtonLoading(false)
   }, [playerNameInput])
 
   const handleChangePlayerText = useCallback((event: any) => {

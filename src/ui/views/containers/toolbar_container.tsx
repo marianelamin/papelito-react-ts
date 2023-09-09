@@ -1,5 +1,4 @@
 import { Toolbar } from 'primereact/toolbar'
-import { PapelitosComponent } from 'ui/components'
 import { PapSideBar, PapSpeedDial } from 'ui/components/common'
 import { PapGameStats } from 'ui/components/game_stats'
 import { RoomDetails } from 'ui/components/room_details'
