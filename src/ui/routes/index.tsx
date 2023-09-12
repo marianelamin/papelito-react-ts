@@ -1,14 +1,14 @@
 import { Suspense, useEffect } from 'react'
 
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
-import { useIsAuthenticated } from '../../hooks'
+import { useAuth } from '../../hooks'
 import lazyViews from './lazy_views'
 
 export const HOME_PATH = '/'
 export const ROOM_PATH = '/room'
 
 const AppRoutes = () => {
-  const { isAuthenticated, loading } = useIsAuthenticated()
+  const { isAuthenticated, loading } = useAuth()
   /** @todo: figure out why this approach is not working, leave open fo now and handle redirecting on room view instead */
   // const [defaultProtectedRouteProps, setDefaultProtectedRouteProps] = useState<
   //   Omit<ProtectedRouteProps, 'outlet'>

@@ -6,7 +6,7 @@ import { RootState, useAppDispatch } from '+redux/store'
 import { getMyPlayerById } from '+redux/feature/player/player_slice'
 import { fetchRoomById } from '+redux/feature/room/room_slice'
 
-export const useIsAuthenticated = () => {
+export const useAuth = () => {
   const appDispatch = useAppDispatch()
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -15,11 +15,11 @@ export const useIsAuthenticated = () => {
   )
 
   useEffect(() => {
-    setLoading(true)
     const attemptToGetPlayerAndRoomDetails = async (
       roomId: string,
       playerId: String
     ) => {
+      setLoading(true)
       console.info(
         '- useAuth hook -\n\n',
         `roomId: ${roomId}, myPlayerId: ${playerId}`
@@ -34,13 +34,11 @@ export const useIsAuthenticated = () => {
     const { roomId, myUserId: myPlayerId } =
       PapelitoLocalStorage.getRoomAndPlayerId()
 
-    if (!roomId || !myPlayerId) {
+    if (roomId && myPlayerId) {
+      attemptToGetPlayerAndRoomDetails(roomId, myPlayerId)
+    } else {
       // todo: potentially clear local storage here
       // PapelitoLocalStorage.getRoomAndPlayerId()
-      setLoading(false)
-      return
-    } else {
-      attemptToGetPlayerAndRoomDetails(roomId, myPlayerId)
     }
 
     return () => {}
