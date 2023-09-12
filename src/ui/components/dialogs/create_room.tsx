@@ -15,6 +15,7 @@ export const CreateRoomDialog = (props: CreateRoomDialogProps) => {
     setPrimaryButtonLoading(true)
     await handleCreate(playerNameInput.trim())
     setPrimaryButtonLoading(false)
+    handleClose()
   }, [playerNameInput])
 
   const handleChangePlayerText = useCallback((event: any) => {

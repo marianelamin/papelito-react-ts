@@ -7,6 +7,7 @@ export class FirestorePlayer {
     public name: string,
     public order: number,
     public team_id: string,
+    public color_number: number,
     public has_submitted_papelitos: boolean
   ) {}
 
@@ -15,6 +16,7 @@ export class FirestorePlayer {
       item.name,
       item.order,
       item.team_id,
+      item.color_number,
       item.has_submitted_papelitos
     )
 
@@ -28,6 +30,7 @@ export class FirestorePlayer {
       player.name,
       player.order,
       player.teamId,
+      player.colorNumber,
       player.hasSubmittedPapelitos
     )
   }
@@ -37,6 +40,7 @@ export class FirestorePlayer {
       id: this.id,
       name: this.name,
       order: this.order,
+      colorNumber: this.color_number,
       teamId: this.team_id,
       hasSubmittedPapelitos: this.has_submitted_papelitos,
     }

@@ -16,6 +16,7 @@ export const JoinRoomDialog = (props: JoinRoomDialogProps) => {
     setPrimaryButtonLoading(true)
     await handleJoin(playerNameInput.trim(), roomCodeInput.trim())
     setPrimaryButtonLoading(false)
+    handleClose()
   }, [playerNameInput, roomCodeInput])
 
   const handleChangeRoomText = useCallback((event: any) => {

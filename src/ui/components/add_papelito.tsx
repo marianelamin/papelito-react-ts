@@ -75,6 +75,7 @@ const AddPapelitoComponent = () => {
         }
       ></PapInputText>
       <PapButton
+        link
         label={SAVE_PAPELITO}
         onClick={onClickSaveNewPapelito}
         disabled={papelitoText.length === 0}

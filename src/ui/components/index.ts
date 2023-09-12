@@ -1,4 +1,4 @@
-export * from './players_list'
+export * from './players'
 export * from './add_papelito'
 export * from './papelito_bolw'
 export * from './papelito_unwrapped_component'
