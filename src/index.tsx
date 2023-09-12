@@ -4,10 +4,14 @@ import reportWebVitals from 'reportWebVitals'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
-// import 'primereact/resources/themes/lara-light-indigo/theme.css' //theme
-import 'primereact/resources/themes/lara-light-purple/theme.css'
+import 'primeicons/primeicons.css'
+import 'primeflex/primeflex.css'
+
 import 'primereact/resources/primereact.min.css' //core css
-import 'primeicons/primeicons.css' //icons
+import 'primereact/resources/themes/lara-light-indigo/theme.css'
+// import 'primereact/resources/themes/lara-dark-indigo/theme.css'
+
+import { PrimeReactProvider } from 'primereact/api'
 
 import store from './+redux/store'
 import AppRoutes from './ui/routes'
@@ -19,7 +23,9 @@ root.render(
   <StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <AppRoutes />
+        <PrimeReactProvider>
+          <AppRoutes />
+        </PrimeReactProvider>
       </BrowserRouter>
     </Provider>
   </StrictMode>
