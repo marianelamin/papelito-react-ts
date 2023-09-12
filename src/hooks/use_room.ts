@@ -29,7 +29,7 @@ export const useRoom = () => {
           }
         },
         (error: Error) => {
-          console.error('aqui esta el error pues: \n', error)
+          console.error('aqui esta el error pues: \n', { error })
           appDispatch(roomSlice.actions.setRoomWithError(error))
         },
         () => {

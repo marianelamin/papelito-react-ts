@@ -12,8 +12,8 @@ import { RoomState } from '+redux/feature/room/room_slice'
 import { BowlState } from '+redux/feature/bowl/bowl_slice'
 
 import { usePlayer } from 'hooks'
-import { PapButton } from './common'
-import { Instructions } from './game_instructions'
+import { PapButton } from '../../components/common'
+import { Instructions } from '../../components/game_instructions'
 
 const viewStyle = { minHeight: '250px' }
 
@@ -26,16 +26,15 @@ const items = [
   },
 ]
 
-export const PapelitoGame = () => {
+export const PapelitoLeftPanel = (): JSX.Element => {
   const { currentPlayer } = usePlayer()
-
-  const [activeIndex, setActiveIndex] = useState(1)
 
   const hasSubmittedPapelitos = useMemo(
     () => currentPlayer?.hasSubmittedPapelitos,
     [currentPlayer?.hasSubmittedPapelitos]
   )
 
+  const [activeIndex, setActiveIndex] = useState(1)
   const goToNext = useCallback(() => setActiveIndex((prev) => prev + 1), [])
   const goToBack = useCallback(() => setActiveIndex((prev) => prev - 1), [])
   const goToStartGame = useCallback(() => setActiveIndex(-1), [])
@@ -63,13 +62,6 @@ export const PapelitoGame = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'end' }}>
-        <p>
-          <span>Hello </span>
-          <b>{currentPlayer?.name}</b>
-        </p>
-      </div>
-
       {!hasSubmittedPapelitos && (
         <div>
           <Steps model={items} activeIndex={activeIndex} />
