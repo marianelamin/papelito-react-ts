@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { Papelito, Player } from 'papelito-models'
+import { GameSettings, Papelito, Player } from 'papelito-models'
 import { PapButton, PapInputText, PapTypography } from './common'
 import { RootState, useAppDispatch } from '+redux/store'
 import { papelitoSlice } from '+redux/feature/papelito/papelito_slice'
@@ -22,29 +22,28 @@ const AddPapelitoComponent = () => {
     (state) => state.currentPlayer.player
   )
 
+  const gameSettings = useSelector<RootState, GameSettings>(
+    (state) => state.room.room?.settings ?? new GameSettings()
+  )
+
   const addToList = useCallback(
     (text: string) => {
-      let generatedId = new Date().valueOf()
-      let newPap
+      const generatedId = new Date().valueOf()
       if (text !== '') {
-        newPap = new Papelito(
-          generatedId + '',
-          text,
-          false,
-          false,
-          currentPlayer
+        appDispatch(
+          papelitoSlice.actions.addToMyPapelitos(
+            new Papelito(generatedId + '', text, false, false, currentPlayer)
+          )
         )
-
-        appDispatch(papelitoSlice.actions.addToMyPapelitos(newPap))
       }
       setPapelitoText(initialText)
     },
     [appDispatch, currentPlayer, papelitoSlice.actions.addToMyPapelitos]
   )
 
-  const onChangeText = (event: any) => {
+  const onChangeText = useCallback((event: any) => {
     setPapelitoText(event.target.value)
-  }
+  }, [])
 
   const onEnterText = useCallback(
     (event: any) => event.key === 'Enter' && addToList(papelitoText),
@@ -57,13 +56,7 @@ const AddPapelitoComponent = () => {
   )
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'baseline',
-        gap: '8px',
-      }}
-    >
+    <div className="flex gap-1 align-items-baseline">
       <PapInputText
         id="addPapelitoField"
         label={PAPELITO_LABEL}
@@ -71,9 +64,10 @@ const AddPapelitoComponent = () => {
         onValueChange={onChangeText}
         onKeyDown={onEnterText}
         disabled={
-          currentPlayer?.hasSubmittedPapelitos || papelitos.length === 3
+          currentPlayer?.hasSubmittedPapelitos ||
+          papelitos.length === gameSettings.papelitoPerPlayer
         }
-      ></PapInputText>
+      />
       <PapButton
         link
         label={SAVE_PAPELITO}

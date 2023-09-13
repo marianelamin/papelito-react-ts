@@ -7,15 +7,8 @@ import { removePlayerById } from '+redux/feature/player/player_slice'
 import { useAppDispatch } from '+redux/store'
 
 export const Players = (): JSX.Element => {
-  const { currentPlayer, roomId } = usePlayer()
+  const { allPlayers, roomId } = usePlayer()
   const appDispatch = useAppDispatch()
-
-  // todo: get this from a hook
-  const players = [
-    currentPlayer!,
-    { ...defaultPlayer, id: 'test1', name: 'test1' },
-    { ...defaultPlayer, id: 'test2', name: 'test2' },
-  ].filter((p) => p !== undefined)
 
   const removePlayer = useCallback(
     (player: Player) => async () => {
@@ -29,33 +22,33 @@ export const Players = (): JSX.Element => {
     [appDispatch, roomId]
   )
 
-  const playerTemplate = (item: Player): JSX.Element => {
+  const playerTemplate = useCallback((item: Player): JSX.Element => {
     return (
       <div className="col-12">
         <div className="flex flex-column flex-1 gap-1 xl:mr-8">
           <div className="flex flex-1 align-items-center gap-2 xl:mr-8">
             <i
-              className="pi pi-user "
+              className="pi pi-user"
               style={{ color: getColor(item.colorNumber) }}
-            ></i>
+            />
 
             <span className="font-bold">{item.name}</span>
 
-            {!item.hasSubmittedPapelitos && (
-              <Tooltip
-                target=".enter-papelitos-warning"
-                content="Need to enter papelitos"
-                position={'top'}
-              />
-            )}
+            <Tooltip
+              target=".enter-papelitos-warning"
+              content={
+                item.hasSubmittedPapelitos
+                  ? 'Papelitos submitted'
+                  : 'Need to enter papelitos'
+              }
+              position={'top'}
+            />
             <i
               className={`enter-papelitos-warning pi ${
-                item.hasSubmittedPapelitos
-                  ? 'pi-circle-fill'
-                  : 'pi-exclamation-circle'
+                item.hasSubmittedPapelitos ? 'pi-file' : 'pi-exclamation-circle'
               }`}
               style={{ color: item.hasSubmittedPapelitos ? 'green' : 'orange' }}
-            ></i>
+            />
 
             <Tooltip
               target=".player-internet-connection"
@@ -88,9 +81,13 @@ export const Players = (): JSX.Element => {
         </div>
       </div>
     )
-  }
+  }, [])
 
   return (
-    <DataView value={players} itemTemplate={playerTemplate} header="Players" />
+    <DataView
+      value={allPlayers}
+      itemTemplate={playerTemplate}
+      header="Players"
+    />
   )
 }

@@ -16,8 +16,7 @@ import { usePlayer } from 'hooks'
 
 const AddPapelitosComponent = () => {
   const appDispatch = useAppDispatch()
-  const { roomId, allPlayers, currentPlayer } = usePlayer()
-
+  const { roomId, currentPlayer } = usePlayer()
   const { notifySuccessAlert } = useAlert()
 
   const [isSendingToBowl, setIsSendingToBowl] = useState(false)
@@ -51,6 +50,7 @@ const AddPapelitosComponent = () => {
 
   const removePapelitoTemplate = (papelito: Papelito) => (
     <PapButton
+      link
       severity={'secondary'}
       icon="pi pi-trash"
       tooltip="Remove"
@@ -60,36 +60,25 @@ const AddPapelitosComponent = () => {
   )
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        gap: '8px',
-        padding: '1rem',
-      }}
-    >
+    <div className="flex gap-1 p-1">
       {currentPlayer?.hasSubmittedPapelitos ? (
         <p>You have submitted your papelitos</p>
       ) : (
-        <>
+        <div className="flex gap-3">
           <AddPapelitoComponent />
-
-          <Divider layout="vertical" />
-
-          <div style={{ display: 'flex' }}>
-            <DataTable value={papelitos}>
-              <Column field="text"></Column>
-              <Column field="remove" body={removePapelitoTemplate}></Column>
-            </DataTable>
-            <Divider layout="vertical" />
-            <PapButton
-              style={{ alignSelf: 'baseline' }}
-              disabled={papelitos.length < 3}
-              icon="pi pi-send"
-              loading={isSendingToBowl}
-              onClick={onSendToBowl}
-            ></PapButton>
-          </div>
-        </>
+          <DataTable value={papelitos}>
+            <Column field="text" />
+            <Column field="remove" body={removePapelitoTemplate} />
+          </DataTable>
+          <PapButton
+            tooltip="Put in Bowl"
+            className="align-items-center"
+            disabled={papelitos.length < 3}
+            icon="pi pi-send"
+            loading={isSendingToBowl}
+            onClick={onSendToBowl}
+          />
+        </div>
       )}
     </div>
   )

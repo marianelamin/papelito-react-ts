@@ -8,11 +8,11 @@ const RoomContainer: FC = () => {
   return (
     <>
       <ToolbarContainer />
-      <div style={{ display: 'flex' }}>
-        <div style={{ flex: 1, padding: '0.5rem' }}>
+      <div>
+        <div>
           <PapelitoLeftPanel />
         </div>
-        <div style={{ padding: '0.5rem' }}>
+        <div>
           <PapelitoRightPanel />
         </div>
       </div>

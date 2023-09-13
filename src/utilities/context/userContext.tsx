@@ -24,6 +24,7 @@ export function useUser(): User {
 interface UserContextProviderProps {
   children: ReactNode
 }
+
 export function UserContextProvider(
   props: UserContextProviderProps
 ): JSX.Element {

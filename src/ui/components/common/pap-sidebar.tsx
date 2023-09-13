@@ -4,6 +4,7 @@ import { CSSProperties, useState, ReactNode } from 'react'
 import { PapButton } from '.'
 
 export const PapSideBar = (props: {
+  tooltip?: string
   icon?: string
   position?: 'top' | 'bottom' | 'left' | 'right'
   btnStyle?: CSSProperties
@@ -11,6 +12,7 @@ export const PapSideBar = (props: {
   children?: ReactNode
 }) => {
   const {
+    tooltip,
     children,
     icon = 'pi-arrow-right',
     btnStyle,
@@ -27,7 +29,7 @@ export const PapSideBar = (props: {
         onHide={() => setVisible(false)}
         position={position}
       >
-        <div style={{ padding: '1rem' }}>{children}</div>
+        <div className="p-1">{children}</div>
       </Sidebar>
 
       <PapButton
@@ -35,6 +37,7 @@ export const PapSideBar = (props: {
         style={btnStyle}
         onClick={() => setVisible(true)}
         label={btnLabel}
+        tooltip={tooltip}
       ></PapButton>
     </>
   )
