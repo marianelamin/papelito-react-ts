@@ -32,9 +32,14 @@ export const PapelitoDisplayForGuessing = (): JSX.Element => {
   )
 }
 
-export const PapelitoDisplayForExplaining = (
+interface PapelitoDisplayForExplainingProps {
   papelito: Papelito
+}
+
+export const PapelitoDisplayForExplaining = (
+  props: PapelitoDisplayForExplainingProps
 ): JSX.Element => {
+  const { papelito } = props
   const [isDrawDisabled, setIsDrawDisabled] = useState<boolean>(false)
   const [isGuessDisabled, setIsGuessDisabled] = useState<boolean>(false)
 

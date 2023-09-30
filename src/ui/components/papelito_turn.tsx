@@ -1,3 +1,4 @@
+import { Papelito } from 'papelito-models'
 import { PapReactiveKnob } from './common'
 import {
   PapelitoDisplayForExplaining,
@@ -33,13 +34,14 @@ export const PapelitoTurnComponent = (props: PapelitoTurnComponentIO) => {
       <div>
         <PapelitoDisplayForGuessing />
         <PapelitoDisplayForExplaining
-          id={''}
-          text={'la casa es blanca'}
-          guessed={false}
-          inBowl={false}
+          papelito={{
+            id: '',
+            text: 'la casa es blanca',
+            inBowl: false,
+            guessed: false,
+          }}
         />
       </div>
-      <hr />
     </div>
   )
 }
