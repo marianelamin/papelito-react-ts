@@ -10,16 +10,17 @@ import {
   teamReducer,
   roomReducer,
   bowlReducer,
-  // gameReducer,
+  gameReducer,
 } from './index'
 
 const rootReducer = combineReducers({
   room: roomReducer.roomSlice.reducer, // myRoomDetails
-  currentPlayer: playerReducer.playerSlice.reducer, // myPlayerDetails
-  papelito: papelitoReducer.papelitoSlice.reducer, // myPapelitosDetails
+  currentPlayer: playerReducer.playerSlice.reducer,
+  papelito: papelitoReducer.papelitoSlice.reducer,
   teams: teamReducer.teamsSlice.reducer, // myTeamDetails
   // allPlayers: teamReducer.teamsSlice.reducer, // allPlayers
-  bowl: bowlReducer.bowlSlice.reducer, // bowlDetails
+  bowl: bowlReducer.bowlSlice.reducer,
+  game: gameReducer.gameSlice.reducer,
   // activeTurn: turnsReducer.turnSlice.reducer, // shoudl contain active
   // gamestats:
 })

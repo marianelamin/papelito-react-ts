@@ -16,30 +16,41 @@ export const RoomDetails = (): JSX.Element => {
   }, [room])
 
   return (
-    <div className="card">
-      {room?.createdDate && <p>{`Room created on: ${createdDate}`}</p>}
-      <h2>{`Code: ${room?.code ?? room?.id}`}</h2>
+    <div style={{ width: '100%' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'space-evenly',
+        }}
+      >
+        <div>
+          <h4> {'Settings'}</h4>
+          <p>{`Room created on: ${createdDate}`}</p>
+          <p>{`code: ${room?.code}`}</p>
+          <p>{`id: ${room?.id}`}</p>
+          <p>{`Private Room: ${room?.isPrivate ? 'Yes' : 'No'}`}</p>
+          <p>{`papelitoPerPlayer: ${room?.settings.papelitoPerPlayer}`}</p>
+          <p>{`papelitoTextLimit: ${room?.settings.papelitoTextLimit}`}</p>
+          <p>{`timerTurn: ${room?.settings.timerTurn}`}</p>
+          <p>{`rounds: ${room?.settings.rounds}`}</p>
+        </div>
 
-      <div>
-        <h4> {'Settings'}</h4>
-        <p>{`id: ${room?.id}`}</p>
-        <p>{`Private Room: ${room?.isPrivate ? 'Yes' : 'No'}`}</p>
-        <p>{`papelitoPerPlayer: ${room?.settings.papelitoPerPlayer}`}</p>
-        <p>{`papelitoTextLimit: ${room?.settings.papelitoTextLimit}`}</p>
-        <p>{`timerTurn: ${room?.settings.timerTurn}`}</p>
-        <p>{`rounds: ${room?.settings.rounds}`}</p>
+        <div>
+          <h4>{'ActiveTurn'}</h4>
+          <p>{`active: ${room?.activeTurn.active}`}</p>
+          <p>{`activePlayerId: ${room?.activeTurn.activePlayerId}`}</p>
+          <p>{`activeTeamId: ${room?.activeTurn.activeTeamId}`}</p>
+          <p>{`guessedPapelitos: ${room?.activeTurn.guessedPapelitos}`}</p>
+          <p>{`timerCount: ${room?.activeTurn.timerCount}`}</p>
+          <p>{`round: ${room?.round}`}</p>
+        </div>
 
-        <h4>{'ActiveTurn'}</h4>
-        <p>{`active: ${room?.activeTurn.active}`}</p>
-        <p>{`activePlayerId: ${room?.activeTurn.activePlayerId}`}</p>
-        <p>{`activeTeamId: ${room?.activeTurn.activeTeamId}`}</p>
-        <p>{`guessedPapelitos: ${room?.activeTurn.guessedPapelitos}`}</p>
-        <p>{`timerCount: ${room?.activeTurn.timerCount}`}</p>
-        <p>{`round: ${room?.round}`}</p>
-
-        <pre style={{ display: 'flex', background: 'lightgray' }}>
-          {JSON.stringify(room, null, 2)}
-        </pre>
+        <div>
+          <pre style={{ display: 'flex', background: 'lightgray' }}>
+            {JSON.stringify(room, null, 2)}
+          </pre>
+        </div>
       </div>
     </div>
   )
