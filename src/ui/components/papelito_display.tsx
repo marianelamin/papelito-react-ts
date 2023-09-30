@@ -16,16 +16,18 @@ export const PapelitoDisplayForGuessing = (): JSX.Element => {
     <PapCard
       header={`Adivina el papelito`}
       footer={
-        <>
+        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <PapButton
             onClick={handleDispute}
             disabled={isDisputeDisabled}
             label="Dispute"
           ></PapButton>
-        </>
+        </div>
       }
     >
-      ?
+      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+        <h1>?</h1>
+      </div>
     </PapCard>
   )
 }
@@ -56,7 +58,7 @@ export const PapelitoDisplayForExplaining = (
     <PapCard
       header={`Explica el papelito`}
       footer={
-        <>
+        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <PapButton
             onClick={handleDraw}
             disabled={isDrawDisabled}
@@ -67,10 +69,12 @@ export const PapelitoDisplayForExplaining = (
             disabled={isGuessDisabled}
             label="Guessed"
           ></PapButton>
-        </>
+        </div>
       }
     >
-      {papelito.text}
+      <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+        <h1>{papelito.text}</h1>
+      </div>
     </PapCard>
   )
 }

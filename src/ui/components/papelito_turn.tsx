@@ -1,5 +1,8 @@
 import { PapReactiveKnob } from './common'
-import { PapelitoDisplayForGuessing } from './papelito_display_guessing'
+import {
+  PapelitoDisplayForExplaining,
+  PapelitoDisplayForGuessing,
+} from './papelito_display'
 import { Timer } from 'ui/components'
 
 interface PapelitoTurnComponentIO {
@@ -29,6 +32,12 @@ export const PapelitoTurnComponent = (props: PapelitoTurnComponentIO) => {
       <p>Numero de papelitos adivinados en el turno</p>
       <div>
         <PapelitoDisplayForGuessing />
+        <PapelitoDisplayForExplaining
+          id={''}
+          text={'la casa es blanca'}
+          guessed={false}
+          inBowl={false}
+        />
       </div>
       <hr />
     </div>
