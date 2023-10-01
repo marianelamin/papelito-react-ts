@@ -1,22 +1,18 @@
-import { Papelito } from 'papelito-models'
-import { PapReactiveKnob } from './common'
-import {
-  PapelitoDisplayForExplaining,
-  PapelitoDisplayForGuessing,
-} from './papelito_display'
-import { Timer } from 'ui/components'
+import { PapReactiveKnob } from './common';
+import { PapelitoDisplayForExplaining, PapelitoDisplayForGuessing } from './papelito_display';
+import { Timer } from 'ui/components';
 
 interface PapelitoTurnComponentIO {
-  bowlSize: number
-  bowlMax: number
+  bowlSize: number;
+  bowlMax: number;
 }
 
 export const PapelitoTurnComponent = (props: PapelitoTurnComponentIO) => {
-  const { bowlSize, bowlMax } = props
+  const { bowlSize, bowlMax } = props;
 
-  const hasPapelitoBeenDrawn = () => true
-  const disableDraw = () => bowlSize === 0
-  const disableGuess = () => bowlSize === 0 || !hasPapelitoBeenDrawn()
+  const hasPapelitoBeenDrawn = () => true;
+  const disableDraw = () => bowlSize === 0;
+  const disableGuess = () => bowlSize === 0 || !hasPapelitoBeenDrawn();
 
   return (
     <div>
@@ -24,11 +20,7 @@ export const PapelitoTurnComponent = (props: PapelitoTurnComponentIO) => {
 
       <div>{`Le toca a: <INSERTE NOMBRE DEL EXPLICADOR jajaja>`}</div>
       <p>Numero de papelitos en el bowl</p>
-      <PapReactiveKnob
-        label="Bowl----"
-        value={bowlSize}
-        total={bowlMax}
-      ></PapReactiveKnob>
+      <PapReactiveKnob label="Bowl----" value={bowlSize} total={bowlMax}></PapReactiveKnob>
       <hr />
       <p>Numero de papelitos adivinados en el turno</p>
       <div>
@@ -43,5 +35,5 @@ export const PapelitoTurnComponent = (props: PapelitoTurnComponentIO) => {
         />
       </div>
     </div>
-  )
-}
+  );
+};

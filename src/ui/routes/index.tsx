@@ -1,14 +1,14 @@
-import { Suspense, useEffect } from 'react'
+import { Suspense, useEffect } from 'react';
 
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
-import { useAuth } from '../../hooks'
-import lazyViews from './lazy_views'
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks';
+import lazyViews from './lazy_views';
 
-export const HOME_PATH = '/'
-export const ROOM_PATH = '/room'
+export const HOME_PATH = '/';
+export const ROOM_PATH = '/room';
 
 const AppRoutes = () => {
-  const { isAuthenticated, loading } = useAuth()
+  const { isAuthenticated, loading } = useAuth();
   /** @todo: figure out why this approach is not working, leave open fo now and handle redirecting on room view instead */
   // const [defaultProtectedRouteProps, setDefaultProtectedRouteProps] = useState<
   //   Omit<ProtectedRouteProps, 'outlet'>
@@ -17,36 +17,28 @@ const AppRoutes = () => {
   //   authenticationPath: HOME_PATH,
   // })
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   /** Terribe hack so goes back to room in case user is authenticated */
   useEffect(() => {
-    console.log('loading: ', loading, '\n\n')
-    console.log('verifyinggg... \n\n\n\n', isAuthenticated, '\n\n')
-    !isAuthenticated ? navigate(HOME_PATH) : navigate(ROOM_PATH)
-    return () => {}
-  }, [isAuthenticated])
+    console.log('loading: ', loading);
+    console.log('verifyinggg... isAuthenticated: ', isAuthenticated, '\n\n');
+    isAuthenticated ? navigate(ROOM_PATH) : navigate(HOME_PATH);
+    return () => {};
+  }, [isAuthenticated, loading]);
 
   return (
     <Routes>
       <Route
         path={ROOM_PATH}
-        element={
-          <Suspense fallback={<h1>...</h1>}>
-            {loading ? <lazyViews.loading /> : <lazyViews.room />}
-          </Suspense>
-        }
+        element={<Suspense fallback={<h1>...</h1>}>{loading ? <lazyViews.loading /> : <lazyViews.room />}</Suspense>}
       />
       <Route path={ROOM_PATH + '/*'} element={<Navigate to={ROOM_PATH} />} />
       <Route
         path={HOME_PATH}
-        element={
-          <Suspense fallback={<h1>...</h1>}>
-            {loading ? <lazyViews.loading /> : <lazyViews.home />}
-          </Suspense>
-        }
+        element={<Suspense fallback={<h1>...</h1>}>{loading ? <lazyViews.loading /> : <lazyViews.home />}</Suspense>}
       />
       <Route path="*" element={<Navigate to={HOME_PATH} />} />
     </Routes>
-  )
-}
-export default AppRoutes
+  );
+};
+export default AppRoutes;

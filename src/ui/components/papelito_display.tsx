@@ -1,27 +1,23 @@
-import { useState } from 'react'
-import { PapButton } from './common'
-import { PapCard } from './common/pap-card'
-import { Papelito } from 'papelito-models'
+import { useState } from 'react';
+import { PapButton } from './common';
+import { PapCard } from './common/pap-card';
+import { Papelito } from 'papelito-models';
 
 export const PapelitoDisplayForGuessing = (): JSX.Element => {
-  const [isDisputeDisabled, setIsDisputeDisabled] = useState<boolean>(false)
+  const [isDisputeDisabled, setIsDisputeDisabled] = useState<boolean>(false);
 
   const handleDispute = () => {
-    setIsDisputeDisabled(true)
+    setIsDisputeDisabled(true);
 
-    setIsDisputeDisabled(false)
-  }
+    setIsDisputeDisabled(false);
+  };
 
   return (
     <PapCard
       header={`Adivina el papelito`}
       footer={
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <PapButton
-            onClick={handleDispute}
-            disabled={isDisputeDisabled}
-            label="Dispute"
-          ></PapButton>
+          <PapButton onClick={handleDispute} disabled={isDisputeDisabled} label="Dispute"></PapButton>
         </div>
       }
     >
@@ -29,51 +25,41 @@ export const PapelitoDisplayForGuessing = (): JSX.Element => {
         <h1>?</h1>
       </div>
     </PapCard>
-  )
-}
+  );
+};
 
 interface PapelitoDisplayForExplainingProps {
-  papelito: Papelito
+  papelito: Papelito;
 }
 
-export const PapelitoDisplayForExplaining = (
-  props: PapelitoDisplayForExplainingProps
-): JSX.Element => {
-  const { papelito } = props
-  const [isDrawDisabled, setIsDrawDisabled] = useState<boolean>(false)
-  const [isGuessDisabled, setIsGuessDisabled] = useState<boolean>(false)
+export const PapelitoDisplayForExplaining = (props: PapelitoDisplayForExplainingProps): JSX.Element => {
+  const { papelito } = props;
+  const [isDrawDisabled, setIsDrawDisabled] = useState<boolean>(false);
+  const [isGuessDisabled, setIsGuessDisabled] = useState<boolean>(false);
 
   const handleDraw = () => {
-    setIsDrawDisabled(true)
-    setIsGuessDisabled(true)
+    setIsDrawDisabled(true);
+    setIsGuessDisabled(true);
     // todo: agarra proximo papelito
-  }
+  };
 
   const handleGuess = () => {
-    setIsGuessDisabled(true)
+    setIsGuessDisabled(true);
 
     // todo: marca el papelito como adivinado
     // await handleGuess(currentPapelitoDisplay)
 
-    setIsGuessDisabled(false)
-    setIsDrawDisabled(false)
-  }
+    setIsGuessDisabled(false);
+    setIsDrawDisabled(false);
+  };
 
   return (
     <PapCard
       header={`Explica el papelito`}
       footer={
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <PapButton
-            onClick={handleDraw}
-            disabled={isDrawDisabled}
-            label="Draw"
-          ></PapButton>
-          <PapButton
-            onClick={handleGuess}
-            disabled={isGuessDisabled}
-            label="Guessed"
-          ></PapButton>
+          <PapButton onClick={handleDraw} disabled={isDrawDisabled} label="Draw"></PapButton>
+          <PapButton onClick={handleGuess} disabled={isGuessDisabled} label="Guessed"></PapButton>
         </div>
       }
     >
@@ -81,5 +67,5 @@ export const PapelitoDisplayForExplaining = (
         <h1>{papelito.text}</h1>
       </div>
     </PapCard>
-  )
-}
+  );
+};
