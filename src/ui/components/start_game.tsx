@@ -56,6 +56,7 @@ export const StartGame = () => {
       </div>
       <div className="grid">
         <PapButton
+          disabled
           className="col-offset-3 col-6"
           icon={<i className="pi pi-play" />}
           severity={'success'}

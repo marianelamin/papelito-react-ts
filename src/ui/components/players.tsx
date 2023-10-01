@@ -1,45 +1,38 @@
-import { Player, defaultPlayer } from 'papelito-models'
-import { DataView, PapButton, Tooltip } from './common'
-import { usePlayer } from 'hooks'
-import { getColor } from '../../helpers'
-import { useCallback } from 'react'
-import { removePlayerById } from '+redux/feature/player/player_slice'
-import { useAppDispatch } from '+redux/store'
+import { Player, defaultPlayer } from 'papelito-models';
+import { DataView, PapButton, Tooltip } from './common';
+import { usePlayer } from 'hooks';
+import { getColor } from '../../helpers';
+import { useCallback } from 'react';
+import { removePlayerById } from '+redux/feature/player/player_slice';
+import { useAppDispatch } from '+redux/store';
 
 export const Players = (): JSX.Element => {
-  const { allPlayers, roomId } = usePlayer()
-  const appDispatch = useAppDispatch()
+  const { allPlayers, roomId } = usePlayer();
+  const appDispatch = useAppDispatch();
 
   const removePlayer = useCallback(
     (player: Player) => async () => {
       alert(
         `TODO: create a dialog for this\n\nYou are removing this player... if this is a mistake the player will have to re join the room, just need to provide the room code:\n\nRoom Code: ${roomId}`
-      )
-      await appDispatch(
-        removePlayerById({ roomId, playerId: player.id })
-      ).unwrap()
+      );
+      await appDispatch(removePlayerById({ roomId, playerId: player.id })).unwrap();
     },
     [appDispatch, roomId]
-  )
+  );
 
-  const playerTemplate = useCallback((item: Player): JSX.Element => {
+  const playerTemplate = (item: Player): JSX.Element => {
     return (
       <div className="col-12">
-        <div className="flex flex-column flex-1 gap-1 xl:mr-8">
-          <div className="flex flex-1 align-items-center gap-2 xl:mr-8">
-            <i
-              className="pi pi-user"
-              style={{ color: getColor(item.colorNumber) }}
-            />
+        <div className="flex flex-column flex-1 gap-1">
+          <div className="flex flex-1 align-items-center gap-2">
+            <i className="pi pi-user" style={{ color: getColor(item.colorNumber) }} />
 
             <span className="font-bold">{item.name}</span>
 
             <Tooltip
               target=".enter-papelitos-warning"
               content={
-                item.hasSubmittedPapelitos
-                  ? 'Papelitos submitted'
-                  : 'Need to enter papelitos'
+                item.hasSubmittedPapelitos ? 'Papelitos submitted' : 'Need to enter papelitos'
               }
               position={'top'}
             />
@@ -50,21 +43,10 @@ export const Players = (): JSX.Element => {
               style={{ color: item.hasSubmittedPapelitos ? 'green' : 'orange' }}
             />
 
-            <Tooltip
-              target=".player-internet-connection"
-              content="Online"
-              position={'top'}
-            />
-            <i
-              className="player-internet-connection pi pi-wifi"
-              style={{ color: 'green' }}
-            ></i>
+            <Tooltip target=".player-internet-connection" content="Online" position={'top'} />
+            <i className="player-internet-connection pi pi-wifi" style={{ color: 'green' }}></i>
 
-            <Tooltip
-              target=".player-erase-trash-action"
-              content="Erase player"
-              position={'top'}
-            />
+            <Tooltip target=".player-erase-trash-action" content="Erase player" position={'top'} />
             <PapButton
               className="player-erase-trash-action"
               link
@@ -80,14 +62,8 @@ export const Players = (): JSX.Element => {
           <span>submitted: {item.hasSubmittedPapelitos ? 'yes' : 'no'}</span>
         </div>
       </div>
-    )
-  }, [])
+    );
+  };
 
-  return (
-    <DataView
-      value={allPlayers}
-      itemTemplate={playerTemplate}
-      header="Players"
-    />
-  )
-}
+  return <DataView value={allPlayers} itemTemplate={playerTemplate} header="Players" />;
+};
