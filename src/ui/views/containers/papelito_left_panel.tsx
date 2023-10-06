@@ -26,19 +26,19 @@ const StepSections = [
     component: Instructions,
   },
   {
-    label: 'Review room settings',
+    label: 'Room',
     component: RoomDetails,
   },
   {
-    label: 'Submit papelitos',
+    label: 'Papelitos',
     component: PapelitosComponent,
   },
   {
-    label: 'Set Teams',
+    label: 'Teams',
     component: CreateTeams,
   },
   {
-    label: 'Start Game',
+    label: 'Start',
     component: StartGame,
   },
 ];

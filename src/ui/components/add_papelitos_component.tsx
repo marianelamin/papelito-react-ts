@@ -58,26 +58,30 @@ const AddPapelitosComponent = () => {
   );
 
   return (
-    <div className={'flex-auto flex justify-content-center'}>
-      {currentPlayer?.hasSubmittedPapelitos ? (
-        <p>You have submitted your papelitos</p>
-      ) : (
-        <div className="flex-auto flex justify-content-center">
-          <AddPapelitoComponent />
-          <DataTable value={papelitos}>
-            <Column field="text" />
-            <Column field="remove" body={removePapelitoTemplate} />
-          </DataTable>
-          <PapButton
-            tooltip="Put in Bowl"
-            // className="align-items-center"
-            disabled={papelitos.length < 3}
-            icon="pi pi-send"
-            loading={isSendingToBowl}
-            onClick={onSendToBowl}
-          />
-        </div>
-      )}
+    <div className={'col-12'}>
+      <div>
+        <h3 className="text-center m-0">Submit Papelitos</h3>
+      </div>
+      <div className={'flex-auto flex justify-content-center'}>
+        {currentPlayer?.hasSubmittedPapelitos ? (
+          <p>You have submitted your papelitos</p>
+        ) : (
+          <div className="flex-auto flex justify-content-center">
+            <AddPapelitoComponent />
+            <DataTable value={papelitos}>
+              <Column field="text" />
+              <Column field="remove" body={removePapelitoTemplate} />
+            </DataTable>
+            <PapButton
+              tooltip="Put in Bowl"
+              disabled={papelitos.length < 3}
+              icon="pi pi-send"
+              loading={isSendingToBowl}
+              onClick={onSendToBowl}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

@@ -16,7 +16,10 @@ export const StartGame = () => {
   }, []);
 
   return (
-    <div>
+    <div className={'col-12'}>
+      <div>
+        <h3 className="text-center m-0">Start Game</h3>
+      </div>
       <div className="grid gap-3 p-3">
         <div>
           <h4>Game settings</h4>
