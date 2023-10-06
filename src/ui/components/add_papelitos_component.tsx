@@ -62,23 +62,27 @@ const AddPapelitosComponent = () => {
       <div>
         <h3 className="text-center m-0">Submit Papelitos</h3>
       </div>
-      <div className={'flex-auto flex justify-content-center'}>
+      <div className="gap-3 p-3">
         {currentPlayer?.hasSubmittedPapelitos ? (
           <p>You have submitted your papelitos</p>
         ) : (
-          <div className="flex-auto flex justify-content-center">
-            <AddPapelitoComponent />
-            <DataTable value={papelitos}>
-              <Column field="text" />
-              <Column field="remove" body={removePapelitoTemplate} />
-            </DataTable>
-            <PapButton
-              tooltip="Put in Bowl"
-              disabled={papelitos.length < 3}
-              icon="pi pi-send"
-              loading={isSendingToBowl}
-              onClick={onSendToBowl}
-            />
+          <div className="grid gap-3 p-3">
+            <div className="md:col-6">
+              <AddPapelitoComponent />
+            </div>
+            <div className="md:col-6 grid">
+              <DataTable value={papelitos}>
+                <Column field="text" />
+                <Column field="remove" body={removePapelitoTemplate} />
+              </DataTable>
+              <PapButton
+                tooltip="Put in Bowl"
+                disabled={papelitos.length < 3}
+                icon="pi pi-send"
+                loading={isSendingToBowl}
+                onClick={onSendToBowl}
+              />
+            </div>
           </div>
         )}
       </div>
