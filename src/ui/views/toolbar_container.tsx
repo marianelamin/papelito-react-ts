@@ -1,3 +1,4 @@
+import React, { useCallback } from 'react'
 import { Toolbar } from 'primereact/toolbar'
 import { PapButton, PapSideBar } from 'ui/components/common'
 import { PapGameStats } from 'ui/components/game_stats'
@@ -8,7 +9,6 @@ import { useAppDispatch } from '+redux/store'
 import { exitRoom } from '+redux/feature/room/room_slice'
 
 import { useAlert } from 'utilities/context/globalAlertContext'
-import { useCallback } from 'react'
 import { useUser } from 'utilities/context/userContext'
 import { Players } from 'ui/components'
 export const ToolbarContainer = (): JSX.Element => {
@@ -17,11 +17,11 @@ export const ToolbarContainer = (): JSX.Element => {
   const {
     notifyInfoAlert: enqueueInfoAlert,
     notifySuccessAlert: enqueueSuccessAlert,
-    notifyErrorAlert: enqueueErrorAlert,
+    notifyErrorAlert: enqueueErrorAlert
   } = useAlert()
   const { roomId } = useUser()
 
-  const leaveRoom = async () => {
+  const leaveRoom = async (): Promise<void> => {
     await appDispatch(exitRoom()).unwrap()
     navigate('/home')
   }
@@ -29,13 +29,20 @@ export const ToolbarContainer = (): JSX.Element => {
   const handleLeaveRoom = useCallback(() => {
     enqueueInfoAlert({
       title: 'Leaving',
-      text: 'Leaving Room....',
+      text: 'Leaving Room....'
     })
     alert(
       `TODO: create a dialog for this\n\nYou are leaving the room... if this is a mistake you will have to re join the room. Just need to provide the room code:\n\nRoom Code: ${roomId}`
     )
     setTimeout(() => {
       leaveRoom()
+        .then(() => {
+          enqueueSuccessAlert({ title: 'Comeback soon' })
+        })
+        .catch((err) => {
+          console.error({ err })
+          enqueueErrorAlert({ title: 'No se logro' })
+        })
     }, 1000)
   }, [enqueueInfoAlert, leaveRoom])
 

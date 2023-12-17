@@ -1,19 +1,19 @@
-import { FC } from 'react'
+import React from 'react'
 
 import { ToolbarContainer } from './toolbar_container'
-import { PapelitoLeftPanel } from './papelito_left_panel'
-import { PapelitoRightPanel } from './papelito_right_panel'
+import { RoomSetup } from './room_setup'
+import { Players } from 'ui/components'
 
-const RoomContainer: FC = () => {
+const RoomContainer: React.FC = () => {
   return (
     <>
       <ToolbarContainer />
       <div>
         <div>
-          <PapelitoLeftPanel />
+          <RoomSetup />
         </div>
         <div>
-          <PapelitoRightPanel />
+          <Players />
         </div>
       </div>
       <div style={{ backgroundColor: 'gainsboro' }}> footer </div>

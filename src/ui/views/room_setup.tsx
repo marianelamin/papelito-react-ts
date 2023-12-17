@@ -1,61 +1,67 @@
-import { useCallback, useState } from 'react';
-import { Steps } from 'primereact/steps';
+import React, { useCallback, useState } from 'react'
+import { Steps } from 'primereact/steps'
 
-import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux'
 
-import { PapelitosComponent, Instructions, RoomDetails, Game } from 'ui/components';
+import { PapelitosComponent, Instructions, RoomDetails, Game } from 'ui/components'
 
-import { RootState } from '+redux/store';
-import { GameState } from '+redux/feature/game/game_slice';
+import { type RootState } from '+redux/store'
+import { type GameState } from '+redux/feature/game/game_slice'
 
-import { PapButton } from '../../components/common';
-import { CreateTeams } from 'ui/components/create_teams';
-import { StartGame } from 'ui/components/start_game';
+import { PapButton } from '../components/common'
+import { CreateTeams } from 'ui/components/create_teams'
+import { StartGame } from 'ui/components/start_game'
 
 const viewStyle = {
   minHeight: '350px',
   paddingTop: '1rem',
   alignItems: 'baseline',
   display: 'flex',
-  flexWwrap: 'nowrap',
-};
+  flexWwrap: 'nowrap'
+}
 
 const StepSections = [
   {
     label: 'Instructions',
-    component: Instructions,
+    component: Instructions
   },
   {
     label: 'Room',
-    component: RoomDetails,
+    component: RoomDetails
   },
   {
     label: 'Papelitos',
-    component: PapelitosComponent,
+    component: PapelitosComponent
   },
   {
     label: 'Teams',
-    component: CreateTeams,
+    component: CreateTeams
   },
   {
     label: 'Start',
-    component: StartGame,
-  },
-];
+    component: StartGame
+  }
+]
 
-export const PapelitoLeftPanel = (): JSX.Element => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const goToNext = useCallback(() => setActiveIndex((prev) => prev + 1), []);
-  const goToBack = useCallback(() => setActiveIndex((prev) => prev - 1), []);
+export const RoomSetup = (): JSX.Element => {
+  const [activeIndex, setActiveIndex] = useState(0)
+  const goToNext = useCallback(() => {
+    setActiveIndex((prev) => prev + 1)
+  }, [])
+  const goToBack = useCallback(() => {
+    setActiveIndex((prev) => prev - 1)
+  }, [])
 
-  const game = useSelector<RootState, GameState>((state) => state.game);
+  const game = useSelector<RootState, GameState>((state) => state.game)
 
   return !game.isGameStarted ? (
     <div style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
       <Steps
         model={StepSections.map((e) => ({ label: e.label }))}
         activeIndex={activeIndex}
-        onSelect={(e) => setActiveIndex(e.index)}
+        onSelect={(e) => {
+          setActiveIndex(e.index)
+        }}
         readOnly={false}
       />
 
@@ -82,10 +88,10 @@ export const PapelitoLeftPanel = (): JSX.Element => {
               </div>
             </>
           )
-        );
+        )
       })}
     </div>
   ) : (
     <Game />
-  );
-};
+  )
+}
