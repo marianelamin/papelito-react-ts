@@ -5,7 +5,7 @@ import { Turn } from 'papelito-models/turn'
 export class FirestoreRoom {
   id: string = '-1'
 
-  constructor(
+  constructor (
     public code: string,
     public password: string,
     public is_private: boolean,
@@ -24,8 +24,8 @@ export class FirestoreRoom {
     public created_date: string
   ) {}
 
-  static clone(item: FirestoreRoom): FirestoreRoom {
-    let c = new FirestoreRoom(
+  static clone (item: FirestoreRoom): FirestoreRoom {
+    const c = new FirestoreRoom(
       item.code,
       item.password,
       item.is_private,
@@ -46,7 +46,7 @@ export class FirestoreRoom {
     return c
   }
 
-  toRoom(): Room {
+  toRoom (): Room {
     return new Room(
       this.id,
       this.code,
@@ -70,7 +70,7 @@ export class FirestoreRoom {
     )
   }
 
-  static fromRoom(room: Room): FirestoreRoom {
+  static fromRoom (room: Room): FirestoreRoom {
     return new FirestoreRoom(
       room.code,
       room.password,

@@ -1,8 +1,8 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
-import { AppDispatch, RootState } from '+redux/store'
+import { type AppDispatch, type RootState } from 'store-redux/store'
 import { teamService } from 'services'
-import { Player, Team } from 'papelito-models'
+import { type Player, type Team } from 'papelito-models'
 
 const TEAMS_FEATURE_KEY: string = 'teams'
 
@@ -19,7 +19,7 @@ const initialState: TeamsState = {
   loading: false,
   loaded: false,
   allTeams: [],
-  allPlayers: [],
+  allPlayers: []
 }
 
 export const teamsSlice = createSlice({
@@ -36,8 +36,8 @@ export const teamsSlice = createSlice({
       state.allPlayers = action.payload
     },
     addPlayerToTeam: (state, action: PayloadAction<any>) => {
-      let teamId: string = action.payload.teamId
-      let player: Player = action.payload.player
+      const teamId: string = action.payload.teamId
+      const player: Player = action.payload.player
 
       state.allTeams.forEach((team) => {
         if (team.id == teamId) {
@@ -56,30 +56,30 @@ export const teamsSlice = createSlice({
         }
         return team
       })
-    },
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchAllPlayers.fulfilled, (state, action) => {
       state.loaded = true
       console.log('extra reducers action payload', action.payload)
     })
-  },
+  }
 })
 
 export const fetchAllPlayers = createAsyncThunk<
-  void,
-  void,
-  {
-    dispatch: AppDispatch
-    state: RootState
-  }
+void,
+void,
+{
+  dispatch: AppDispatch
+  state: RootState
+}
 >(`${TEAMS_FEATURE_KEY}/fetchAllPlayers`, async (data, thunkApi) => {
   // ✅ Now we can use the text value and send it to the server
-  let state: RootState = thunkApi.getState()
-  console.log(`Peeking at state before:`, state)
-  const players: Player[] = [] //await teamsService.getAllPlayers(state.room.roomId)
+  const state: RootState = thunkApi.getState()
+  console.log('Peeking at state before:', state)
+  const players: Player[] = [] // await teamsService.getAllPlayers(state.room.roomId)
   thunkApi.dispatch(teamsSlice.actions.setAllPlayers(players))
-  console.log(`Peeking at state after:`, state)
+  console.log('Peeking at state after:', state)
 })
 
 export const {} = teamsSlice.actions

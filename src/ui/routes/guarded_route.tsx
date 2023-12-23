@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom'
 
-export type ProtectedRouteProps = {
+export interface ProtectedRouteProps {
   isAuthenticated: boolean
   authenticationPath: string
   outlet: JSX.Element
@@ -9,7 +9,7 @@ export type ProtectedRouteProps = {
 export const ProtectedRoute = ({
   isAuthenticated,
   authenticationPath,
-  outlet,
+  outlet
 }: ProtectedRouteProps) => {
   console.log('path:', authenticationPath, '\nis-auth?', isAuthenticated)
 

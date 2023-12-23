@@ -15,7 +15,7 @@ const availableColors = [
   'purple',
   'violet',
   'brown',
-  'gray',
+  'gray'
 ]
 
 export const getColor = (index: number) => {

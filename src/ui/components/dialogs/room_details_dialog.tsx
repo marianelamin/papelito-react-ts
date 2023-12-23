@@ -13,7 +13,7 @@ export const RoomDetailsDialog = (props: RoomDetailsDialogProps) => {
       visible
       closable
       closeOnEscape
-      onVisibleChange={() => close()}
+      onVisibleChange={() => { close() }}
     ></PapDialog>
   )
 }

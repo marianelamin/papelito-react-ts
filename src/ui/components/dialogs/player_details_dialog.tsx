@@ -14,7 +14,7 @@ export const PlayerDetailsDialog = (props: PlayerDetailsDialogProps) => {
       visible
       closable
       closeOnEscape
-      onVisibleChange={() => close()}
+      onVisibleChange={() => { close() }}
     >
       <div className={'card'}>
         <p>Name: {user?.name}</p>

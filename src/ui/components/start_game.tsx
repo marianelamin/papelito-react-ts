@@ -1,19 +1,19 @@
-import { useCallback, useMemo } from 'react';
-import { PapButton } from './common';
-import { usePlayer } from 'hooks';
+import { useCallback, useMemo } from 'react'
+import { PapButton } from './common'
+import { usePlayer } from 'hooks'
 
 export const StartGame = () => {
-  const { currentPlayer } = usePlayer();
+  const { currentPlayer } = usePlayer()
 
   const hasSubmittedPapelitos = useMemo(
     () => currentPlayer?.hasSubmittedPapelitos,
     [currentPlayer?.hasSubmittedPapelitos]
-  );
+  )
 
   const goToStartGame = useCallback(() => {
     // todo: Make a call to api to say we started the game
-    console.log('Make a call to api to say we started the game');
-  }, []);
+    console.log('Make a call to api to say we started the game')
+  }, [])
 
   return (
     <div className={'col-12'}>
@@ -68,5 +68,5 @@ export const StartGame = () => {
         />
       </div>
     </div>
-  );
-};
+  )
+}

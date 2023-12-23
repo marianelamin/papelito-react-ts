@@ -1,136 +1,125 @@
-import React, { FC, useCallback, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React, { type FC, useCallback, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
-import { RootState, useAppDispatch } from '+redux/store';
-import { roomSlice } from '+redux/feature/room/room_slice';
-import { playerSlice } from '+redux/feature/player/player_slice';
-import { PapelitoLocalStorage } from 'local-storage';
+import { type RootState, useAppDispatch } from 'store-redux/store'
+import { roomSlice } from 'store-redux/feature/room/room_slice'
+import { playerSlice } from 'store-redux/feature/player/player_slice'
+import { PapelitoLocalStorage } from 'local-storage'
 
-import * as roomService from '../../services/room_service';
+import * as roomService from '../../services/room_service'
 
-import { PapButton, PapDivider } from 'ui/components/common';
-import { useAlert } from 'utilities/context/globalAlertContext';
-import { ROOM_PATH } from 'ui/routes';
+import { PapButton, PapDivider } from 'ui/components/common'
+import { useAlert } from 'utilities/context/globalAlertContext'
+import { ROOM_PATH } from 'ui/routes'
 import {
   CREATE_ROOM_DIALOG,
   JOIN_ROOM_DIALOG,
-  useGlobalDialog,
-} from 'utilities/context/globalDialogContext';
+  useGlobalDialog
+} from 'utilities/context/globalDialogContext'
 
 const HomeContainer: FC = () => {
-  const appDispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { notifyErrorAlert } = useAlert();
-  const { showModal, hideModal } = useGlobalDialog();
+  const appDispatch = useAppDispatch()
+  const navigate = useNavigate()
+  const { notifyErrorAlert } = useAlert()
+  const { showModal, hideModal } = useGlobalDialog()
 
   // store state
-  const room = useSelector((state: RootState) => state.room);
+  const room = useSelector((state: RootState) => state.room)
 
   // local state
-  const [roomCodeInput, setRoomCodeInput] = useState<string>('');
-  const [playerNameInput, setPlayerNameInput] = useState<string>('');
-  const [displayBasic, setDisplayBasic] = useState(false);
-  const [hideCodeInputText, setHideCodeInputText] = useState(false);
-  const [showClassError, setShowClassError] = useState(false);
-
-  const handleChangeRoomText = useCallback((event: any) => {
-    setRoomCodeInput(event.target.value.trim());
-    setShowClassError(false);
-  }, []);
-
-  const handleChangePlayerText = useCallback((event: any) => {
-    setPlayerNameInput(event.target.value.trim());
-    setShowClassError(false);
-  }, []);
+  const [roomCodeInput, setRoomCodeInput] = useState<string>('')
+  const [playerNameInput, setPlayerNameInput] = useState<string>('')
+  const [displayBasic, setDisplayBasic] = useState(false)
+  const [showClassError, setShowClassError] = useState(false)
 
   const onShowJoinDialog = useCallback(() => {
-    showModal(JOIN_ROOM_DIALOG, { join: joinRoom, close: hideModal });
-  }, []);
+    showModal(JOIN_ROOM_DIALOG, { join: joinRoom, close: hideModal })
+  }, [])
 
   const onShowCreateDialog = useCallback(() => {
-    showModal(CREATE_ROOM_DIALOG, { create: createRoom, close: hideModal });
-  }, []);
+    showModal(CREATE_ROOM_DIALOG, { create: createRoom, close: hideModal })
+  }, [])
 
   const handleHideDialog = useCallback(() => {
-    setDisplayBasic(false);
-    clearDialog();
-  }, []);
+    setDisplayBasic(false)
+    clearDialog()
+  }, [])
 
   const clearDialog = useCallback(() => {
-    setPlayerNameInput('');
-    setRoomCodeInput('');
-  }, []);
+    setPlayerNameInput('')
+    setRoomCodeInput('')
+  }, [])
 
   const closeDialogAndClearForm = useCallback(() => {
-    clearDialog();
-    handleHideDialog();
-  }, []);
+    clearDialog()
+    handleHideDialog()
+  }, [])
 
   const joinRoom = async (playerName: string, roomCode: string): Promise<void> => {
-    console.log(`Requested to join a room with id: ${roomCode}`);
+    console.log(`Requested to join a room with id: ${roomCode}`)
 
-    if (!playerName) {
+    if (playerName === '') {
       notifyErrorAlert({
         title: 'Missing info',
-        text: 'need player name',
-      });
-      return;
+        text: 'need player name'
+      })
+      return
     }
-    if (!roomCode) {
+    if (roomCode === '') {
       notifyErrorAlert({
         title: 'Missing info',
-        text: 'need room code',
-      });
-      return;
+        text: 'need room code'
+      })
+      return
     }
 
     try {
-      const res = await roomService.joinRoom(roomCode, playerName);
+      const res = await roomService.joinRoom(roomCode, playerName)
 
-      appDispatch(roomSlice.actions.setRoom(res.room));
-      appDispatch(playerSlice.actions.setCurrentPlayer(res.player));
+      appDispatch(roomSlice.actions.setRoom(res.room))
+      appDispatch(playerSlice.actions.setCurrentPlayer(res.player))
 
-      PapelitoLocalStorage.setRoomId(res.room.id);
-      PapelitoLocalStorage.setUserId(res.player.id);
-      closeDialogAndClearForm();
-      navigate(ROOM_PATH);
+      PapelitoLocalStorage.setRoomId(res.room.id)
+      PapelitoLocalStorage.setUserId(res.player.id)
+      closeDialogAndClearForm()
+      navigate(ROOM_PATH)
     } catch (error) {
-      setShowClassError(true);
+      setShowClassError(true)
       notifyErrorAlert({
         title: 'Unable to join',
-        text: 'Error joining a room',
-      });
+        text: 'Error joining a room'
+      })
     }
-  };
+  }
 
   const createRoom = useCallback(
     async (playerName: string): Promise<void> => {
-      if (!playerName) {
-        console.log('need player name');
-        return;
+      if (playerName === '') {
+        console.log('need player name')
+        return
       }
 
       try {
-        console.log({ playerName });
-        const res = await roomService.createRoom(playerName);
-        appDispatch(roomSlice.actions.setRoom(res.room));
-        appDispatch(playerSlice.actions.setCurrentPlayer(res.player));
-        PapelitoLocalStorage.setRoomId(res.room.id);
-        PapelitoLocalStorage.setUserId(res.player.id);
-        closeDialogAndClearForm();
-        navigate(ROOM_PATH);
+        console.log({ playerName })
+        const res = await roomService.createRoom(playerName)
+        appDispatch(roomSlice.actions.setRoom(res.room))
+        appDispatch(playerSlice.actions.setCurrentPlayer(res.player))
+        PapelitoLocalStorage.setRoomId(res.room.id)
+        PapelitoLocalStorage.setUserId(res.player.id)
+        closeDialogAndClearForm()
+        navigate(ROOM_PATH)
       } catch (error) {
-        console.log({ error });
-        setShowClassError(true);
+        console.log({ error })
+        setShowClassError(true)
         notifyErrorAlert({
           title: 'Unable to join',
-          text: 'Error creating a room',
-        });
+          text: 'Error creating a room'
+        })
       }
     },
     [appDispatch, notifyErrorAlert, closeDialogAndClearForm]
-  );
+  )
 
   return (
     <div style={{ textAlign: 'center' }}>
@@ -141,7 +130,7 @@ const HomeContainer: FC = () => {
           justifyContent: 'center',
           gap: '24px',
           minHeight: '300px',
-          alignItems: 'center',
+          alignItems: 'center'
         }}
       >
         <PapButton label="Join Room" icon="pi pi-external-link" onClick={onShowJoinDialog} />
@@ -154,7 +143,7 @@ const HomeContainer: FC = () => {
         <p>PAPELITO por {process.env.REACT_APP_AUTHOR}</p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default HomeContainer;
+export default HomeContainer

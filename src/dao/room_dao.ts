@@ -3,9 +3,9 @@ import { FirestoreRoom } from 'papelito-models/firestore'
 import { Room } from 'papelito-models'
 
 export const create = async (): Promise<Room> => {
-  console.log(`creating room from room dao`)
+  console.log('creating room from room dao')
 
-  let newRoom: Room = new Room()
+  const newRoom: Room = new Room()
 
   try {
     const room = await collectionsRef.addDoc(
@@ -20,7 +20,7 @@ export const create = async (): Promise<Room> => {
     await collectionsRef.updateDoc(
       collectionsRef.doc(collectionsRef.roomRef(), newRoom.id),
       {
-        id: newRoom.id,
+        id: newRoom.id
       }
     )
     console.log('successfully updated code and id')
@@ -36,7 +36,7 @@ export const getDetailsById = async (id: string): Promise<Room> => {
     const room = await collectionsRef
       .getDoc(collectionsRef.doc(collectionsRef.roomRef(), id))
       .then((doc) => {
-        let retrievedRoom = (doc.data() as FirestoreRoom).toRoom()
+        const retrievedRoom = (doc.data()!).toRoom()
         retrievedRoom.id = doc.id
         return retrievedRoom
       })
@@ -47,10 +47,10 @@ export const getDetailsById = async (id: string): Promise<Room> => {
 }
 
 export const getAll = async () => {
-  let res: Room[] = []
+  const res: Room[] = []
   const snapshot = await collectionsRef.getDocs(collectionsRef.roomRef())
   snapshot.forEach((doc) => {
-    let room = doc.data() as FirestoreRoom
+    const room = doc.data()
     room.id = doc.id
     res.push(room.toRoom())
     console.log(`${doc.id} => ${room}`)
@@ -58,8 +58,8 @@ export const getAll = async () => {
   return res
 }
 
-export const remove = (roomId: string) => {
-  return collectionsRef.deleteDoc(
+export const remove = async (roomId: string) => {
+  await collectionsRef.deleteDoc(
     collectionsRef.doc(collectionsRef.roomRef(), roomId)
   )
 }

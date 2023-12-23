@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react'
-import { GameSettings, Papelito, Player } from 'papelito-models'
+import { GameSettings, Papelito, type Player } from 'papelito-models'
 import { PapButton, PapInputText, PapTypography } from './common'
-import { RootState, useAppDispatch } from '+redux/store'
-import { papelitoSlice } from '+redux/feature/papelito/papelito_slice'
+import { type RootState, useAppDispatch } from 'store-redux/store'
+import { papelitoSlice } from 'store-redux/feature/papelito/papelito_slice'
 import { useSelector } from 'react-redux'
 
 const AddPapelitoComponent = () => {
@@ -14,9 +14,7 @@ const AddPapelitoComponent = () => {
   const initialText: string = ''
   const [papelitoText, setPapelitoText] = useState<string>(initialText)
 
-  const papelitos = useSelector<RootState, Papelito[]>(
-    (state) => state.papelito.myPapelitos
-  )
+  const papelitos = useSelector<RootState, Papelito[]>((state) => state.papelito.myPapelitos)
 
   const currentPlayer = useSelector<RootState, Player | undefined>(
     (state) => state.currentPlayer.player
@@ -51,7 +49,7 @@ const AddPapelitoComponent = () => {
   )
 
   const onClickSaveNewPapelito = useCallback(
-    () => addToList(papelitoText),
+    () => { addToList(papelitoText) },
     [addToList, papelitoText]
   )
 

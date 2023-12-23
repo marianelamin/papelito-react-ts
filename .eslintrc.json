@@ -12,6 +12,10 @@
   "rules": {
     "semi": ["error", "never"],
     "quotes": ["error", "single"],
-    "multiline-ternary": ["error", "never"]
+    "multiline-ternary": ["error", "never"],
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-uses-react": "off",
+    "space-before-function-paren": "off",
+    "@typescript-eslint/space-before-function-paren": "off"
   }
 }

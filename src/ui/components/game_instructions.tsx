@@ -12,5 +12,5 @@ export const Instructions = (): JSX.Element => {
         </ol>
       </div>
     </div>
-  );
-};
+  )
+}

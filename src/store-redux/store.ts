@@ -10,7 +10,7 @@ import {
   teamReducer,
   roomReducer,
   bowlReducer,
-  gameReducer,
+  gameReducer
 } from './index'
 
 const rootReducer = combineReducers({
@@ -20,7 +20,7 @@ const rootReducer = combineReducers({
   teams: teamReducer.teamsSlice.reducer, // myTeamDetails
   // allPlayers: teamReducer.teamsSlice.reducer, // allPlayers
   bowl: bowlReducer.bowlSlice.reducer,
-  game: gameReducer.gameSlice.reducer,
+  game: gameReducer.gameSlice.reducer
   // activeTurn: turnsReducer.turnSlice.reducer, // shoudl contain active
   // gamestats:
 })
@@ -30,7 +30,7 @@ const rootReducer = combineReducers({
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({ serializableCheck: false }).concat(thunk),
+    getDefaultMiddleware({ serializableCheck: false }).concat(thunk)
 })
 
 export type RootState = ReturnType<typeof rootReducer>

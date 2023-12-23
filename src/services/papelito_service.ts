@@ -8,7 +8,7 @@ export const fetchAllPapelitos = (roomId: string) => {
     new Papelito('12', `room es ${roomId}`),
     new Papelito('adf3', 'hola'),
     new Papelito('234', 'la cosa esta difcil 2'),
-    new Papelito('232', 'la tercera es la vencida'),
+    new Papelito('232', 'la tercera es la vencida')
   ]
 }
 export const addPapelito = (roomId: string, papelito: Papelito) => {
@@ -22,8 +22,8 @@ export const guessPapelito = (roomId: string, papelito: Papelito) => {
   // TODO: mark the guessed boolean as true
 }
 
-export const addToBowl = (roomId: string, papelitos: Papelito[]) => {
-  return papelitoDao.addToBowl(roomId, papelitos)
+export const addToBowl = async (roomId: string, papelitos: Papelito[]) => {
+  return await papelitoDao.addToBowl(roomId, papelitos)
   // return papelitoDao.addToBowl(roomId, papelitos)
 }
 

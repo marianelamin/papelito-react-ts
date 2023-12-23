@@ -1,6 +1,6 @@
-import firebase from 'firebase/firestore'
+import type firebase from 'firebase/firestore'
 
-export function convertToFromFirestore<T>(
+export function convertToFromFirestore<T> (
   cloneCb: Function
 ): firebase.FirestoreDataConverter<T> {
   return {
@@ -12,6 +12,6 @@ export function convertToFromFirestore<T>(
     ): T => {
       const data = snapshot.data(options) as unknown as T
       return cloneCb(data)
-    },
+    }
   }
 }

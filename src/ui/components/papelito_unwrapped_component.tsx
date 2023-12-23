@@ -1,4 +1,4 @@
-import { Papelito } from '../../papelito-models'
+import { type Papelito } from '../../papelito-models'
 
 interface PapelitoUnwrappedComponentIO {
   papelito: Papelito | undefined

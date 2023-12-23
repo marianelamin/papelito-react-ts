@@ -1,23 +1,23 @@
-import { Team } from 'papelito-models'
+import { type Team } from 'papelito-models'
 
 export class FirestoreTeam {
   id: string = '-1'
 
-  constructor(
+  constructor (
     public name: string,
     public order: number,
     public score: number
   ) {}
 
-  static clone(item: FirestoreTeam): FirestoreTeam {
-    let c = new FirestoreTeam(item.name, item.order, item.score)
+  static clone (item: FirestoreTeam): FirestoreTeam {
+    const c = new FirestoreTeam(item.name, item.order, item.score)
 
     c.id = item.id
 
     return c
   }
 
-  static fromTeam(team: Team): FirestoreTeam {
+  static fromTeam (team: Team): FirestoreTeam {
     return new FirestoreTeam(team.name, team.order, team.score)
   }
 }

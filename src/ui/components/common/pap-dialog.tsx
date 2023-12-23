@@ -43,7 +43,7 @@ export const PapDialog = (props: PapDialogIO) => {
     onSecondaryButton,
     onVisibleChange,
     onHideDialog = () => onVisibleChange(false),
-    children,
+    children
   } = props
   return (
     <Dialog
@@ -57,7 +57,7 @@ export const PapDialog = (props: PapDialogIO) => {
         <div
           style={{
             display: 'flex',
-            justifyContent: 'right',
+            justifyContent: 'right'
           }}
         >
           <div>
@@ -71,11 +71,9 @@ export const PapDialog = (props: PapDialogIO) => {
               ></PapButton>
             ) : null}
             <br />
-            {showPrimaryButtonError
-              ? showPrimaryButtonErrorText ?? (
+            {showPrimaryButtonError ? showPrimaryButtonErrorText ?? (
                   <small className="p-error">There was an error</small>
-                )
-              : ''}
+            ) : ''}
           </div>
           {onSecondaryButton ? (
             <div>

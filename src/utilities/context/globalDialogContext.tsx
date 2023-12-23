@@ -1,10 +1,10 @@
 import {
-  FC,
-  PropsWithChildren,
+  type FC,
+  type PropsWithChildren,
   createContext,
   useCallback,
   useContext,
-  useState,
+  useState
 } from 'react'
 import { CreateRoomDialog } from 'ui/components/dialogs/create_room'
 import { JoinRoomDialog } from 'ui/components/dialogs/join_room'
@@ -16,16 +16,16 @@ export const ROOM_DETAILS_DIALOG = 'ROOM_DETAILS_DIALOG'
 export const CREATE_ROOM_DIALOG = 'CREATE_ROOM_DIALOG'
 export const JOIN_ROOM_DIALOG = 'JOIN_ROOM_DIALOG'
 
-const DIALOG_COMPONENTS: { [key: string]: (...props: any) => JSX.Element } = {
+const DIALOG_COMPONENTS: Record<string, (...props: any) => JSX.Element> = {
   PLAYER_DETAILS_DIALOG: PlayerDetailsDialog,
   ROOM_DETAILS_DIALOG: RoomDetailsDialog,
   CREATE_ROOM_DIALOG: CreateRoomDialog,
-  JOIN_ROOM_DIALOG: JoinRoomDialog,
+  JOIN_ROOM_DIALOG: JoinRoomDialog
 }
 
 export interface GlobalDialogStore {
   dialogType: string
-  dialogProps?: { [key: string]: unknown }
+  dialogProps?: Record<string, unknown>
 }
 
 export interface GlobalDialogContextParams {
@@ -39,24 +39,25 @@ export interface GlobalDialogContextParams {
 const initialState: GlobalDialogContextParams = {
   showModal: () => {},
   hideModal: () => {},
-  currentDialog: { dialogType: '' },
+  currentDialog: { dialogType: '' }
 }
 
 export const GlobalDialogContext = createContext<
-  GlobalDialogContextParams | undefined
+GlobalDialogContextParams | undefined
 >(undefined)
 
 export const useGlobalDialog = (): GlobalDialogContextParams => {
   const context = useContext(GlobalDialogContext)
-  if (!context)
+  if (!context) {
     throw new Error(
       'useGlobalDialogContext must be used within GlobalDialogProvider'
     )
+  }
   return context
 }
 
 export const GlobalDialogContextProvider: FC<PropsWithChildren> = ({
-  children,
+  children
 }) => {
   const [currentDialog, setCurrentDialog] = useState<GlobalDialogStore>(
     initialState.currentDialog

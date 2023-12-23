@@ -1,6 +1,6 @@
-import { FC } from 'react';
-import HomeContainer from 'ui/views/home_container';
+import { type FC } from 'react'
+import HomeContainer from 'ui/views/home_container'
 
-const Home: FC = () => <HomeContainer />;
+const Home: FC = () => <HomeContainer />
 
-export default Home;
+export default Home

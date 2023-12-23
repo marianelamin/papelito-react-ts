@@ -1,24 +1,24 @@
-import { Player, defaultPlayer } from 'papelito-models';
-import { DataView, PapButton, Tooltip } from './common';
-import { usePlayer } from 'hooks';
-import { getColor } from '../../helpers';
-import { useCallback } from 'react';
-import { removePlayerById } from '+redux/feature/player/player_slice';
-import { useAppDispatch } from '+redux/store';
+import { type Player, defaultPlayer } from 'papelito-models'
+import { DataView, PapButton, Tooltip } from './common'
+import { usePlayer } from 'hooks'
+import { getColor } from '../../helpers'
+import { useCallback } from 'react'
+import { removePlayerById } from 'store-redux/feature/player/player_slice'
+import { useAppDispatch } from 'store-redux/store'
 
 export const Players = (): JSX.Element => {
-  const { allPlayers, roomId } = usePlayer();
-  const appDispatch = useAppDispatch();
+  const { allPlayers, roomId } = usePlayer()
+  const appDispatch = useAppDispatch()
 
   const removePlayer = useCallback(
     (player: Player) => async () => {
       alert(
         `TODO: create a dialog for this\n\nYou are removing this player... if this is a mistake the player will have to re join the room, just need to provide the room code:\n\nRoom Code: ${roomId}`
-      );
-      await appDispatch(removePlayerById({ roomId, playerId: player.id })).unwrap();
+      )
+      await appDispatch(removePlayerById({ roomId, playerId: player.id })).unwrap()
     },
     [appDispatch, roomId]
-  );
+  )
 
   const playerTemplate = (item: Player): JSX.Element => {
     return (
@@ -62,8 +62,8 @@ export const Players = (): JSX.Element => {
           <span>submitted: {item.hasSubmittedPapelitos ? 'yes' : 'no'}</span>
         </div>
       </div>
-    );
-  };
+    )
+  }
 
-  return <DataView value={allPlayers} itemTemplate={playerTemplate} header="Players" />;
-};
+  return <DataView value={allPlayers} itemTemplate={playerTemplate} header="Players" />
+}

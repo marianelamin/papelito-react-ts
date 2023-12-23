@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react'
 import { Papelito, Player, Team, Room } from 'papelito-models'
 import { doc, onSnapshot } from 'dao'
 import { roomRef } from 'dao/collection_references'
-import { roomSlice } from '+redux/feature/room/room_slice'
-import { useAppDispatch } from '+redux/store'
+import { roomSlice } from 'store-redux/feature/room/room_slice'
+import { useAppDispatch } from 'store-redux/store'
 import { useUser } from 'utilities/context/userContext'
 
 export const useRoom = () => {
@@ -20,9 +20,9 @@ export const useRoom = () => {
       const unsubscribe = onSnapshot(
         doc(roomRef(), roomId),
         async (document) => {
-          console.log(`Room Changes: `, document.id, document.data())
+          console.log('Room Changes: ', document.id, document.data())
 
-          let r = document.data()?.toRoom()
+          const r = document.data()?.toRoom()
           if (r) {
             appDispatch(roomSlice.actions.setRoom(r))
             setIsFetching(false)

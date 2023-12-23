@@ -13,5 +13,5 @@ export const defaultPlayer: Player = {
   order: 0,
   teamId: '-1',
   colorNumber: 1,
-  hasSubmittedPapelitos: false,
+  hasSubmittedPapelitos: false
 }

@@ -1,7 +1,7 @@
-import { Player } from 'papelito-models/player'
+import { type Player } from 'papelito-models/player'
 
 export class Team {
-  constructor(
+  constructor (
     public id: string = '-1',
     public name: string = '',
     public order: number = 0,
@@ -9,11 +9,11 @@ export class Team {
     public players: Player[] = []
   ) {}
 
-  toString() {
+  toString () {
     return JSON.stringify(this)
   }
 
-  static clone(team: Team): Team {
+  static clone (team: Team): Team {
     return new Team(team.id, team.name, team.order, team.score, team.players)
   }
 }

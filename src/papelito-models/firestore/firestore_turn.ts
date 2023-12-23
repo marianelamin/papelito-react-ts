@@ -1,7 +1,7 @@
 export class FirestoreTurn {
   id: string = '-1'
 
-  constructor(
+  constructor (
     public active: boolean,
     public round_number: number,
     public player_id: string,
@@ -9,8 +9,8 @@ export class FirestoreTurn {
     public timer_count: number
   ) {}
 
-  static clone(item: FirestoreTurn): FirestoreTurn {
-    let c = new FirestoreTurn(
+  static clone (item: FirestoreTurn): FirestoreTurn {
+    const c = new FirestoreTurn(
       item.active,
       item.round_number,
       item.player_id,

@@ -11,7 +11,7 @@ export interface GameState {
 const initialState: GameState = {
   loaded: false,
   loading: false,
-  isGameStarted: false,
+  isGameStarted: false
 }
 
 export const gameSlice = createSlice({
@@ -19,8 +19,8 @@ export const gameSlice = createSlice({
   initialState,
   reducers: {
     setGameSettings: () => {},
-    startGame: () => {},
-  },
+    startGame: () => {}
+  }
 })
 
 export const { startGame, setGameSettings } = gameSlice.actions

@@ -1,7 +1,7 @@
 import { Turn, GameSettings } from '.'
 
 export class Room {
-  constructor(
+  constructor (
     public id: string = '-1',
     public code: string = '',
     public password: string = '',
@@ -12,11 +12,11 @@ export class Room {
     public createdDate: Date = new Date()
   ) {}
 
-  toString() {
+  toString () {
     return JSON.stringify(this)
   }
 
-  static clone(room: Room): Room {
+  static clone (room: Room): Room {
     return new Room(
       room.id,
       room.code,

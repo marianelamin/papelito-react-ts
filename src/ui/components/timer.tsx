@@ -38,14 +38,14 @@ export const Timer = () => {
     <div
       style={{
         padding: '1rem',
-        border: '1px gray solid',
+        border: '1px gray solid'
       }}
     >
       <div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center',
+          alignItems: 'center'
         }}
       >
         <h3>

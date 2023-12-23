@@ -1,4 +1,4 @@
-import { Tooltip, TooltipProps } from 'primereact/tooltip'
+import { Tooltip, type TooltipProps } from 'primereact/tooltip'
 
 export const PapTooltip = (props: {
   target: TooltipProps['target']

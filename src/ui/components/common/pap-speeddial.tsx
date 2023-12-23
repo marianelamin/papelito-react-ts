@@ -1,7 +1,7 @@
-import { MenuItem } from 'primereact/menuitem'
+import { type MenuItem } from 'primereact/menuitem'
 import { Tooltip } from 'primereact/tooltip'
-import { SpeedDial, SpeedDialProps } from 'primereact/speeddial'
-import { CSSProperties } from 'react'
+import { SpeedDial, type SpeedDialProps } from 'primereact/speeddial'
+import { type CSSProperties } from 'react'
 
 export const PapSpeedDial = (props: {
   items: MenuItem[]
@@ -19,7 +19,7 @@ export const PapSpeedDial = (props: {
     style,
     type,
     radius,
-    buttonClassName,
+    buttonClassName
   } = props
 
   return (

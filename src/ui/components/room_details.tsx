@@ -1,17 +1,17 @@
-import { RootState } from '+redux/store';
-import { format } from 'date-fns-tz';
-import { Room } from 'papelito-models';
-import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { type RootState } from 'store-redux/store'
+import { format } from 'date-fns-tz'
+import { type Room } from 'papelito-models'
+import { useMemo } from 'react'
+import { useSelector } from 'react-redux'
 
 export const RoomDetails = (): JSX.Element => {
-  const room = useSelector<RootState, Room | undefined>((state) => state.room.room);
+  const room = useSelector<RootState, Room | undefined>((state) => state.room.room)
 
   const createdDate = useMemo(() => {
     if (room?.createdDate) {
-      return format(room.createdDate, 'yyyy-MM-dd HH:mm:ss zzz');
-    } else return 'N/A';
-  }, [room]);
+      return format(room.createdDate, 'yyyy-MM-dd HH:mm:ss zzz')
+    } else return 'N/A'
+  }, [room])
 
   return (
     <div className={'col-12'}>
@@ -46,5 +46,5 @@ export const RoomDetails = (): JSX.Element => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

@@ -5,10 +5,10 @@ import { useSelector } from 'react-redux'
 
 import { PapelitosComponent, Instructions, RoomDetails, Game } from 'ui/components'
 
-import { type RootState } from '+redux/store'
-import { type GameState } from '+redux/feature/game/game_slice'
+import { type RootState } from 'store-redux/store'
+import { type GameState } from 'store-redux/feature/game/game_slice'
 
-import { PapButton } from '../components/common'
+import { PapButton } from '../../../components/common'
 import { CreateTeams } from 'ui/components/create_teams'
 import { StartGame } from 'ui/components/start_game'
 

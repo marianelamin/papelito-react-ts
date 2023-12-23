@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { Room, Player, GameSettings, Turn } from 'papelito-models'
-import { AppDispatch, RootState } from '+redux/store'
+import { createSlice, type PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
+import { type Room, Player, GameSettings, Turn } from 'papelito-models'
+import { type AppDispatch, type RootState } from 'store-redux/store'
 import { roomService, gameService } from 'services'
 
 export interface RoomState {
@@ -12,7 +12,7 @@ export interface RoomState {
 
 const initialRoomState: RoomState = {
   loading: false,
-  loaded: false,
+  loaded: false
 }
 
 const ROOM_FEATURE_KEY: string = 'room'
@@ -30,7 +30,7 @@ export const roomSlice = createSlice({
       state.loading = false
       state.loaded = false
       state.error = action.payload
-    },
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(fetchRoomById.pending, (state, action) => {
@@ -53,7 +53,7 @@ export const roomSlice = createSlice({
       state.loading = false
       state.loaded = true
     })
-  },
+  }
 })
 
 // thunks
@@ -63,36 +63,29 @@ export const fetchRoomById = createAsyncThunk(
     return await roomService.getRoomById(id)
   }
 )
-export const createJustRoom = createAsyncThunk(
-  `${ROOM_FEATURE_KEY}/createJustRoom`,
-  async () => {
-    return await roomService.createJustRoom()
+export const createJustRoom = createAsyncThunk(`${ROOM_FEATURE_KEY}/createJustRoom`, async () => {
+  return await roomService.createJustRoom()
+})
+export const exitRoom = createAsyncThunk<void, void, { dispatch: AppDispatch, state: RootState }>(
+  `${ROOM_FEATURE_KEY}/exitRoom`,
+  async (data, { getState }) => {
+    const state: RootState = getState()
+
+    await gameService.exitRoom(
+      state.room.room?.id ?? '',
+      state.currentPlayer.player?.id ?? ''
+    )
   }
 )
-export const exitRoom = createAsyncThunk<
-  void,
-  void,
-  { dispatch: AppDispatch; state: RootState }
->(`${ROOM_FEATURE_KEY}/exitRoom`, async (data, { getState }) => {
-  const state: RootState = getState()
 
-  return await gameService.exitRoom(
-    state.room.room?.id ?? '',
-    state.currentPlayer.player?.id ?? ''
-  )
-})
-
-export function getRoomTh() {
+export function getRoomTh () {
   // And then creates and returns the async thunk function:
-  return async function getRoomThunk(
-    appDispatch: AppDispatch,
-    getState: Function
-  ) {
+  return async function getRoomThunk (appDispatch: AppDispatch, getState: Function) {
     // ✅ Now we can use the text value and send it to the server
     const state = getState()
-    console.log(`Peeking at state before:`, state)
+    console.log('Peeking at state before:', state)
     const room: Room = await roomService.createJustRoom()
-    console.log(`Peeking at state after:`, state)
+    console.log('Peeking at state after:', state)
     appDispatch(roomSlice.actions.setRoom(room))
   }
 }

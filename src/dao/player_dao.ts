@@ -1,5 +1,5 @@
 import * as collectionsRef from './collection_references'
-import { Player, defaultPlayer } from '../papelito-models'
+import { type Player, defaultPlayer } from '../papelito-models'
 import { FirestorePlayer } from 'papelito-models/firestore'
 
 // export const getGamePlayers = async (roomCode: string) => {
@@ -25,14 +25,14 @@ export const create = async (roomCode: string, playerName: string) => {
       player.id = addedDoc.id
     })
 
-  return getPlayerById(roomCode, player.id)
+  return await getPlayerById(roomCode, player.id)
 }
 
 export const getPlayerById = async (roomCode: string, id: string) => {
-  return collectionsRef
+  return await collectionsRef
     .getDoc(collectionsRef.doc(collectionsRef.playersRef(roomCode), id))
     .then((doc) => {
-      let retrievedPlayer = (doc.data() as FirestorePlayer).toPlayer()
+      const retrievedPlayer = (doc.data()!).toPlayer()
       retrievedPlayer.id = doc.id
       return retrievedPlayer
     })
@@ -46,7 +46,7 @@ export const markPlayerSubmittedPapelitos = async (
   await collectionsRef.updateDoc(
     collectionsRef.doc(collectionsRef.playersRef(roomCode), id),
     {
-      has_submitted_papelitos: true,
+      has_submitted_papelitos: true
     }
   )
 
@@ -58,7 +58,7 @@ export const markPlayerSubmittedPapelitos = async (
 }
 
 export const removePlayerById = async (roomCode: string, id: string) => {
-  return collectionsRef.deleteDoc(
+  await collectionsRef.deleteDoc(
     collectionsRef.doc(collectionsRef.playersRef(roomCode), id)
   )
 }
@@ -70,7 +70,7 @@ export const getAllPlayers = async (roomCode: string) => {
     collectionsRef.playersRef(roomCode)
   )
   querySnapshot.forEach((fsPlayer) => {
-    let retrievedPlayer = (fsPlayer.data() as FirestorePlayer).toPlayer()
+    const retrievedPlayer = (fsPlayer.data()).toPlayer()
     retrievedPlayer.id = fsPlayer.id
     players.push(retrievedPlayer)
   })

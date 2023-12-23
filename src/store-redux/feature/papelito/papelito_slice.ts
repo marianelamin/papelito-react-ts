@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
-import { Papelito } from 'papelito-models'
+import { type Papelito } from 'papelito-models'
 
 const PAPELITO_FEATURE_KEY: string = 'papelito'
 
@@ -25,8 +25,8 @@ export const papelitoSlice = createSlice({
     },
     clearMyPapelitos: (state) => {
       state.myPapelitos = []
-    },
-  },
+    }
+  }
 })
 
 export const { removeFromMyPapelitos } = papelitoSlice.actions

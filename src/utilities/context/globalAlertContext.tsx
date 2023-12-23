@@ -1,11 +1,11 @@
-import { Toast } from 'primereact/toast'
+import { type Toast } from 'primereact/toast'
 import {
-  FC,
-  PropsWithChildren,
+  type FC,
+  type PropsWithChildren,
   createContext,
   useCallback,
   useContext,
-  useRef,
+  useRef
 } from 'react'
 import { PapToast } from 'ui/components/common'
 
@@ -24,10 +24,9 @@ interface AlertParams {
 export const AlertContext = createContext<AlertParams | undefined>(undefined)
 AlertContext.displayName = 'AlertContext'
 
-export function useAlert(): AlertParams {
+export function useAlert (): AlertParams {
   const context = useContext(AlertContext)
-  if (!context)
-    throw new Error('useAlert debe ser usado dentro de AlertContextProvider')
+  if (!context) { throw new Error('useAlert debe ser usado dentro de AlertContextProvider') }
   return context
 }
 
@@ -38,28 +37,28 @@ export const AlertContextProvider: FC<PropsWithChildren> = ({ children }) => {
     toast.current?.show({
       severity: 'info',
       summary: alertconfig.title,
-      detail: alertconfig.text,
+      detail: alertconfig.text
     })
   }, [])
   const enqueueSuccessAlert = useCallback((alertconfig: AlertConfig) => {
     toast.current?.show({
       severity: 'success',
       summary: alertconfig.title,
-      detail: alertconfig.text,
+      detail: alertconfig.text
     })
   }, [])
   const enqueueWarningAlert = useCallback((alertconfig: AlertConfig) => {
     toast.current?.show({
       severity: 'warn',
       summary: alertconfig.title,
-      detail: alertconfig.text,
+      detail: alertconfig.text
     })
   }, [])
   const enqueueErrorAlert = useCallback((alertconfig: AlertConfig) => {
     toast.current?.show({
       severity: 'error',
       summary: alertconfig.title,
-      detail: alertconfig.text,
+      detail: alertconfig.text
     })
   }, [])
 
@@ -69,7 +68,7 @@ export const AlertContextProvider: FC<PropsWithChildren> = ({ children }) => {
         notifyErrorAlert: enqueueErrorAlert,
         notifyInfoAlert: enqueueInfoAlert,
         notifySuccessAlert: enqueueSuccessAlert,
-        notifyWarningAlert: enqueueWarningAlert,
+        notifyWarningAlert: enqueueWarningAlert
       }}
     >
       {children}

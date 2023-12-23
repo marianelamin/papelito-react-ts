@@ -10,7 +10,7 @@ const collectionList = {
   papelitos: (roomCode: string) => `${GAME_ROOMS}/${roomCode}/${PAPELITOS}`,
   players: (roomCode: string) => `${GAME_ROOMS}/${roomCode}/${PLAYERS}`,
   teams: (roomCode: string) => `${GAME_ROOMS}/${roomCode}/${TEAMS}`,
-  turns: (roomCode: string) => `${GAME_ROOMS}/${roomCode}/${TURNS}`,
+  turns: (roomCode: string) => `${GAME_ROOMS}/${roomCode}/${TURNS}`
 }
 
 export default collectionList

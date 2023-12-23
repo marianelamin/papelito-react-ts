@@ -6,7 +6,7 @@ import {
   FirestoreRoom,
   FirestoreTeam,
   FirestorePapelito,
-  FirestoreTurn,
+  FirestoreTurn
 } from 'papelito-models/firestore'
 // import { addDoc, doc, setDoc, getDocs } from 'firebase/firestore/lite'
 // export {
@@ -23,7 +23,7 @@ export {
   getDocs,
   addDoc,
   deleteDoc,
-  updateDoc,
+  updateDoc
 } from 'firebase/firestore'
 
 // export const anyRef = async (collectionName: string) => {

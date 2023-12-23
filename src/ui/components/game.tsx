@@ -1,27 +1,27 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo } from 'react'
 
-import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux'
 
-import { Player } from 'papelito-models';
+import { type Player } from 'papelito-models'
 
-import { PapelitoTurnComponent } from 'ui/components';
+import { PapelitoTurnComponent } from 'ui/components'
 
-import { RootState } from '+redux/store';
-import { RoomState } from '+redux/feature/room/room_slice';
-import { BowlState } from '+redux/feature/bowl/bowl_slice';
+import { type RootState } from 'store-redux/store'
+import { type RoomState } from 'store-redux/feature/room/room_slice'
+import { type BowlState } from 'store-redux/feature/bowl/bowl_slice'
 
 const viewStyle = {
   minHeight: '250px',
   justifyContent: 'center',
   alignItems: 'center',
   display: 'flex',
-  flexWwrap: 'nowrap',
-};
+  flexWwrap: 'nowrap'
+}
 
 export const Game = (): JSX.Element => {
-  const roomState: RoomState = useSelector<RootState, RoomState>((state) => state.room);
-  const bowlState = useSelector<RootState, BowlState>((state) => state.bowl);
-  const players = useSelector<RootState, Player[]>((state) => state.teams.allPlayers);
+  const roomState: RoomState = useSelector<RootState, RoomState>((state) => state.room)
+  const bowlState = useSelector<RootState, BowlState>((state) => state.bowl)
+  const players = useSelector<RootState, Player[]>((state) => state.teams.allPlayers)
 
   return (
     <div style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
@@ -32,5 +32,5 @@ export const Game = (): JSX.Element => {
         />
       </div>
     </div>
-  );
-};
+  )
+}

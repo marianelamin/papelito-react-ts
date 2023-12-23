@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { ToolbarContainer } from './toolbar_container'
-import { RoomSetup } from './room_setup'
+import { RoomSetup } from '../modules/room-setup/setup/room_setup'
 import { Players } from 'ui/components'
 
 const RoomContainer: React.FC = () => {

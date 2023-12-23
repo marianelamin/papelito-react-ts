@@ -1,5 +1,5 @@
 import { InputText } from 'primereact/inputtext'
-import { ChangeEventHandler, KeyboardEventHandler } from 'react'
+import { type ChangeEventHandler, type KeyboardEventHandler } from 'react'
 
 interface PapInputTextIO {
   id: string
@@ -16,7 +16,7 @@ export const PapInputText = ({
   value,
   label,
   onValueChange,
-  onKeyDown,
+  onKeyDown
 }: PapInputTextIO) => {
   return (
     <div className="p-float-label">

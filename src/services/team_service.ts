@@ -10,11 +10,11 @@ export const createTeam = (roomCode: string, teamName: string): Team => {
   return newTeam
 }
 
-export const removeTeam = (roomCode: string, teamId: string) => {
+export const removeTeam = async (roomCode: string, teamId: string) => {
   console.log(`removing a team ${teamId}`)
   const team: Team = new Team()
 
-  return teamDao.removeTeam(roomCode, teamId)
+  await teamDao.removeTeam(roomCode, teamId)
 }
 
 export default this

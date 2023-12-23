@@ -1,9 +1,9 @@
-import { Player } from 'papelito-models'
+import { type Player } from 'papelito-models'
 
 export class FirestorePlayer {
   id: string = '-1'
 
-  constructor(
+  constructor (
     public name: string,
     public order: number,
     public team_id: string,
@@ -11,8 +11,8 @@ export class FirestorePlayer {
     public has_submitted_papelitos: boolean
   ) {}
 
-  static clone(item: FirestorePlayer): FirestorePlayer {
-    let c = new FirestorePlayer(
+  static clone (item: FirestorePlayer): FirestorePlayer {
+    const c = new FirestorePlayer(
       item.name,
       item.order,
       item.team_id,
@@ -25,7 +25,7 @@ export class FirestorePlayer {
     return c
   }
 
-  static fromPlayer(player: Player) {
+  static fromPlayer (player: Player) {
     return new FirestorePlayer(
       player.name,
       player.order,
@@ -35,14 +35,14 @@ export class FirestorePlayer {
     )
   }
 
-  toPlayer(): Player {
+  toPlayer (): Player {
     return {
       id: this.id,
       name: this.name,
       order: this.order,
       colorNumber: this.color_number,
       teamId: this.team_id,
-      hasSubmittedPapelitos: this.has_submitted_papelitos,
+      hasSubmittedPapelitos: this.has_submitted_papelitos
     }
   }
 }

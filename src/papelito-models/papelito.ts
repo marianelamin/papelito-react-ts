@@ -1,7 +1,7 @@
-import { Player } from './player'
+import { type Player } from './player'
 
 export class Papelito {
-  constructor(
+  constructor (
     public id: string,
     public text: string = '',
     public guessed: boolean = false,

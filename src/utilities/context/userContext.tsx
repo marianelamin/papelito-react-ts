@@ -1,5 +1,5 @@
 import { PapelitoLocalStorage } from 'local-storage'
-import { ReactNode, createContext, useContext } from 'react'
+import { type ReactNode, createContext, useContext } from 'react'
 
 interface User {
   roomId: string
@@ -13,8 +13,9 @@ UserContext.displayName = 'UserContext'
 
 export function useUser(): User {
   const context = useContext(UserContext)
-  if (!context)
+  if (context == null) {
     throw new Error('useUser debe ser usado dentro de UserContextProvider')
+  }
 
   return context
 }
@@ -25,16 +26,10 @@ interface UserContextProviderProps {
   children: ReactNode
 }
 
-export function UserContextProvider(
-  props: UserContextProviderProps
-): JSX.Element {
+export function UserContextProvider(props: UserContextProviderProps): JSX.Element {
   const { children } = props
   const roomId = PapelitoLocalStorage.getRoomId() ?? ''
   const userId = PapelitoLocalStorage.getUserId() ?? ''
 
-  return (
-    <UserContext.Provider value={{ roomId, userId }}>
-      {children}
-    </UserContext.Provider>
-  )
+  return <UserContext.Provider value={{ roomId, userId }}>{children}</UserContext.Provider>
 }

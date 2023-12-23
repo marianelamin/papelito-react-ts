@@ -1,4 +1,4 @@
-import { PapButton } from './common';
+import { PapButton } from './common'
 
 export const CreateTeams = () => {
   return (
@@ -35,5 +35,5 @@ export const CreateTeams = () => {
         <PapButton icon={<i className="pi pi-replay" />} label="Shuffle Players" link />
       </div>
     </div>
-  );
-};
+  )
+}

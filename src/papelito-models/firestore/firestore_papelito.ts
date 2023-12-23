@@ -3,15 +3,15 @@ import { Papelito, defaultPlayer } from 'papelito-models'
 export class FirestorePapelito {
   id: string = '-1'
 
-  constructor(
+  constructor (
     public text: string,
     public is_guessed: boolean,
     public is_in_bowl: boolean,
     public author_id?: string
   ) {}
 
-  static clone(item: FirestorePapelito): FirestorePapelito {
-    let c = new FirestorePapelito(
+  static clone (item: FirestorePapelito): FirestorePapelito {
+    const c = new FirestorePapelito(
       item.text,
       item.is_guessed,
       item.is_in_bowl,
@@ -23,7 +23,7 @@ export class FirestorePapelito {
     return c
   }
 
-  static fromPapelito(papelito: Papelito) {
+  static fromPapelito (papelito: Papelito) {
     return new FirestorePapelito(
       papelito.text,
       papelito.guessed,
@@ -32,18 +32,16 @@ export class FirestorePapelito {
     )
   }
 
-  toPapelito(): Papelito {
+  toPapelito (): Papelito {
     return new Papelito(
       this.id,
       this.text,
       this.is_guessed,
       this.is_in_bowl,
-      this.author_id
-        ? {
-            ...defaultPlayer,
-            id: this.author_id,
-          }
-        : undefined
+      this.author_id ? {
+        ...defaultPlayer,
+        id: this.author_id
+      } : undefined
     )
   }
 }

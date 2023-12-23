@@ -1,5 +1,5 @@
 export class Turn {
-  constructor(
+  constructor (
     public active: boolean,
     public activePlayerId: string = '-1',
     public activeTeamId: string = '-1',

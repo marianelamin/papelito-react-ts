@@ -1,5 +1,5 @@
 import * as collectionsRef from './collection_references'
-import { Papelito } from 'papelito-models'
+import { type Papelito } from 'papelito-models'
 import { FirestorePapelito } from 'papelito-models/firestore'
 
 export const getPapelitoDetails = (roomCode: string, papelitoId: string) => {
@@ -15,7 +15,7 @@ export const createPapelito = (roomCode: string, papelito: Papelito) => {
     papelito.inBowl,
     papelito.author?.id
   )
-  console.log(`creating papelito from papelito  dao`)
+  console.log('creating papelito from papelito  dao')
   collectionsRef
     .addDoc(collectionsRef.papelitoRef(roomCode), fsPapelito)
     .then((docRef) => {
@@ -28,13 +28,13 @@ export const createPapelito = (roomCode: string, papelito: Papelito) => {
 }
 
 export const removePapelitoById = async (roomCode: string, id: string) => {
-  return collectionsRef.deleteDoc(
+  await collectionsRef.deleteDoc(
     collectionsRef.doc(collectionsRef.papelitoRef(roomCode), id)
   )
 }
 
 export const getPapelitosInBowl = () => {
-  console.log(`get papelitos in bowl`)
+  console.log('get papelitos in bowl')
 }
 
 export const addSinglePapelito = async (
@@ -45,7 +45,7 @@ export const addSinglePapelito = async (
     collectionsRef.papelitoRef(roomCode),
     FirestorePapelito.fromPapelito(papelito)
   )
-  console.log(`Added pap`, addedDoc)
+  console.log('Added pap', addedDoc)
   const retrievedDoc = await collectionsRef.getDoc(addedDoc)
 
   console.log('doc', retrievedDoc)
@@ -63,8 +63,8 @@ export const addToBowl = async (
   roomCode: string,
   papelitos: Papelito[]
 ): Promise<Papelito[]> => {
-  return Promise.all(
-    papelitos.map((papelito) => addSinglePapelito(roomCode, papelito))
+  return await Promise.all(
+    papelitos.map(async (papelito) => await addSinglePapelito(roomCode, papelito))
   )
 }
 
@@ -74,8 +74,8 @@ export const addToBowlInBulk = (roomCode: string, papelitos: Papelito[]) => {
   )
   console.log('Add this bulk of papelitos to BOWL')
 
-  return papelitos.map((p) => {
-    return collectionsRef
+  return papelitos.map(async (p) => {
+    return await collectionsRef
       .addDoc(
         collectionsRef.papelitoRef(roomCode),
         FirestorePapelito.fromPapelito(p)

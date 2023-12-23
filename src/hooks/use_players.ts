@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import { Player } from 'papelito-models'
+import { type Player } from 'papelito-models'
 
 import { onSnapshot } from 'dao'
 import { playersRef } from 'dao/collection_references'
@@ -22,7 +22,7 @@ export const usePlayer = () => {
       playersRef(roomId),
       (document) => {
         const players: Player[] = []
-        console.log(`Received doc snapshot for all players: `, document)
+        console.log('Received doc snapshot for all players: ', document)
 
         document.forEach((d) => {
           const p = d.data().toPlayer()
@@ -40,7 +40,7 @@ export const usePlayer = () => {
         // appDispatch(teamsSlice.actions.setAllPlayers(players))
         setIsFetching(false)
       },
-      (error) => console.error('aqui esta el error pues: \n', error),
+      (error) => { console.error('aqui esta el error pues: \n', error) },
       () => {
         console.info('Finished!!!')
       }

@@ -5,8 +5,8 @@ import { PapGameStats } from 'ui/components/game_stats'
 import { RoomDetails } from 'ui/components/room_details'
 import { useNavigate } from 'react-router-dom'
 
-import { useAppDispatch } from '+redux/store'
-import { exitRoom } from '+redux/feature/room/room_slice'
+import { useAppDispatch } from 'store-redux/store'
+import { exitRoom } from 'store-redux/feature/room/room_slice'
 
 import { useAlert } from 'utilities/context/globalAlertContext'
 import { useUser } from 'utilities/context/userContext'

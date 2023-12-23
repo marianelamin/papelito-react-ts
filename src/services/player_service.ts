@@ -1,4 +1,4 @@
-import { Player } from 'papelito-models'
+import { type Player } from 'papelito-models'
 import * as playerDao from '../dao/player_dao'
 
 export const addPlayerToRoom = async (
@@ -36,5 +36,5 @@ export const removePlayerById = async (
 }
 
 export const getAllPlayers = async (roomCode: string): Promise<Player[]> => {
-  return playerDao.getAllPlayers(roomCode)
+  return await playerDao.getAllPlayers(roomCode)
 }
