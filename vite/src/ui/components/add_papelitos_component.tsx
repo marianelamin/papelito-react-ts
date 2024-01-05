@@ -1,4 +1,3 @@
-import { Divider } from 'primereact/divider'
 import { AddPapelitoComponent } from './add_papelito'
 import { useCallback, useState } from 'react'
 import { DataTable } from 'primereact/datatable'

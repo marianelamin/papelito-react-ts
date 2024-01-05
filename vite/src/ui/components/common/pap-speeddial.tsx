@@ -12,15 +12,7 @@ export const PapSpeedDial = (props: {
   style?: CSSProperties
   direction?: SpeedDialProps['direction']
 }) => {
-  const {
-    items,
-    showIcon = 'pi pi-cog',
-    direction = 'down',
-    style,
-    type,
-    radius,
-    buttonClassName
-  } = props
+  const { items, showIcon = 'pi pi-cog', direction = 'down', style, type, radius } = props
 
   return (
     <>

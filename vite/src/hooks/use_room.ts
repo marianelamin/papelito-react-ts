@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react'
-
-// import { Papelito, Player, Team, Room } from '../papelito-models'
 import { doc, onSnapshot } from '../dao'
 import { roomRef } from '../dao/collection_references'
 import { roomSlice } from '../store-redux/feature/room/room_slice'

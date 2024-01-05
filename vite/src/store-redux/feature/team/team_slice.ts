@@ -48,7 +48,7 @@ export const teamsSlice = createSlice({
       // nice to have feature
       state.allTeams = action.payload
     },
-    incrementScoreOnTeam: (state, action: PayloadAction<Team>) => {
+    incrementScoreOnTeam: (state, _action: PayloadAction<Team>) => {
       state.allTeams = state.allTeams.map((team) => {
         if (state.currentTeamId == team.id) {
           team.score += 1
@@ -72,7 +72,7 @@ export const fetchAllPlayers = createAsyncThunk<
     dispatch: AppDispatch
     state: RootState
   }
->(`${TEAMS_FEATURE_KEY}/fetchAllPlayers`, async (data, thunkApi) => {
+>(`${TEAMS_FEATURE_KEY}/fetchAllPlayers`, async (_data, thunkApi) => {
   // ✅ Now we can use the text value and send it to the server
   const state: RootState = thunkApi.getState()
   console.log('Peeking at state before:', state)

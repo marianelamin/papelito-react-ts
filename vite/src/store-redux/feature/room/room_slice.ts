@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { type Room, Player, GameSettings, Turn } from '../../../papelito-models'
+import { type Room } from '../../../papelito-models'
 import { type AppDispatch, type RootState } from '../../../store-redux/store'
 import { roomService, gameService } from '../../../services'
 
@@ -33,7 +33,7 @@ export const roomSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchRoomById.pending, (state, action) => {
+    builder.addCase(fetchRoomById.pending, (state, _action) => {
       state.loading = true
       state.loaded = false
     })
@@ -68,7 +68,7 @@ export const createJustRoom = createAsyncThunk(`${ROOM_FEATURE_KEY}/createJustRo
 })
 export const exitRoom = createAsyncThunk<void, void, { dispatch: AppDispatch; state: RootState }>(
   `${ROOM_FEATURE_KEY}/exitRoom`,
-  async (data, { getState }) => {
+  async (_data, { getState }) => {
     const state: RootState = getState()
 
     await gameService.exitRoom(state.room.room?.id ?? '', state.currentPlayer.player?.id ?? '')

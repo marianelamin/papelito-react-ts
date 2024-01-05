@@ -3,21 +3,16 @@ import { PapButton } from './common'
 
 enum TimerState {
   STARTED,
-  PAUSED,
+  PAUSED
 }
 
 const getTimerStateName = (state: TimerState) =>
   state === TimerState.PAUSED ? 'PAUSED' : 'STARTED'
 
-const getBtnLabel = (state: TimerState) =>
-  state === TimerState.PAUSED ? 'Iniciar' : 'Pausar'
+const getBtnLabel = (state: TimerState) => (state === TimerState.PAUSED ? 'Iniciar' : 'Pausar')
 
 const getBtnIcon = (state: TimerState) =>
-  state === TimerState.PAUSED ? (
-    <i className="pi pi-play"></i>
-  ) : (
-    <i className="pi pi-pause"></i>
-  )
+  state === TimerState.PAUSED ? <i className="pi pi-play"></i> : <i className="pi pi-pause"></i>
 
 export const Timer = () => {
   const [timerState, setTimerState] = useState(TimerState.PAUSED)
@@ -26,12 +21,11 @@ export const Timer = () => {
   const handleReset = () => {
     console.log('handle reset')
     setTimerState(TimerState.PAUSED)
+    setTimer(60)
   }
 
   const handlePlayPause = () => {
-    setTimerState((prev) =>
-      prev === TimerState.PAUSED ? TimerState.STARTED : TimerState.PAUSED
-    )
+    setTimerState((prev) => (prev === TimerState.PAUSED ? TimerState.STARTED : TimerState.PAUSED))
   }
 
   return (

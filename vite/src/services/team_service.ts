@@ -12,7 +12,7 @@ export const createTeam = (roomCode: string, teamName: string): Team => {
 
 export const removeTeam = async (roomCode: string, teamId: string) => {
   console.log(`removing a team ${teamId}`)
-  const team: Team = new Team()
+  // const team: Team = new Team()
 
   await teamDao.removeTeam(roomCode, teamId)
 }

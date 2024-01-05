@@ -1,1 +1,1 @@
-export { register, unregister } from './service-worker'
+// export { register, unregister } from './service-worker'

@@ -10,9 +10,9 @@ interface PapelitoTurnComponentIO {
 export const PapelitoTurnComponent = (props: PapelitoTurnComponentIO) => {
   const { bowlSize, bowlMax } = props
 
-  const hasPapelitoBeenDrawn = () => true
-  const disableDraw = () => bowlSize === 0
-  const disableGuess = () => bowlSize === 0 || !hasPapelitoBeenDrawn()
+  // const hasPapelitoBeenDrawn = () => true
+  // const disableDraw = () => bowlSize === 0
+  // const disableGuess = () => bowlSize === 0 || !hasPapelitoBeenDrawn()
 
   return (
     <div>

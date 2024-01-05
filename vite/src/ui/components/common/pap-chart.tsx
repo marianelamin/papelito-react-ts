@@ -1,7 +1,5 @@
 import { Chart } from 'primereact/chart'
 
-import { MenuItem } from 'primereact/menuitem'
-
 export const PapChart = (props: {}) => {
   const {} = props
 

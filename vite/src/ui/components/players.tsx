@@ -1,4 +1,4 @@
-import { type Player, defaultPlayer } from '../../papelito-models'
+import { type Player } from '../../papelito-models'
 import { DataView, PapButton, Tooltip } from './common'
 import { usePlayer } from '../../hooks'
 import { getColor } from '../../helpers'

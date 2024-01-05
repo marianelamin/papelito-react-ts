@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
 
-import { useAppDispatch } from '../store-redux/store'
+// import { useAppDispatch } from '../store-redux/store'
 
 /** @todo: determine if:
  * - user is leaving tab
@@ -11,7 +10,7 @@ import { useAppDispatch } from '../store-redux/store'
  */
 
 export const useActiveUser = () => {
-  const appDispatch = useAppDispatch()
+  // const appDispatch = useAppDispatch()
 
   useEffect(() => {
     window.addEventListener('beforeunload', alertUser)
@@ -26,13 +25,13 @@ export const useActiveUser = () => {
     }
   }, [])
 
-  const alertUser = (e: any) => {
+  const alertUser = (event: Event) => {
     // if (!) {
     //   return;
     // }
-    e.preventDefault()
-    e.returnValue = true
-    console.log('trying to leave...', e)
+    event.preventDefault()
+    event.returnValue = true
+    console.log('trying to leave...', event)
     // await appDispatch(
     //   removePlayerById({
     //     roomId: PapelitoLocalStorage.getRoomId() ?? '',

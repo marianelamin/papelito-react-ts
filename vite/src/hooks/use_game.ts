@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react'
+// import { useEffect, useState } from 'react'
 
 import {} from '../papelito-models'
-import { db, doc, onSnapshot } from '../dao'
+// import { db, doc, onSnapshot } from '../dao'
 
-import { playersRef } from '../dao/collection_references'
+// import { playersRef } from '../dao/collection_references'
 
 /** @todo: hacer un objeto que se contenga informacion que esta constantemente cambiando
  * puede llamarse partida.
@@ -22,6 +22,7 @@ import { playersRef } from '../dao/collection_references'
  */
 
 export const useGame = (roomId: string) => {
+  console.warn('implement hook', roomId)
   // const [isFetching, setIsFetching] = useState<boolean>(false)
   // const [player, setPlayer] = useState<Player>()
 

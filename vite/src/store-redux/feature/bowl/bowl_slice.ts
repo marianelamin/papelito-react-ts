@@ -35,7 +35,7 @@ export const bowlSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(addToBowl.pending, (state, action) => {
+    builder.addCase(addToBowl.pending, (state, _action) => {
       state.loading = true
       state.loaded = false
     })
@@ -49,10 +49,10 @@ export const bowlSlice = createSlice({
       state.loading = false
       state.loaded = false
     })
-    builder.addCase(getBowl.fulfilled, (state, action) => {})
+    builder.addCase(getBowl.fulfilled, (_state, _action) => {})
     // builder.addCase(drawOnePapelito.fulfilled, (state, action) => {})
-    builder.addCase(putBackPapelito.fulfilled, (state, action) => {})
-    builder.addCase(disputePapelito.fulfilled, (state, action) => {})
+    builder.addCase(putBackPapelito.fulfilled, (_state, _action) => {})
+    builder.addCase(disputePapelito.fulfilled, (_state, _action) => {})
   }
 })
 
@@ -88,7 +88,7 @@ export const getBowl = createAsyncThunk<
     dispatch: AppDispatch
     state: RootState
   }
->(`${BOWL_FEATURE_KEY}/getBowl`, async (data, thunkApi) => {
+>(`${BOWL_FEATURE_KEY}/getBowl`, async (_data, thunkApi) => {
   const state: RootState = thunkApi.getState()
   console.log('peek state before:', state)
   const id = state.room?.room?.id
@@ -123,7 +123,7 @@ export const putBackPapelito = createAsyncThunk<
     dispatch: AppDispatch
     state: RootState
   }
->(`${BOWL_FEATURE_KEY}/putBackPapelito`, async (data, thunkApi) => {
+>(`${BOWL_FEATURE_KEY}/putBackPapelito`, async (_data, thunkApi) => {
   const state: RootState = thunkApi.getState()
   console.log('peek state before:', state)
   // let papPutBack = await papelitoService.putBackPapelito(
@@ -141,7 +141,7 @@ export const disputePapelito = createAsyncThunk<
     dispatch: AppDispatch
     state: RootState
   }
->(`${BOWL_FEATURE_KEY}/disputePapelito`, async (data, thunkApi) => {
+>(`${BOWL_FEATURE_KEY}/disputePapelito`, async (_data, thunkApi) => {
   const state: RootState = thunkApi.getState()
   console.log('peek state before:', state)
   // let papDisputed = await papelitoService.disputePapelito(

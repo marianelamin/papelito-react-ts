@@ -1,4 +1,4 @@
-import React, { type RefObject, useRef } from 'react'
+import { type RefObject } from 'react'
 import { Toast } from 'primereact/toast'
 
 export const PapToast = (props: { toast: RefObject<Toast> }) => {

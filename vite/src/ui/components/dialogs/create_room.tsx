@@ -9,7 +9,7 @@ export const CreateRoomDialog = (props: CreateRoomDialogProps) => {
   const { close: handleClose, create: handleCreate } = props
   const [primaryButtonLoading, setPrimaryButtonLoading] = useState(false)
   const [playerNameInput, setPlayerNameInput] = useState<string>('')
-  const [displayBasic, setDisplayBasic] = useState(false)
+  const [_displayBasic, setDisplayBasic] = useState(false)
 
   const handlePrimaryButton = useCallback(async () => {
     setPrimaryButtonLoading(true)

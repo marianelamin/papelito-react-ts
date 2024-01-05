@@ -1,14 +1,17 @@
-import { useCallback, useMemo } from 'react'
+import {
+  useCallback
+  // useMemo
+} from 'react'
 import { PapButton } from './common'
-import { usePlayer } from '../../hooks'
+// import { usePlayer } from '../../hooks'
 
 export const StartGame = () => {
-  const { currentPlayer } = usePlayer()
+  // const { currentPlayer } = usePlayer()
 
-  const hasSubmittedPapelitos = useMemo(
-    () => currentPlayer?.hasSubmittedPapelitos,
-    [currentPlayer?.hasSubmittedPapelitos]
-  )
+  // const hasSubmittedPapelitos = useMemo(
+  //   () => currentPlayer?.hasSubmittedPapelitos,
+  //   [currentPlayer?.hasSubmittedPapelitos]
+  // )
 
   const goToStartGame = useCallback(() => {
     // todo: Make a call to api to say we started the game

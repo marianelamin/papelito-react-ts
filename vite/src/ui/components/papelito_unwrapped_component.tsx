@@ -6,7 +6,7 @@ interface PapelitoUnwrappedComponentIO {
 }
 
 const PapelitoUnwrappedComponent = (props: PapelitoUnwrappedComponentIO) => {
-  const { papelito, showPapelito } = props
+  const { papelito } = props
 
   return papelito !== undefined ? (
     <div>

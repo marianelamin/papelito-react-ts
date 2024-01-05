@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Steps } from 'primereact/steps'
 
 import { useSelector } from 'react-redux'

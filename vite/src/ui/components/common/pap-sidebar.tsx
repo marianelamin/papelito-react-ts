@@ -1,4 +1,3 @@
-import { Button } from 'primereact/button'
 import { Sidebar } from 'primereact/sidebar'
 import { type CSSProperties, useState, type ReactNode } from 'react'
 import { PapButton } from '.'
@@ -26,7 +25,9 @@ export const PapSideBar = (props: {
     <>
       <Sidebar
         visible={visible}
-        onHide={() => { setVisible(false) }}
+        onHide={() => {
+          setVisible(false)
+        }}
         position={position}
       >
         <div className="p-1">{children}</div>
@@ -35,7 +36,9 @@ export const PapSideBar = (props: {
       <PapButton
         icon={`pi ${icon}`}
         style={btnStyle}
-        onClick={() => { setVisible(true) }}
+        onClick={() => {
+          setVisible(true)
+        }}
         label={btnLabel}
         tooltip={tooltip}
       ></PapButton>

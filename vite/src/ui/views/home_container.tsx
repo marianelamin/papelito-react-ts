@@ -1,8 +1,7 @@
 import { type FC, useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 
-import { type RootState, useAppDispatch } from '../../store-redux/store'
+import { useAppDispatch } from '../../store-redux/store'
 import { roomSlice } from '../../store-redux/feature/room/room_slice'
 import { playerSlice } from '../../store-redux/feature/player/player_slice'
 import { PapelitoLocalStorage } from '../../local-storage'
@@ -25,13 +24,13 @@ const HomeContainer: FC = () => {
   const { showModal, hideModal } = useGlobalDialog()
 
   // store state
-  const room = useSelector((state: RootState) => state.room)
+  // const room = useSelector((state: RootState) => state.room)
 
   // local state
-  const [roomCodeInput, setRoomCodeInput] = useState<string>('')
-  const [playerNameInput, setPlayerNameInput] = useState<string>('')
-  const [displayBasic, setDisplayBasic] = useState(false)
-  const [showClassError, setShowClassError] = useState(false)
+  const [_roomCodeInput, setRoomCodeInput] = useState<string>('')
+  const [_playerNameInput, setPlayerNameInput] = useState<string>('')
+  const [_displayBasic, setDisplayBasic] = useState(false)
+  const [_showClassError, setShowClassError] = useState(false)
 
   const onShowJoinDialog = useCallback(() => {
     showModal(JOIN_ROOM_DIALOG, { join: joinRoom, close: hideModal })

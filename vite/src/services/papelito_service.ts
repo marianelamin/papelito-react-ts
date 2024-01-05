@@ -12,14 +12,17 @@ export const fetchAllPapelitos = (roomId: string) => {
   ]
 }
 export const addPapelito = (roomId: string, papelito: Papelito) => {
+  throw new Error(`implement: ${JSON.stringify({ papelito, roomId })}`)
   // add papelito action
 }
 export const removePapelito = (roomId: string, papelito: Papelito) => {
   // TODO: remove papelito
+  throw new Error(`implement: ${JSON.stringify({ papelito, roomId })}`)
 }
 
 export const guessPapelito = (roomId: string, papelito: Papelito) => {
   // TODO: mark the guessed boolean as true
+  throw new Error(`implement: ${JSON.stringify({ papelito, roomId })}`)
 }
 
 export const addToBowl = async (roomId: string, papelitos: Papelito[]) => {

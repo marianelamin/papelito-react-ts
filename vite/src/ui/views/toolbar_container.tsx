@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import { Toolbar } from 'primereact/toolbar'
 import { PapButton, PapSideBar } from '../../ui/components/common'
 import { PapGameStats } from '../../ui/components/game_stats'
