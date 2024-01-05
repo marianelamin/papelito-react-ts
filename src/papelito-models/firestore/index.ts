@@ -1,5 +1,0 @@
-export * from './firestore_papelito'
-export * from './firestore_player'
-export * from './firestore_room'
-export * from './firestore_team'
-export * from './firestore_turn'

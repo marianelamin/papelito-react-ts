@@ -1,6 +1,0 @@
-export * from './papelito'
-export * from './player'
-export * from './team'
-export * from './room'
-export * from './game_settings'
-export * from './turn'
