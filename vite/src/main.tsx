@@ -8,9 +8,15 @@ import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.css'
 import 'primereact/resources/primereact.min.css' // core css
 import 'primereact/resources/themes/lara-light-indigo/theme.css'
+// import 'primereact/resources/themes/lara-dark-indigo/theme.css'
+// import 'primereact/resources/themes/lara-light-cyan/theme.css'
+
+import { PrimeReactProvider } from 'primereact/api'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <PrimeReactProvider>
+      <App />
+    </PrimeReactProvider>
   </React.StrictMode>
 )
