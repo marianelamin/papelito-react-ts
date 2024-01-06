@@ -1,5 +1,0 @@
-export * as teamService from './team_service'
-export * as papelitoService from './papelito_service'
-export * as playerService from './player_service'
-export * as roomService from './room_service'
-export * as gameService from './game_service'
