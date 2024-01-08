@@ -11,7 +11,8 @@
     "source.fixAll": "explicit"
   },
   "workbench.colorCustomizations": {
-    "titleBar.activeBackground": "#590047",
+    "activityBar.background": "#37002c",
+    "titleBar.activeBackground": "#77005f",
     "statusBar.background": "#5c5300"
   }
 }
