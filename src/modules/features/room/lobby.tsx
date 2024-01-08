@@ -14,8 +14,9 @@ const Lobby = () => {
       <Header />
       <div>
         <h1>Welcome to the room</h1>
-        <h2>Game has not started. Please add your papelitos in the mean time.</h2>
-        <p>See basic room settings</p>
+        <p>
+          Game has not started. Please add your papelitos in the mean time. See basic room settings
+        </p>
         <Players />
         <EnterPapelitos />
       </div>

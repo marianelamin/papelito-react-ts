@@ -27,5 +27,4 @@ export const ROOM_ROUTES: RouteObject = {
     },
     { path: '*', Component: LAZY_VIEWS.ROOM }
   ]
-  // loader:
 }
