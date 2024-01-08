@@ -1,6 +1,6 @@
 // import { useEffect, useState } from 'react'
 
-import {} from '../papelito-models'
+import {} from '../models'
 // import { db, doc, onSnapshot } from '../dao'
 
 // import { playersRef } from '../dao/collection_references'

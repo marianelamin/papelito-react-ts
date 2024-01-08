@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { type Room } from '../../../papelito-models'
+import { type Room } from '../../../models'
 import { type AppDispatch, type RootState } from '../../store'
 import { roomService, gameService } from '../../../services'
 

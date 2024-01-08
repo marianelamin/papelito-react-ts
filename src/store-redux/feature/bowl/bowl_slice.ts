@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { type RootState, type AppDispatch } from '../../store'
-import { type Papelito } from '../../../papelito-models/papelito'
+import { type Papelito } from '../../../models/papelito'
 import { papelitoService } from '../../../services'
 
 const BOWL_FEATURE_KEY: string = 'bowl'

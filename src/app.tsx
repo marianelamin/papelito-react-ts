@@ -1,19 +1,17 @@
 import './App.css'
-import { BrowserRouter } from 'react-router-dom'
+import { RouterProvider } from 'react-router-dom'
 import { AlertContextProvider, GlobalDialogContextProvider } from './utilities/context'
-import AppRoutes from './ui/routes/index'
 import { Provider } from 'react-redux'
 import store from './store-redux/store'
+import { router } from './modules/routes/routes'
 
 function App() {
   return (
     <Provider store={store}>
       <AlertContextProvider>
-        <BrowserRouter>
-          <GlobalDialogContextProvider>
-            <AppRoutes />
-          </GlobalDialogContextProvider>
-        </BrowserRouter>
+        <GlobalDialogContextProvider>
+          <RouterProvider router={router} />
+        </GlobalDialogContextProvider>
       </AlertContextProvider>
     </Provider>
   )

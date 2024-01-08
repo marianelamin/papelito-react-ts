@@ -3,13 +3,15 @@ import { useCallback, useState } from 'react'
 
 interface JoinRoomDialogProps {
   close: () => void
+  roomCode?: string
   join: (playername: string, roomCode: string) => Promise<void>
 }
 export const JoinRoomDialog = (props: JoinRoomDialogProps) => {
-  const { close: handleClose, join: handleJoin } = props
+  const { close: handleClose, join: handleJoin, roomCode } = props
 
+  const [fixedRoomCode] = useState(roomCode !== undefined)
   const [primaryButtonLoading, setPrimaryButtonLoading] = useState(false)
-  const [roomCodeInput, setRoomCodeInput] = useState<string>('')
+  const [roomCodeInput, setRoomCodeInput] = useState<string>(roomCode ?? '')
   const [playerNameInput, setPlayerNameInput] = useState<string>('')
 
   const handlePrimaryButton = useCallback(async () => {
@@ -19,13 +21,12 @@ export const JoinRoomDialog = (props: JoinRoomDialogProps) => {
     handleClose()
   }, [playerNameInput, roomCodeInput])
 
-  const handleChangeRoomText = useCallback((event: any) => {
-    setRoomCodeInput(event.target.value)
-  }, [])
+  const handleChangeRoomText = useCallback((event: any) => setRoomCodeInput(event.target.value), [])
 
-  const handleChangePlayerText = useCallback((event: any) => {
-    setPlayerNameInput(event.target.value)
-  }, [])
+  const handleChangePlayerText = useCallback(
+    (event: any) => setPlayerNameInput(event.target.value),
+    []
+  )
 
   return (
     <PapDialog
@@ -47,6 +48,7 @@ export const JoinRoomDialog = (props: JoinRoomDialogProps) => {
           label="Room code"
           value={roomCodeInput}
           onValueChange={handleChangeRoomText}
+          disabled={fixedRoomCode}
         ></PapInputText>
       </div>
       <div style={{ marginTop: '2rem' }}>

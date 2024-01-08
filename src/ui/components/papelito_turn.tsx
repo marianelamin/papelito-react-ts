@@ -1,5 +1,5 @@
 import { PapReactiveKnob } from './common'
-import { PapelitoDisplayForExplaining, PapelitoDisplayForGuessing } from './papelito_display'
+import { PapelitoDisplayForExplaining, PapelitoDisplayForGuessing } from './papelito-display'
 import { Timer } from '.'
 
 interface PapelitoTurnComponentIO {

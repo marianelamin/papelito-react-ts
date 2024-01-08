@@ -7,29 +7,8 @@ import {
   FirestoreTeam,
   FirestorePapelito,
   FirestoreTurn
-} from '../papelito-models/firestore'
-// import { addDoc, doc, setDoc, getDocs } from 'firebase/firestore/lite'
-// export {
-//   doc,
-//   getDoc,
-//   getDocs,
-//   addDoc,
-//   updateDoc,
-// } from 'firebase/firestore/lite'
+} from '../models/firestore'
 export { onSnapshot, doc, getDoc, getDocs, addDoc, deleteDoc, updateDoc } from 'firebase/firestore'
-
-// export const anyRef = async (collectionName: string) => {
-//   let docRef = collectionReference(collectionName)
-//   try {
-//     let list = await getDocs(collectionReference('gameRooms'))
-
-//     console.log(list.docs.map((doc) => ({ id: doc.id, data: doc.data() })))
-
-//     console.log('PASO 2')
-//   } catch (e) {
-//     console.error('Que vaina no?.. error en PASO 2')
-//   }
-// }
 
 export const roomRef = () => {
   return collection(db, collections.rooms).withConverter(
@@ -57,12 +36,3 @@ export const turnsRef = (roomCode: string) => {
     convertToFromFirestore<FirestoreTurn>(FirestoreTurn.clone)
   )
 }
-
-//   export function addBatch() {
-//     const batch = batch(db);
-
-// array.forEach((doc) => {
-
-//   batch.set(db.collection('col').doc(), doc);
-// }
-//   }

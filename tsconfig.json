@@ -18,19 +18,8 @@
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-
-    /* Path Aliases */
-    "baseUrl": ".",
-    "paths": {
-      "@assets/*": ["./src/assets/*"],
-      "@core/*": ["./src/core/*"],
-      "@shared/*": ["./src/shared/*"],
-
-      "@module/login/*": ["./src/modules/login/*"],
-    }
+    "noFallthroughCasesInSwitch": true
   },
-
 
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

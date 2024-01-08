@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
 import { type AppDispatch, type RootState } from '../../store'
-import { type Player, type Team } from '../../../papelito-models'
+import { type Player, type Team } from '../../../models'
 
 const TEAMS_FEATURE_KEY: string = 'teams'
 

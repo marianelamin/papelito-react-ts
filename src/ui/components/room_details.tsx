@@ -1,5 +1,5 @@
 import { type RootState } from '../../store-redux/store'
-import { type Room } from '../../papelito-models'
+import { type Room } from '../../models'
 import { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 

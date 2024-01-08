@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 
-import { type Papelito } from '../../../papelito-models'
+import { type Papelito } from '../../../models'
 
 const PAPELITO_FEATURE_KEY: string = 'papelito'
 
