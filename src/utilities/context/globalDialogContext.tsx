@@ -7,7 +7,7 @@ import {
   useState
 } from 'react'
 import { CreateRoomDialog, RoomDetailsDialog, JoinRoomDialog } from '../../ui/components/dialogs'
-import { PlayerDetailsDialog } from '../../modules/features/players/player-details.dialog'
+import { PlayerDetailsDialog } from '../../modules/room/features/players/player-details.dialog'
 
 export const PLAYER_DETAILS_DIALOG = 'PLAYER_DETAILS_DIALOG'
 export const ROOM_DETAILS_DIALOG = 'ROOM_DETAILS_DIALOG'

@@ -1,23 +1,23 @@
 import { type FC, useCallback, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useAppDispatch } from '../../../../store-redux/store'
-import { roomSlice } from '../../../../store-redux/feature/room/room_slice'
-import { playerSlice } from '../../../../store-redux/feature/player/player_slice'
-import { PapelitoLocalStorage } from '../../../../local-storage'
+import { useAppDispatch } from '../../../store-redux/store'
+import { roomSlice } from '../../../store-redux/feature/room/room_slice'
+import { playerSlice } from '../../../store-redux/feature/player/player_slice'
+import { PapelitoLocalStorage } from '../../../local-storage'
 
-import * as roomService from '../../../../services/room.service'
+import * as roomService from '../../../services/room.service'
 
-import { PapButton, PapDivider } from '../../../../ui/components/common'
-import { useAlert } from '../../../../utilities/context/globalAlertContext'
+import { PapButton, PapDivider } from '../../../ui/components/common'
+import { useAlert } from '../../../utilities/context/globalAlertContext'
 import {
   CREATE_ROOM_DIALOG,
   JOIN_ROOM_DIALOG,
   useGlobalDialog
-} from '../../../../utilities/context/globalDialogContext'
+} from '../../../utilities/context/globalDialogContext'
 import { useParams } from 'react-router'
-import { ROOM_PATH } from '../../room/room.routes'
-import Footer from '../../../../ui/views/footer'
+import { ROOM_PATH } from '../../room/routes'
+import Footer from '../../shared/footer'
 
 const HomeContainer: FC = () => {
   const appDispatch = useAppDispatch()

@@ -1,8 +1,8 @@
 import { useCallback } from 'react'
 import { Toolbar } from 'primereact/toolbar'
-import { PapButton, PapSideBar } from '../components/common'
-import { PapGameStats } from '../../modules/features/game/game_stats'
-import { RoomDetails } from '../components/room_details'
+import { PapButton, PapSideBar } from '../../ui/components/common'
+import { PapGameStats } from '../room/features/game/game_stats'
+import { RoomDetails } from '../../ui/components/room_details'
 import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch } from '../../store-redux/store'
@@ -10,7 +10,7 @@ import { exitRoom } from '../../store-redux/feature/room/room_slice'
 
 import { useAlert } from '../../utilities/context/globalAlertContext'
 import { useUser } from '../../utilities/context/userContext'
-import { Players } from '../components'
+import { Players } from '../../ui/components'
 
 export const Header = (): JSX.Element => {
   const appDispatch = useAppDispatch()

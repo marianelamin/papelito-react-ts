@@ -3,13 +3,13 @@ import { Steps } from 'primereact/steps'
 
 import { useSelector } from 'react-redux'
 
-import { Instructions, RoomDetails, Game } from '../../../../ui/components'
+import { Instructions, RoomDetails, Game } from '../../../../../ui/components'
 
-import { type RootState } from '../../../../store-redux/store'
-import { type GameState } from '../../../../store-redux/feature/game/game_slice'
+import { type RootState } from '../../../../../store-redux/store'
+import { type GameState } from '../../../../../store-redux/feature/game/game_slice'
 
-import { PapButton } from '../../../../ui/components/common'
-import { CreateTeams } from '../../../../ui/components/create-teams'
+import { PapButton } from '../../../../../ui/components/common'
+import { CreateTeams } from '../../../../../ui/components/create-teams'
 import { StartGame } from './start-game'
 
 const viewStyle = {
@@ -29,10 +29,6 @@ const StepSections = [
     label: 'Room',
     component: RoomDetails
   },
-  // {
-  //   label: 'Papelitos',
-  //   component: PapelitosComponent
-  // },
   {
     label: 'Teams',
     component: CreateTeams

@@ -1,5 +1,5 @@
 import HomeLayout from './layout/home.layout'
-import HomeContainer from './ui/home_container'
+import HomeContainer from './ui/home-container'
 
 const Home = () => {
   return (

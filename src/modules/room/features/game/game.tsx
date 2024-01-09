@@ -1,12 +1,12 @@
 import { useSelector } from 'react-redux'
 
-import { type Player } from '../../../models'
+import { type Player } from '../../../../models'
 
-import { PapelitoTurnComponent } from '../../../ui/components'
+import { PapelitoTurnComponent } from '../../../../ui/components'
 
-import { type RootState } from '../../../store-redux/store'
-import { type RoomState } from '../../../store-redux/feature/room/room_slice'
-import { type BowlState } from '../../../store-redux/feature/bowl/bowl_slice'
+import { type RootState } from '../../../../store-redux/store'
+import { type RoomState } from '../../../../store-redux/feature/room/room_slice'
+import { type BowlState } from '../../../../store-redux/feature/bowl/bowl_slice'
 
 const viewStyle = {
   minHeight: '250px',

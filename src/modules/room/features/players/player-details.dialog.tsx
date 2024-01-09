@@ -1,5 +1,5 @@
-import { usePlayer } from '../../../hooks'
-import { PapDialog } from '../../../ui/components/common'
+import { usePlayer } from '../../../../hooks'
+import { PapDialog } from '../../../../ui/components/common'
 
 interface PlayerDetailsDialogProps {
   close: () => void

@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { PapButton } from '../../../../ui/components/common'
+import { PapButton } from '../../../../../ui/components/common'
 
 export const StartGame = () => {
   const goToStartGame = useCallback(() => {

@@ -3,7 +3,7 @@
   grid-template-rows: auto 1fr;
 
   height: 100vh;
-  background-image: url('../../../../assets/4853433.jpg');
+  background-image: url('../../../assets/4853433.jpg');
   background-size: cover;
-  text-align: center;
+  /* text-align: center; */
 }

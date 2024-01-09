@@ -1,4 +1,4 @@
-import { PapChart } from '../../../ui/components/common'
+import { PapChart } from '../../../../ui/components/common'
 
 export const PapGameStats = (): JSX.Element => {
   return (

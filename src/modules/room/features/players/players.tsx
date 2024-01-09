@@ -1,10 +1,10 @@
-import { type Player } from '../../../models'
-import { DataView, PapButton, Tooltip } from '../../../ui/components/common'
-import { usePlayer } from '../../../hooks'
-import { getColor } from '../../../helpers'
+import { type Player } from '../../../../models'
+import { DataView, PapButton, Tooltip } from '../../../../ui/components/common'
+import { usePlayer } from '../../../../hooks'
+import { getColor } from '../../../../helpers'
 import { useCallback } from 'react'
-import { removePlayerById } from '../../../store-redux/feature/player/player_slice'
-import { useAppDispatch } from '../../../store-redux/store'
+import { removePlayerById } from '../../../../store-redux/feature/player/player_slice'
+import { useAppDispatch } from '../../../../store-redux/store'
 
 export const Players = (): JSX.Element => {
   const { allPlayers, roomId } = usePlayer()
