@@ -1,14 +1,6 @@
-import {
-  ReactNode,
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState
-} from 'react'
+import { ReactNode, createContext, useCallback, useContext, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router'
-import { Instructions, RoomDetails, CreateTeams } from '../../../../../../ui/components'
+import { RoomDetails, CreateTeams } from '../../../../../../ui/components'
 
 import {
   ROOM_PATH,
