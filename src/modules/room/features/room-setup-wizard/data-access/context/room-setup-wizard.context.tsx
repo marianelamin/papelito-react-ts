@@ -1,5 +1,13 @@
-import { ReactNode, createContext, useCallback, useContext, useState } from 'react'
-import { useNavigate } from 'react-router'
+import {
+  ReactNode,
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
+import { useLocation, useNavigate } from 'react-router'
 import { Instructions, RoomDetails, CreateTeams } from '../../../../../../ui/components'
 
 import {
@@ -56,10 +64,18 @@ interface RoomSetupWizardContextProviderProps {
   children: ReactNode
 }
 
+const roomPathConcat = (route: string) => `/${ROOM_PATH}/${route}`
+
 const RoomSetupWizardContextProvider = ({ children }: RoomSetupWizardContextProviderProps) => {
   const navigate = useNavigate()
+  const { pathname } = useLocation()
 
-  const [activeIndex, setActiveIndex] = useState<number>(0)
+  const currentIndex = useMemo(() => {
+    const isValid = StepSections.some((s) => roomPathConcat(s.route) === pathname)
+    return isValid ? StepSections.findIndex((s) => roomPathConcat(s.route) === pathname) : 0
+  }, [pathname])
+
+  const [activeIndex, setActiveIndex] = useState<number>(currentIndex)
 
   const goToNext = useCallback(() => {
     const hasNext = activeIndex < StepSections.length - 1
@@ -67,7 +83,7 @@ const RoomSetupWizardContextProvider = ({ children }: RoomSetupWizardContextProv
 
     const nextStep = activeIndex + 1
     setActiveIndex(nextStep)
-    navigate(`/${ROOM_PATH}/${StepSections[nextStep].route}`)
+    navigate(roomPathConcat(StepSections[nextStep].route))
   }, [navigate])
 
   const goToBack = useCallback(() => {
@@ -76,13 +92,13 @@ const RoomSetupWizardContextProvider = ({ children }: RoomSetupWizardContextProv
 
     const prevStep = activeIndex - 1
     setActiveIndex(prevStep)
-    navigate(`/${ROOM_PATH}/${StepSections[prevStep].route}`)
+    navigate(roomPathConcat(StepSections[prevStep].route))
   }, [navigate])
 
   const onSelectStep = useCallback(
     (e: StepsSelectEvent) => {
       setActiveIndex(e.index)
-      navigate(`/${ROOM_PATH}/${StepSections[e.index].route}`)
+      navigate(roomPathConcat(StepSections[e.index].route))
     },
     [navigate]
   )
