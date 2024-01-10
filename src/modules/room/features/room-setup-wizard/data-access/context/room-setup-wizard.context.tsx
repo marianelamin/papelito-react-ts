@@ -1,14 +1,15 @@
 import { ReactNode, createContext, useCallback, useContext, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { Instructions, RoomDetails } from '../../../../../../ui/components'
-import { CreateTeams } from '../../../../../../ui/components/create-teams'
-import { StartGame } from '../../setup/start-game'
+import { Instructions, RoomDetails, CreateTeams } from '../../../../../../ui/components'
+
 import {
   ROOM_PATH,
   ROOM_SETUP_PATH,
   ROOM_SET_TEAMS_PATH,
   ROOM_START_GAME_PATH
 } from '../../../../routes'
+import { Steps, StepsSelectEvent } from 'primereact/steps'
+import StartGame from '../../setup/start-game'
 
 interface RoomSetupStep {
   label: string
@@ -17,11 +18,6 @@ interface RoomSetupStep {
 }
 
 const StepSections: RoomSetupStep[] = [
-  {
-    label: 'Instructions',
-    component: Instructions,
-    route: 'instructions'
-  },
   {
     label: 'Room',
     component: RoomDetails,
@@ -71,8 +67,8 @@ const RoomSetupWizardContextProvider = ({ children }: RoomSetupWizardContextProv
 
     const nextStep = activeIndex + 1
     setActiveIndex(nextStep)
-    navigate(`${ROOM_PATH}/${StepSections[nextStep]}`)
-  }, [])
+    navigate(`/${ROOM_PATH}/${StepSections[nextStep].route}`)
+  }, [navigate])
 
   const goToBack = useCallback(() => {
     const hasPrev = activeIndex > 0
@@ -80,10 +76,16 @@ const RoomSetupWizardContextProvider = ({ children }: RoomSetupWizardContextProv
 
     const prevStep = activeIndex - 1
     setActiveIndex(prevStep)
-    navigate(`${ROOM_PATH}/${StepSections[prevStep]}`)
-  }, [])
+    navigate(`/${ROOM_PATH}/${StepSections[prevStep].route}`)
+  }, [navigate])
 
-  //   const game = useSelector<RootState, GameState>((state) => state.game)
+  const onSelectStep = useCallback(
+    (e: StepsSelectEvent) => {
+      setActiveIndex(e.index)
+      navigate(`/${ROOM_PATH}/${StepSections[e.index].route}`)
+    },
+    [navigate]
+  )
 
   return (
     <RoomSetupWizardContext.Provider
@@ -95,51 +97,23 @@ const RoomSetupWizardContextProvider = ({ children }: RoomSetupWizardContextProv
         previousStep: goToBack
       }}
     >
+      <Steps
+        model={StepSections.map((e) => ({ label: e.label }))}
+        activeIndex={activeIndex}
+        onSelect={onSelectStep}
+        readOnly={false}
+      />
       {children}
     </RoomSetupWizardContext.Provider>
   )
-  //   return !game.isGameStarted ? (
-  //     <div style={{ paddingTop: '1rem', paddingBottom: '1rem' }}>
-  //       <Steps
-  //         model={StepSections.map((e) => ({ label: e.label }))}
-  //         activeIndex={activeIndex}
-  //         onSelect={(e) => {
-  //           setActiveIndex(e.index)
-  //         }}
-  //         readOnly={false}
-  //       />
-
-  //       {StepSections.map((e, index) => {
-  //         return (
-  //           activeIndex === index && (
-  //             <>
-  //               <div style={viewStyle}>
-  //                 <e.component />
-  //               </div>
-  //               <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-  //                 <PapButton
-  //                   disabled={index === 0}
-  //                   link
-  //                   label={'Prev'}
-  //                   onClick={goToBack}
-  //                 ></PapButton>
-  //                 <PapButton
-  //                   link
-  //                   disabled={index === StepSections.length - 1}
-  //                   label={'Next'}
-  //                   onClick={goToNext}
-  //                 ></PapButton>
-  //               </div>
-  //             </>
-  //           )
-  //         )
-  //       })}
-  //     </div>
-  //   ) : (
-  //     <Game />
-  //   )
 }
 
-const useRoomSetupWizard = () => useContext(RoomSetupWizardContext)
+const useRoomSetupWizard = (): RoomSetupWizardState => {
+  const context = useContext(RoomSetupWizardContext)
+  if (context == null) {
+    throw new Error('useRoomSetupWizard debe ser usado dentro de RoomSetupWizardContextProvider')
+  }
+  return context
+}
 
 export { RoomSetupWizardContextProvider, useRoomSetupWizard }

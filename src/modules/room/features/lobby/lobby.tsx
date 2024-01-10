@@ -1,4 +1,5 @@
-import EnterPapelitos from '../../../../ui/views/enter-papelitos'
+import { Instructions } from '../../../../ui/components'
+import EnterPapelitos from '../room-setup-wizard/setup/enter-papelitos'
 
 const Lobby = () => {
   return (
@@ -7,6 +8,7 @@ const Lobby = () => {
       <p>
         Game has not started. Please add your papelitos in the mean time. See basic room settings
       </p>
+      <Instructions />
       <EnterPapelitos />
     </div>
   )

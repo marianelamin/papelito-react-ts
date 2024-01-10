@@ -1,4 +1,4 @@
-import { AddPapelitosComponent } from '../components'
+import { AddPapelitosComponent } from '../../../../../ui/components'
 
 const EnterPapelitos = () => {
   return (

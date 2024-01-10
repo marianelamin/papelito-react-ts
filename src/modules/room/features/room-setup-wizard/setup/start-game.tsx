@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { PapButton } from '../../../../../ui/components/common'
 
-export const StartGame = () => {
+const StartGame = () => {
   const goToStartGame = useCallback(() => {
     // todo: Make a call to api to say we started the game
     console.log('Make a call to api to say we started the game')
@@ -59,6 +59,9 @@ export const StartGame = () => {
           onClick={goToStartGame}
         />
       </div>
+      <div>{'confirm and start game'}</div>
     </div>
   )
 }
+
+export default StartGame
