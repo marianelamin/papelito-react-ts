@@ -15,7 +15,8 @@ export const Players = (): JSX.Element => {
       alert(
         `TODO: create a dialog for this\n\nYou are removing this player... if this is a mistake the player will have to re join the room, just need to provide the room code:\n\nRoom Code: ${roomId}`
       )
-      await appDispatch(removePlayerById({ roomId, playerId: player.id })).unwrap()
+      if (roomId) await appDispatch(removePlayerById({ roomId, playerId: player.id })).unwrap()
+      else console.error('Weird: room ID is not set', roomId)
     },
     [appDispatch, roomId]
   )

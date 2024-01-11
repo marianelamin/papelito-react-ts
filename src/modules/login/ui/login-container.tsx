@@ -19,7 +19,7 @@ import { useParams } from 'react-router'
 import { ROOM_PATH } from '../../room/routes'
 import Footer from '../../shared/footer'
 
-const HomeContainer: FC = () => {
+const LoginContainer: FC = () => {
   const appDispatch = useAppDispatch()
   const navigate = useNavigate()
   const { notifyErrorAlert } = useAlert()
@@ -28,15 +28,8 @@ const HomeContainer: FC = () => {
 
   const [_roomCodeInput, setRoomCodeInput] = useState<string>('')
   const [_playerNameInput, setPlayerNameInput] = useState<string>('')
-  const [_displayBasic, setDisplayBasic] = useState(false)
-  const [_showClassError, setShowClassError] = useState(false)
-
-  const onShowCreateDialog = useCallback(() => {
-    showModal(CREATE_ROOM_DIALOG, { create: createRoom, close: hideModal })
-  }, [])
 
   const handleHideDialog = useCallback(() => {
-    setDisplayBasic(false)
     clearDialog()
   }, [])
 
@@ -51,22 +44,20 @@ const HomeContainer: FC = () => {
   }, [])
 
   const joinRoom = useCallback(async (playerName: string, roomCode: string): Promise<void> => {
-    console.log(`Requested to join a room with id: ${roomCode}`)
-
-    if (playerName === '') {
-      notifyErrorAlert({
-        title: 'Missing info',
-        text: 'need player name'
-      })
-      return
-    }
-    if (roomCode === '') {
-      notifyErrorAlert({
-        title: 'Missing info',
-        text: 'need room code'
-      })
-      return
-    }
+    // if (playerName === '') {
+    //   notifyErrorAlert({
+    //     title: 'Missing info',
+    //     text: 'need player name'
+    //   })
+    //   return
+    // }
+    // if (roomCode === '') {
+    //   notifyErrorAlert({
+    //     title: 'Missing info',
+    //     text: 'need room code'
+    //   })
+    //   return
+    // }
 
     try {
       const res = await roomService.joinRoom(roomCode, playerName)
@@ -79,9 +70,8 @@ const HomeContainer: FC = () => {
       closeDialogAndClearForm()
       navigate(ROOM_PATH)
     } catch (error) {
-      setShowClassError(true)
       notifyErrorAlert({
-        title: 'Unable to join',
+        title: 'Oops!',
         text: 'Error joining a room'
       })
     }
@@ -89,13 +79,11 @@ const HomeContainer: FC = () => {
 
   const createRoom = useCallback(
     async (playerName: string): Promise<void> => {
-      if (playerName === '') {
-        console.log('need player name')
-        return
-      }
+      // if (playerName === '') {
+      //   return
+      // }
 
       try {
-        console.log({ playerName })
         const res = await roomService.createRoom(playerName)
         appDispatch(roomSlice.actions.setRoom(res.room))
         appDispatch(playerSlice.actions.setCurrentPlayer(res.player))
@@ -104,10 +92,8 @@ const HomeContainer: FC = () => {
         closeDialogAndClearForm()
         navigate(ROOM_PATH)
       } catch (error) {
-        console.log({ error })
-        setShowClassError(true)
         notifyErrorAlert({
-          title: 'Unable to join',
+          title: 'Oops!',
           text: 'Error creating a room'
         })
       }
@@ -118,6 +104,10 @@ const HomeContainer: FC = () => {
   const onShowJoinDialog = useCallback(() => {
     showModal(JOIN_ROOM_DIALOG, { join: joinRoom, roomCode: roomId, close: hideModal })
   }, [roomId, joinRoom, hideModal])
+
+  const onShowCreateDialog = useCallback(() => {
+    showModal(CREATE_ROOM_DIALOG, { create: createRoom, close: hideModal })
+  }, [createRoom, hideModal])
 
   useEffect(() => {
     if (roomId) onShowJoinDialog()
@@ -144,4 +134,4 @@ const HomeContainer: FC = () => {
   )
 }
 
-export default HomeContainer
+export default LoginContainer

@@ -6,7 +6,7 @@ interface PlayerDetailsDialogProps {
 }
 export const PlayerDetailsDialog = (props: PlayerDetailsDialogProps) => {
   const { close } = props
-  const { currentPlayer: user } = usePlayer()
+  const { currentPlayer } = usePlayer()
 
   return (
     <PapDialog
@@ -19,10 +19,10 @@ export const PlayerDetailsDialog = (props: PlayerDetailsDialogProps) => {
       }}
     >
       <div className={'card'}>
-        <p>Name: {user?.name}</p>
-        <p>Team: {user?.teamId}</p>
+        <p>Name: {currentPlayer?.name}</p>
+        <p>Team: {currentPlayer?.teamId}</p>
         <pre style={{ display: 'flex', background: 'lightgray' }}>
-          {JSON.stringify(user, null, 2)}
+          {JSON.stringify(currentPlayer, null, 2)}
         </pre>
       </div>
     </PapDialog>

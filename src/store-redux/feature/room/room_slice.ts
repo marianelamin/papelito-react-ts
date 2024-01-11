@@ -70,7 +70,7 @@ export const exitRoom = createAsyncThunk<void, void, { dispatch: AppDispatch; st
   `${ROOM_FEATURE_KEY}/exitRoom`,
   async (_data, { getState }) => {
     const state: RootState = getState()
-
+    console.log({ state })
     await gameService.exitRoom(state.room.room?.id ?? '', state.currentPlayer.player?.id ?? '')
   }
 )

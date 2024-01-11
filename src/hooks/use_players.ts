@@ -7,19 +7,19 @@ import { playersRef } from '../dao/collection_references'
 import { useUser } from '../utilities/context/userContext'
 
 export const usePlayer = () => {
-  const { roomId, userId: playerId } = useUser()
+  const { room, player } = useUser()
 
-  const [isFetching, setIsFetching] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [allPlayers, setAllPlayer] = useState<Player[]>([])
   const [currentPlayer, setCurrentPlayer] = useState<Player>()
 
   useEffect(() => {
-    console.info('-\n\nThis is custom Player hook\n\n\n-', `roomId: ${roomId}`)
+    console.info('-\n\nThis is custom Player hook\n\n\n-', `roomId: ${room?.id}`)
 
-    if (!roomId) return
+    if (!room?.id) return
 
     const unsubscribe = onSnapshot(
-      playersRef(roomId),
+      playersRef(room?.id),
       (document) => {
         const players: Player[] = []
         console.log('Received doc snapshot for all players: ', document)
@@ -28,8 +28,8 @@ export const usePlayer = () => {
           const p = d.data().toPlayer()
           p.id = d.id
           console.log('leyendo cada uno de los players', p)
-          console.log({ playerId, id: p.id })
-          if (playerId === p.id) {
+          console.log({ playerID: player?.id, id: p.id })
+          if (player?.id === p.id) {
             setCurrentPlayer(p)
             // appDispatch(playerSlice.actions.setCurrentPlayer(p))
           }
@@ -38,7 +38,7 @@ export const usePlayer = () => {
 
         setAllPlayer(players)
         // appDispatch(teamsSlice.actions.setAllPlayers(players))
-        setIsFetching(false)
+        setIsLoading(false)
       },
       (error) => {
         console.error('aqui esta el error pues: \n', error)
@@ -51,7 +51,7 @@ export const usePlayer = () => {
     return () => {
       unsubscribe()
     }
-  }, [roomId, isFetching, playerId])
+  }, [player?.id, isLoading, room?.id])
 
-  return { roomId, currentPlayer, isFetching, allPlayers }
+  return { roomId: room?.id, currentPlayer, isLoading, allPlayers }
 }

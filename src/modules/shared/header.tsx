@@ -16,11 +16,11 @@ export const Header = (): JSX.Element => {
   const appDispatch = useAppDispatch()
   const navigate = useNavigate()
   const { notifyInfoAlert, notifySuccessAlert, notifyErrorAlert } = useAlert()
-  const { roomId } = useUser()
+  const { room } = useUser()
 
   const leaveRoom = useCallback(async (): Promise<void> => {
     await appDispatch(exitRoom()).unwrap()
-    navigate('/home')
+    navigate('/')
   }, [])
 
   const handleLeaveRoom = useCallback(() => {
@@ -29,7 +29,7 @@ export const Header = (): JSX.Element => {
       text: 'Leaving Room....'
     })
     alert(
-      `TODO: create a dialog for this\n\nYou are leaving the room... if this is a mistake you will have to re join the room. Just need to provide the room code:\n\nRoom Code: ${roomId}`
+      `TODO: create a dialog for this\n\nYou are leaving the room... if this is a mistake you will have to re join the room. Just need to provide the room code:\n\nRoom Code: ${room?.id}`
     )
     setTimeout(() => {
       leaveRoom()

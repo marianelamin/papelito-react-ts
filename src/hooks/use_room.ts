@@ -6,17 +6,17 @@ import { useAppDispatch } from '../store-redux/store'
 import { useUser } from '../utilities/context/userContext'
 
 export const useRoom = () => {
-  const { roomId } = useUser()
+  const { room } = useUser()
 
   const appDispatch = useAppDispatch()
   const [isFetching, setIsFetching] = useState<boolean>(true)
 
   useEffect(() => {
-    console.info(`- room hook -\n\n roomId: ${roomId}`)
+    console.info(`- room hook -\n\n roomId: ${room?.id}`)
 
-    if (roomId) {
+    if (room?.id) {
       const unsubscribe = onSnapshot(
-        doc(roomRef(), roomId),
+        doc(roomRef(), room?.id),
         async (document) => {
           console.log('Room Changes: ', document.id, document.data())
 
@@ -39,7 +39,7 @@ export const useRoom = () => {
         unsubscribe()
       }
     }
-  }, [roomId, isFetching])
+  }, [room?.id, isFetching])
 
   return { isFetching }
 }
