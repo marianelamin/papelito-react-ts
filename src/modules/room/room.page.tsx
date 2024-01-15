@@ -1,24 +1,16 @@
 import React from 'react'
 
 import { Header } from '../shared/header'
-import { UserContextProvider } from '../../utilities/context'
+import { UserContextProvider, useUser } from '../../utilities/context'
 import Footer from '../shared/footer'
 import RoomLayout from './layout/room.layout'
 import { Navigate, Route, Routes } from 'react-router'
-import LAZY_VIEWS from '../routes/lazy-views'
-import RoomSetup from './features/room-setup-wizard/setup/room-setup'
-import ArrangeTeams from './features/room-setup-wizard/setup/arrange-teams'
-import StartGame from './features/room-setup-wizard/setup/start-game'
 import Lobby from './features/lobby/lobby'
+import { ROOM_SETUP_PATH, ROOM_ADMIN_PATH, ROOM_PATH, ROOM_GAME_PATH } from './routes'
+import RoomSetupWizardPage from './features/room-setup-wizard/room-setup-wizard.page'
+import AdminHome from './features/admin/admin.page'
 import { RoomSetupWizardContextProvider } from './features/room-setup-wizard/data-access/context/room-setup-wizard.context'
-import {
-  ROOM_SETUP_PATH,
-  ROOM_SET_TEAMS_PATH,
-  ROOM_START_GAME_PATH,
-  ROOM_ADMIN_PATH,
-  ROOM_PATH
-} from './routes'
-import { Players } from './features/players/players'
+import GameHome from './features/game/game.page'
 
 const RoomPage: React.FC = () => {
   return (
@@ -26,21 +18,44 @@ const RoomPage: React.FC = () => {
       <RoomLayout>
         <Header />
 
-        <RoomSetupWizardContextProvider>
-          <Routes>
-            <Route index={true} Component={Lobby} />
-            <Route path={ROOM_SETUP_PATH} Component={RoomSetup} />
-            <Route path={ROOM_SET_TEAMS_PATH} Component={ArrangeTeams} />
-            <Route path={ROOM_START_GAME_PATH} Component={StartGame} />
-            <Route path={`${ROOM_ADMIN_PATH}/*`} Component={LAZY_VIEWS.ADMIN} />
-            <Route path={'*'} Component={() => <Navigate to={`/${ROOM_PATH}`} replace />} />
-          </Routes>
-        </RoomSetupWizardContextProvider>
-        <Players />
+        <RoomContainer />
 
         <Footer />
       </RoomLayout>
     </UserContextProvider>
+  )
+}
+
+const RoomContainer = (): JSX.Element => {
+  const { player } = useUser()
+
+  return (
+    <Routes>
+      <Route index={true} Component={Lobby} />
+      {player?.isAdmin ? (
+        <>
+          {/* <Route
+            path={`${ROOM_SETUP_PATH}/:step`}
+            Component={() => (
+              <RoomSetupWizardContextProvider>
+              <RoomSetupWizardPage />
+              </RoomSetupWizardContextProvider>
+              )}
+            /> */}
+          <Route
+            path={`${ROOM_SETUP_PATH}/*`}
+            Component={() => (
+              <RoomSetupWizardContextProvider>
+                <RoomSetupWizardPage />
+              </RoomSetupWizardContextProvider>
+            )}
+          />
+          <Route path={`${ROOM_ADMIN_PATH}/*`} Component={AdminHome} />
+        </>
+      ) : null}
+      <Route path={`${ROOM_GAME_PATH}/*`} Component={GameHome} />
+      <Route path={'*'} Component={() => <Navigate to={`/${ROOM_PATH}`} replace />} />
+    </Routes>
   )
 }
 

@@ -1,4 +1,9 @@
+import { NavLink } from 'react-router-dom'
+import { ROOM_SETUP_PATH } from '../../modules/room/routes'
+import { useUser } from '../../utilities/context'
+
 export const Instructions = (): JSX.Element => {
+  const { player } = useUser()
   return (
     <div className={'col-12'}>
       <div>
@@ -6,9 +11,24 @@ export const Instructions = (): JSX.Element => {
       </div>
       <div className={'grid p-3 gap-3'}>
         <ol>
-          <li>Write papelitos</li>
-          <li>Submitt to bowl</li>
-          <li>Wait for your peers to do the same</li>
+          {player?.isAdmin ? (
+            <li>
+              <p>
+                Since you are an admin, you can setup the game to your liking.{' '}
+                <NavLink to={ROOM_SETUP_PATH}>Setup Room</NavLink>
+              </p>
+            </li>
+          ) : null}
+          <li>
+            {' '}
+            <p> Write papelitos</p>
+          </li>
+          <li>
+            <p>Submit to bowl</p>
+          </li>
+          <li>
+            <p>Wait for your peers to do the same</p>
+          </li>
         </ol>
       </div>
     </div>

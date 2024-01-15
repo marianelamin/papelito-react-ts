@@ -1,6 +1,8 @@
 // import { useEffect, useState } from 'react'
 
-import {} from '../models'
+import { useState } from 'react'
+import { useRoom } from '.'
+import { Papelito, Player, Team } from '../models'
 // import { db, doc, onSnapshot } from '../dao'
 
 // import { playersRef } from '../dao/collection_references'
@@ -21,9 +23,61 @@ import {} from '../models'
  *
  */
 
-export const useGame = (roomId: string) => {
-  console.warn('implement hook', roomId)
-  // const [isFetching, setIsFetching] = useState<boolean>(false)
+interface PapelitoClock {
+  countDown: number
+  status: 'in-progress' | 'paused' | 'reset'
+}
+interface Round {
+  id: number
+  turns: Turn[]
+  stats: { team: Team; score: number }[]
+}
+interface Turn {
+  team: Team
+  presenter: Player
+  papelitos: Papelito[]
+  timerCount: number
+}
+
+const timer: PapelitoClock = {
+  countDown: 0,
+  status: 'paused'
+}
+
+const activeTeam: Team = {
+  id: 'team123',
+  name: '',
+  order: 3,
+  score: 0, // not going to be used
+  players: [] // not going to be used
+}
+const activePlayer: Player = {
+  name: 'Test Player',
+  id: 'player123',
+  teamId: 'team123',
+  order: 0,
+  colorNumber: 0,
+  isAdmin: false,
+  hasSubmittedPapelitos: false
+}
+
+const turn: Turn = {
+  team: activeTeam,
+  presenter: activePlayer,
+  papelitos: [],
+  timerCount: 0
+}
+const round: Round = {
+  id: 0,
+  turns: [turn],
+  stats: [{ team: new Team(), score: 2 }]
+}
+
+export const useGame = () => {
+  const { room } = useRoom()
+
+  const [activeRound, setactiveRound] = useState<Round>(round)
+  const [activeTurn, setActiveTurn] = useState<Turn>(turn)
   // const [player, setPlayer] = useState<Player>()
 
   // useEffect(() => {
@@ -62,5 +116,5 @@ export const useGame = (roomId: string) => {
   //   }
   // }, [roomId, isFetching])
 
-  return [true, true]
+  return { room, activeTurn, activeRound, timer }
 }

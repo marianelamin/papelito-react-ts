@@ -4,6 +4,7 @@ export class FirestorePlayer {
   id: string = '-1'
 
   constructor(
+    public is_admin: boolean,
     public name: string,
     public order: number,
     public team_id: string,
@@ -13,6 +14,7 @@ export class FirestorePlayer {
 
   static clone(item: FirestorePlayer): FirestorePlayer {
     const c = new FirestorePlayer(
+      item.is_admin,
       item.name,
       item.order,
       item.team_id,
@@ -27,6 +29,7 @@ export class FirestorePlayer {
 
   static fromPlayer(player: Player) {
     return new FirestorePlayer(
+      player.isAdmin,
       player.name,
       player.order,
       player.teamId,
@@ -39,6 +42,7 @@ export class FirestorePlayer {
     return {
       id: this.id,
       name: this.name,
+      isAdmin: this.is_admin,
       order: this.order,
       colorNumber: this.color_number,
       teamId: this.team_id,

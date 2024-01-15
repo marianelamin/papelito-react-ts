@@ -41,5 +41,5 @@ export const useRoom = () => {
     }
   }, [room?.id, isFetching])
 
-  return { isFetching }
+  return { isFetching, room }
 }

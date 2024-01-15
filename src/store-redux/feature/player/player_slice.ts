@@ -1,7 +1,6 @@
 import { createSlice, type PayloadAction, createAsyncThunk } from '@reduxjs/toolkit'
 import { playerService } from '../../../services'
 import { type Player } from '../../../models'
-import { PapelitoLocalStorage } from '../../../local-storage'
 
 const PLAYER_FEATURE_KEY = 'player'
 
@@ -63,28 +62,28 @@ export const playerSlice = createSlice({
 // thunks
 const addPlayerToRoom = createAsyncThunk(
   `${PLAYER_FEATURE_KEY}/addPlayerToRoom`,
-  async (data: { roomId: string; playerName: string }, _thunkAPI) => {
-    return await playerService.addPlayerToRoom(data.roomId, data.playerName)
+  async ({ roomId, name }: { roomId: string; name: string }, _thunkAPI) => {
+    return await playerService.addPlayerToRoom(roomId, name)
   }
 )
 export const getMyPlayerById = createAsyncThunk(
   `${PLAYER_FEATURE_KEY}/getMyPlayerById`,
-  async (_data: void, _thunkAPI) => {
+  async ({ roomId, playerId }: { roomId: string; playerId: string }, _thunkAPI) => {
     // todo: should get these values from state and nto local storage
-    const { roomId, myUserId: myPlayerId } = PapelitoLocalStorage.getRoomAndPlayerId()
-    return await playerService.getPlayerById(roomId, myPlayerId)
+    // const { roomId, myUserId: myPlayerId } = PapelitoLocalStorage.getRoomAndPlayerId()
+    return await playerService.getPlayerById(roomId, playerId)
   }
 )
 export const getPlayerById = createAsyncThunk(
   `${PLAYER_FEATURE_KEY}/getPlayerById`,
-  async (data: { roomId: string; playerId: string }, _thunkAPI) => {
-    return await playerService.getPlayerById(data.roomId, data.playerId)
+  async ({ roomId, playerId }: { roomId: string; playerId: string }, _thunkAPI) => {
+    return await playerService.getPlayerById(roomId, playerId)
   }
 )
 export const markPlayerSubmittedPapelitos = createAsyncThunk(
   `${PLAYER_FEATURE_KEY}/updatePlayerById`,
-  async (data: { roomId: string; playerId: string }, _thunkAPI) => {
-    await playerService.markPlayerSubmittedPapelitos(data.roomId, data.playerId)
+  async ({ roomId, playerId }: { roomId: string; playerId: string }, _thunkAPI) => {
+    await playerService.markPlayerSubmittedPapelitos(roomId, playerId)
   }
 )
 export const removePlayerById = createAsyncThunk(
@@ -96,10 +95,10 @@ export const removePlayerById = createAsyncThunk(
 
 export const removeMyPlayer = createAsyncThunk(
   `${PLAYER_FEATURE_KEY}/removeMyPlayer`,
-  async (_data: void, _thunkAPI) => {
+  async ({ roomId, playerId }: { roomId: string; playerId: string }, _thunkAPI) => {
     // todo: should get these values from state and nto local storage
-    const { roomId, myUserId: myPlayerId } = PapelitoLocalStorage.getRoomAndPlayerId()
-    await playerService.removePlayerById(roomId, myPlayerId)
+    // const { roomId, myUserId: myPlayerId } = PapelitoLocalStorage.getRoomAndPlayerId()
+    await playerService.removePlayerById(roomId, playerId)
   }
 )
 

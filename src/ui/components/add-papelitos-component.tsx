@@ -1,17 +1,20 @@
 import { AddPapelitoComponent } from './add-papelito'
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
 
-import { type Papelito } from '../../models'
+import { type Papelito, GameSettings } from '../../models'
 import { PapButton } from './common'
-import { type RootState, useAppDispatch } from '../../store-redux/store'
+import { RootState, useAppDispatch } from '../../store-redux/store'
 import { useSelector } from 'react-redux'
-import { papelitoSlice } from '../../store-redux/feature/papelito/papelito_slice'
+import { PapelitoState, papelitoSlice } from '../../store-redux/feature/papelito/papelito_slice'
 import { addToBowl } from '../../store-redux/feature/bowl/bowl_slice'
 import { useAlert } from '../../utilities/context/globalAlertContext'
 import { markPlayerSubmittedPapelitos } from '../../store-redux/feature/player/player_slice'
 import { usePlayer } from '../../hooks'
+import { RoomState } from '../../store-redux/feature/room/room_slice'
+
+const DEFAULT_PAPELITOS_PER_PLAYER = 3
 
 const AddPapelitosComponent = () => {
   const appDispatch = useAppDispatch()
@@ -19,7 +22,16 @@ const AddPapelitosComponent = () => {
   const { notifySuccessAlert } = useAlert()
 
   const [isSendingToBowl, setIsSendingToBowl] = useState(false)
+
+  const settings = useSelector<RootState, GameSettings | undefined>(
+    (state) => state.room.room?.settings
+  )
   const papelitos = useSelector<RootState, Papelito[]>((state) => state.papelito.myPapelitos)
+
+  const isSubmitDisabled = useMemo(
+    () => papelitos?.length < (settings?.papelitoPerPlayer ?? DEFAULT_PAPELITOS_PER_PLAYER),
+    [papelitos, settings]
+  )
 
   const handleDeletePapelito = useCallback(
     (papelito: Papelito) => () => {
@@ -31,11 +43,10 @@ const AddPapelitosComponent = () => {
   // no api calls, only on redux state
   const onSendToBowl = useCallback(async () => {
     setIsSendingToBowl(true)
-    console.log({ currentPlayer })
     if (currentPlayer?.id) {
       await appDispatch(addToBowl(papelitos)).unwrap()
       await appDispatch(
-        markPlayerSubmittedPapelitos({ roomId, playerId: currentPlayer?.id })
+        markPlayerSubmittedPapelitos({ roomId: roomId ?? '', playerId: currentPlayer?.id })
       ).unwrap()
       notifySuccessAlert({
         title: 'Papelitos added to bowl'
@@ -62,28 +73,24 @@ const AddPapelitosComponent = () => {
         <h3 className="text-center m-0">Submit Papelitos</h3>
       </div>
       <div className="gap-3 p-3">
-        {currentPlayer?.hasSubmittedPapelitos ? (
-          <p>You have submitted your papelitos</p>
-        ) : (
-          <div className="grid gap-3 p-3">
-            <div className="md:col-6">
-              <AddPapelitoComponent />
-            </div>
-            <div className="md:col-6 grid">
-              <DataTable value={papelitos}>
-                <Column field="text" />
-                <Column field="remove" body={removePapelitoTemplate} />
-              </DataTable>
-              <PapButton
-                tooltip="Put in Bowl"
-                disabled={papelitos.length < 3}
-                icon="pi pi-send"
-                loading={isSendingToBowl}
-                onClick={onSendToBowl}
-              />
-            </div>
+        <div className="grid gap-3 p-3">
+          <div className="md:col-6">
+            <AddPapelitoComponent />
           </div>
-        )}
+          <div className="md:col-6 grid">
+            <DataTable value={papelitos}>
+              <Column field="text" />
+              <Column field="remove" body={removePapelitoTemplate} />
+            </DataTable>
+            <PapButton
+              tooltip="Put in Bowl"
+              disabled={isSubmitDisabled}
+              icon="pi pi-send"
+              loading={isSendingToBowl}
+              onClick={onSendToBowl}
+            />
+          </div>
+        </div>
       </div>
     </div>
   )

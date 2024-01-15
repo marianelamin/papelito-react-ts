@@ -1,31 +1,33 @@
-import { type Player } from '../models'
+import { defaultPlayer, type Player } from '../models'
 import * as playerDao from '../dao/player.dao'
 
-export const addPlayerToRoom = async (roomCode: string, playerName: string): Promise<Player> => {
-  console.log(`creating a player ${playerName}`)
-  const newPlayer: Player = await playerDao.create(roomCode, playerName)
-
-  return newPlayer
+export const getAllPlayers = async (roomId: string): Promise<Player[]> => {
+  return await playerDao.getAllPlayers(roomId)
 }
 
-export const getPlayerById = async (roomCode: string, playerId: string): Promise<Player> => {
-  console.log(`retrieving a player ${playerId}`)
-  return await playerDao.getPlayerById(roomCode, playerId)
+export const getPlayerById = async (roomId: string, playerId: string): Promise<Player> => {
+  return await playerDao.getPlayerById(roomId, playerId)
 }
 
+export const addAdminPlayerToRoom = async (roomId: string, name: string): Promise<Player> => {
+  const request: Player = { ...defaultPlayer, name, isAdmin: true }
+  return await playerDao.create(roomId, request)
+}
+
+export const addPlayerToRoom = async (roomId: string, name: string): Promise<Player> => {
+  const request: Player = { ...defaultPlayer, name }
+  return await playerDao.create(roomId, request)
+}
+
+// Update ??
 export const markPlayerSubmittedPapelitos = async (
-  roomCode: string,
+  roomId: string,
   playerId: string
 ): Promise<void> => {
   console.log(`markPlayerSubmittedPapelitos ${playerId}`)
-  await playerDao.markPlayerSubmittedPapelitos(roomCode, playerId)
+  await playerDao.markPlayerSubmittedPapelitos(roomId, playerId)
 }
 
-export const removePlayerById = async (roomCode: string, playerId: string): Promise<void> => {
-  console.log(`removing a player ${playerId}`)
-  await playerDao.removePlayerById(roomCode, playerId)
-}
-
-export const getAllPlayers = async (roomCode: string): Promise<Player[]> => {
-  return await playerDao.getAllPlayers(roomCode)
+export const removePlayerById = async (roomId: string, playerId: string): Promise<void> => {
+  await playerDao.removePlayerById(roomId, playerId)
 }

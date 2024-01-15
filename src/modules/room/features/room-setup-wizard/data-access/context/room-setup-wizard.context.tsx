@@ -26,12 +26,12 @@ const StepSections: RoomSetupStep[] = [
   {
     label: 'Teams',
     component: CreateTeams,
-    route: ROOM_SET_TEAMS_PATH
+    route: `${ROOM_SETUP_PATH}/${ROOM_SET_TEAMS_PATH}`
   },
   {
     label: 'Start',
     component: StartGame,
-    route: ROOM_START_GAME_PATH
+    route: `${ROOM_SETUP_PATH}/${ROOM_START_GAME_PATH}`
   }
 ]
 
@@ -64,6 +64,7 @@ const RoomSetupWizardContextProvider = ({ children }: RoomSetupWizardContextProv
 
   const currentIndex = useMemo(() => {
     const isValid = StepSections.some((s) => roomPathConcat(s.route) === pathname)
+    console.log({ isValid })
     return isValid ? StepSections.findIndex((s) => roomPathConcat(s.route) === pathname) : 0
   }, [pathname])
 
