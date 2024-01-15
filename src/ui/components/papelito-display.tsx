@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { PapButton } from './common'
 import { PapCard } from './common/pap-card'
 import { type Papelito } from '../../models'
@@ -33,44 +33,40 @@ export const PapelitoDisplayForGuessing = (): JSX.Element => {
 }
 
 interface PapelitoDisplayForExplainingProps {
-  papelito: Papelito
+  drawnPapelito?: Papelito
+  markAsGuessed: () => void
+  drawPapelito: () => void
 }
 
 export const PapelitoDisplayForExplaining = (
   props: PapelitoDisplayForExplainingProps
 ): JSX.Element => {
-  const { papelito } = props
-  const [isDrawDisabled, setIsDrawDisabled] = useState<boolean>(false)
-  const [isGuessDisabled, setIsGuessDisabled] = useState<boolean>(false)
+  const { drawnPapelito, markAsGuessed, drawPapelito } = props
 
-  const handleDraw = () => {
-    setIsDrawDisabled(true)
-    setIsGuessDisabled(true)
-    // todo: agarra proximo papelito
-  }
+  const handleDraw = useCallback(() => {
+    drawPapelito()
+  }, [])
 
-  const handleGuess = () => {
-    setIsGuessDisabled(true)
-
-    // todo: marca el papelito como adivinado
-    // await handleGuess(currentPapelitoDisplay)
-
-    setIsGuessDisabled(false)
-    setIsDrawDisabled(false)
-  }
+  const handleGuess = useCallback(() => {
+    markAsGuessed()
+  }, [])
 
   return (
     <PapCard
       header={'Explica el papelito'}
       footer={
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <PapButton onClick={handleDraw} disabled={isDrawDisabled} label="Draw"></PapButton>
-          <PapButton onClick={handleGuess} disabled={isGuessDisabled} label="Guessed"></PapButton>
+          <PapButton onClick={handleDraw} disabled={!!drawnPapelito} label="Draw" />
+          <PapButton
+            onClick={handleGuess}
+            disabled={drawnPapelito?.guessed ?? true}
+            label="Guessed"
+          />
         </div>
       }
     >
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-        <h1>{papelito.text}</h1>
+        {drawnPapelito ? <h1>{drawnPapelito.text}</h1> : <div>Draw a papelito</div>}
       </div>
     </PapCard>
   )

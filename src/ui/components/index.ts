@@ -1,5 +1,4 @@
 export * from './add-papelito'
-export * from './papelito-turn'
 export * from './add-papelitos-component'
 export * from './room-details'
 export * from './create-teams'

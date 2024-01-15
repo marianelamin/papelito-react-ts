@@ -1,66 +1,150 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { PapButton } from './common'
+import { useAlert } from '../../utilities/context'
+
+const TimerStateConst = {
+  pauseTooltip: 'Pausar',
+  pauseStatus: 'paused',
+  startTooltip: 'Iniciar',
+  startStatus: 'in progress',
+  resetTooltip: 'Resetear',
+  resetStatus: 'reset',
+  finishTooltip: 'Iniciar',
+  finishStatus: 'finished'
+}
 
 enum TimerState {
   STARTED,
-  PAUSED
+  PAUSED,
+  RESET,
+  FINISHED
 }
 
-const getTimerStateName = (state: TimerState) =>
-  state === TimerState.PAUSED ? 'PAUSED' : 'STARTED'
+const getTimerStateName = (state: TimerState) => {
+  switch (state) {
+    case TimerState.PAUSED:
+      return TimerStateConst.pauseStatus
+    case TimerState.STARTED:
+      return TimerStateConst.startStatus
+    case TimerState.FINISHED:
+      return TimerStateConst.finishStatus
+    default:
+      return TimerStateConst.resetStatus
+  }
+}
 
-const getBtnLabel = (state: TimerState) => (state === TimerState.PAUSED ? 'Iniciar' : 'Pausar')
+const getBtnTooltip = (state: TimerState) => {
+  switch (state) {
+    case TimerState.RESET:
+    case TimerState.PAUSED:
+    case TimerState.FINISHED:
+      return TimerStateConst.startTooltip
+    case TimerState.STARTED:
+      return TimerStateConst.pauseTooltip
+    default:
+      return ''
+  }
+}
 
-const getBtnIcon = (state: TimerState) =>
-  state === TimerState.PAUSED ? <i className="pi pi-play"></i> : <i className="pi pi-pause"></i>
+const getBtnIcon = (state: TimerState) => {
+  switch (state) {
+    case TimerState.RESET:
+    case TimerState.PAUSED:
+    case TimerState.FINISHED:
+      return <i className="pi pi-play" />
+    case TimerState.STARTED:
+      return <i className="pi pi-pause" />
+    default:
+      return null
+  }
+}
+const DEFAULT_TIMER_START_COUNT = 2
 
+// interface TimerProps {
+//   reset: () => void
+//   start: () => void
+//   pause: () => void
+// }
+// TODO: connect something to the Firebase, so timer starts going down for all at the same time.
+// export const Timer = ({ reset, pause, start }: TimerProps) => {
 export const Timer = () => {
+  const { notifyInfoAlert } = useAlert()
+
   const [timerState, setTimerState] = useState(TimerState.PAUSED)
-  const [timer, setTimer] = useState(60)
+  const [countDown, setCountDown] = useState(DEFAULT_TIMER_START_COUNT)
 
-  const handleReset = () => {
-    console.log('handle reset')
-    setTimerState(TimerState.PAUSED)
-    setTimer(60)
-  }
+  const handleReset = useCallback(() => {
+    setTimerState(TimerState.RESET)
+    setCountDown(DEFAULT_TIMER_START_COUNT)
+  }, [])
 
-  const handlePlayPause = () => {
-    setTimerState((prev) => (prev === TimerState.PAUSED ? TimerState.STARTED : TimerState.PAUSED))
-  }
+  const handleTimeUp = useCallback(() => {
+    setTimerState(TimerState.FINISHED)
+    setTimeout(() => {
+      handleReset()
+      notifyInfoAlert({
+        title: 'Temporaizador reseteado'
+      })
+    }, 3000)
+  }, [handleReset, notifyInfoAlert])
+
+  const handlePlayPause = useCallback(() => {
+    switch (timerState) {
+      case TimerState.RESET:
+      case TimerState.PAUSED:
+        setTimerState(TimerState.STARTED)
+        break
+      case TimerState.STARTED:
+        setTimerState(TimerState.PAUSED)
+        break
+      default:
+        break
+    }
+  }, [timerState])
+
+  useEffect(() => {
+    console.log(timerState, TimerState.STARTED)
+    if (timerState === TimerState.STARTED) {
+      const interval = setInterval(() => {
+        setCountDown((prev) => {
+          if (prev > 0) return prev - 1
+          handleTimeUp()
+          return 0
+        })
+      }, 1000)
+      return () => clearInterval(interval)
+    } else {
+      return () => {}
+    }
+  }, [timerState, handleTimeUp])
 
   return (
     <div
       style={{
-        padding: '1rem',
-        border: '1px gray solid'
+        paddingRight: '1rem',
+        display: 'flex',
+        justifyContent: 'end',
+        alignItems: 'center'
       }}
     >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}
-      >
-        <h3>
-          <i className="pi pi-stopwatch" /> Cronometro
-        </h3>
-        <p>{timer} s</p>
-        <p>{getTimerStateName(timerState)}</p>
-      </div>
-
+      <p>
+        <i className="pi pi-stopwatch" />
+        {` ${countDown} s`}
+        {`  -  `}
+        {`${getTimerStateName(timerState)} `}
+      </p>
       <PapButton
         link
         icon={getBtnIcon(timerState)}
-        label={getBtnLabel(timerState)}
+        tooltip={getBtnTooltip(timerState)}
         onClick={handlePlayPause}
-      ></PapButton>
+      />
       <PapButton
         link
         icon={<i className="pi pi-replay"></i>}
-        label={'Resetear'}
+        tooltip={'Resetear'}
         onClick={handleReset}
-      ></PapButton>
+      />
     </div>
   )
 }

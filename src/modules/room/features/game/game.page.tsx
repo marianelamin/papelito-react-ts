@@ -1,12 +1,51 @@
 import { useGame } from '../../../../hooks'
-import { PapDivider } from '../../../../ui/components/common'
+import { Timer } from '../../../../ui/components'
+import { PapDivider, PapReactiveKnob } from '../../../../ui/components/common'
+import {
+  PapelitoDisplayForExplaining,
+  PapelitoDisplayForGuessing
+} from '../../../../ui/components/papelito-display'
+import { useUser } from '../../../../utilities/context'
 
 const GameHome = () => {
-  const { activeRound, activeTurn, timer } = useGame()
+  const { player: user } = useUser()
+  const { activeRound, activeTurn, timer, bowl, drawnPapelito, drawPapelito, markAsGuessed } =
+    useGame()
 
   return (
     <div>
-      <p>TBD - Game route</p>
+      <div>
+        <Timer />
+        <p>Team's turn: {activeTurn.team.name}</p>
+        <p>Player's turn: {activeTurn.presenter.name}</p>
+
+        <PapReactiveKnob
+          label="Bowl"
+          value={bowl.filter((p) => !p.guessed).length}
+          total={bowl.length}
+        />
+      </div>
+
+      {activeTurn.presenter.id === user?.id ? (
+        <div>
+          <PapelitoDisplayForExplaining
+            drawnPapelito={drawnPapelito}
+            drawPapelito={drawPapelito}
+            markAsGuessed={markAsGuessed}
+          />
+        </div>
+      ) : (
+        <div>
+          <PapelitoDisplayForGuessing />
+        </div>
+      )}
+
+      <PapDivider text={''} layout="horizontal" />
+      <pre> activeRound: {JSON.stringify(activeRound, null, 2)} </pre>
+      <pre> activeTurn: {JSON.stringify(activeTurn, null, 2)} </pre>
+      <pre> Timer: {JSON.stringify(timer, null, 2)} </pre>
+      <PapDivider text={''} layout="horizontal" />
+
       <p>What do I want to see?</p>
       <ul>
         <li>Whos turn is it?</li>
@@ -45,10 +84,6 @@ const GameHome = () => {
           <li>status</li>
         </ul>
       </ul>
-      <PapDivider text={''} layout="horizontal" />
-      <pre> activeRound: {JSON.stringify(activeRound, null, 2)} </pre>
-      <pre> activeTurn: {JSON.stringify(activeTurn, null, 2)} </pre>
-      <pre> Timer: {JSON.stringify(timer, null, 2)} </pre>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 // import { useEffect, useState } from 'react'
 
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useRoom } from '.'
 import { Papelito, Player, Team } from '../models'
 // import { db, doc, onSnapshot } from '../dao'
@@ -46,14 +46,15 @@ const timer: PapelitoClock = {
 
 const activeTeam: Team = {
   id: 'team123',
-  name: '',
+  name: 'Team A',
   order: 3,
   score: 0, // not going to be used
   players: [] // not going to be used
 }
 const activePlayer: Player = {
   name: 'Test Player',
-  id: 'player123',
+  // id: 'player123',
+  id: 'vwkxtSx7kotuKdb8Ato1',
   teamId: 'team123',
   order: 0,
   colorNumber: 0,
@@ -69,16 +70,99 @@ const turn: Turn = {
 }
 const round: Round = {
   id: 0,
-  turns: [turn],
+  turns: [
+    {
+      team: {
+        id: 'team123A',
+        name: 'Team A',
+        order: 0,
+        score: 0, // not going to be used
+        players: [] // not going to be used
+      },
+      presenter: {
+        name: 'Player 1',
+        id: '',
+        teamId: 'team123A',
+        order: 0,
+        colorNumber: 0,
+        isAdmin: false,
+        hasSubmittedPapelitos: false
+      },
+      papelitos: [
+        {
+          id: '',
+          guessed: true,
+          text: '',
+          inBowl: false
+        }
+      ],
+      timerCount: 0
+    }
+  ],
   stats: [{ team: new Team(), score: 2 }]
+}
+
+const papelitosInBowl: Papelito[] = [
+  {
+    id: '0',
+    text: 'Daddy plays start craft 2',
+    inBowl: false,
+    guessed: true
+  },
+  {
+    id: '1',
+    text: 'simon esta pidiendo algo',
+    inBowl: true,
+    guessed: false
+  },
+  {
+    id: '2',
+    text: 'Simoncito habla con papa',
+    inBowl: true,
+    guessed: false
+  },
+  {
+    id: '3',
+    text: 'Ver el Arrow',
+    inBowl: true,
+    guessed: false
+  }
+]
+
+const drawn: Papelito = {
+  id: 'as',
+  text: `Waisting John's time`,
+  inBowl: false,
+  guessed: true
+}
+
+const drawPapelitoFromBowl = (bowl: Papelito[]) => {
+  const available = bowl.filter((p) => !p.guessed)
+  const index = Math.floor(Math.random() * available.length)
+  return available[index]
 }
 
 export const useGame = () => {
   const { room } = useRoom()
 
-  const [activeRound, setactiveRound] = useState<Round>(round)
+  const [bowl, setBowl] = useState<Papelito[]>(papelitosInBowl)
+  const [activeRound, setActiveRound] = useState<Round>(round)
   const [activeTurn, setActiveTurn] = useState<Turn>(turn)
-  // const [player, setPlayer] = useState<Player>()
+  // const [drawnPapelito, setDrawnPapelito] = useState<Papelito | undefined>(drawn)
+  const [drawnPapelito, setDrawnPapelito] = useState<Papelito | undefined>()
+
+  const drawPapelito = useCallback(() => {
+    const drawn = drawPapelitoFromBowl(bowl)
+    setDrawnPapelito(drawn)
+    // todo: mark papelito as current
+  }, [bowl])
+
+  const markAsGuessed = useCallback(() => {
+    console.log({ drawnPapelito })
+    // todo: mark as guessed and update the bowl
+    // todo: push to the papelitos in active turn
+    setDrawnPapelito(undefined)
+  }, [])
 
   // useEffect(() => {
   //   console.info('-\n\nThis is custom Player hook\n\n\n-', `roomId: ${roomId}`)
@@ -116,5 +200,5 @@ export const useGame = () => {
   //   }
   // }, [roomId, isFetching])
 
-  return { room, activeTurn, activeRound, timer }
+  return { room, activeTurn, activeRound, timer, bowl, drawnPapelito, drawPapelito, markAsGuessed }
 }
