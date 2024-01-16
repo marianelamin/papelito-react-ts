@@ -5,7 +5,7 @@ import RoomSetup from './setup/room-setup'
 import ArrangeTeams from './setup/arrange-teams'
 import StartGame from './setup/start-game'
 // import { RoomSetupWizardContextProvider } from './data-access/context/room-setup-wizard.context'
-import { useUser } from '../../../../utilities/context'
+import { useUser } from '../../../core/user/context'
 
 const RoomSetupWizardPage = (): JSX.Element => {
   const { player } = useUser()

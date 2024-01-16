@@ -4,7 +4,7 @@ import { type Player } from '../models'
 
 import { onSnapshot } from '../dao'
 import { playersRef } from '../dao/collection_references'
-import { useUser } from '../utilities/context/userContext'
+import { useUser } from '../modules/core/user/context/UserContext'
 
 export const usePlayer = () => {
   const { room, player } = useUser()

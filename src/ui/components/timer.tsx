@@ -119,20 +119,13 @@ export const Timer = () => {
   }, [timerState, handleTimeUp])
 
   return (
-    <div
-      style={{
-        paddingRight: '1rem',
-        display: 'flex',
-        justifyContent: 'end',
-        alignItems: 'center'
-      }}
-    >
-      <p>
-        <i className="pi pi-stopwatch" />
-        {` ${countDown} s`}
-        {`  -  `}
-        {`${getTimerStateName(timerState)} `}
-      </p>
+    <div className="">
+      <div>
+        <span className="flex-auto">
+          <i className="pi pi-stopwatch" />
+          {` ${countDown} s  -  ${getTimerStateName(timerState)} `}
+        </span>
+      </div>
       <PapButton
         link
         icon={getBtnIcon(timerState)}

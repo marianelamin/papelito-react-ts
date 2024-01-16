@@ -9,7 +9,7 @@ import { useAppDispatch } from '../../store-redux/store'
 import { exitRoom } from '../../store-redux/feature/room/room_slice'
 
 import { useAlert } from '../../utilities/context/globalAlertContext'
-import { useUser } from '../../utilities/context/userContext'
+import { useUser } from '../core/user/context/UserContext'
 import { Players } from '../room/features/players/players'
 
 export const Header = (): JSX.Element => {

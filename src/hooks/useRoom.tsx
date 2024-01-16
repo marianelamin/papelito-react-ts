@@ -3,7 +3,7 @@ import { doc, onSnapshot } from '../dao'
 import { roomRef } from '../dao/collection_references'
 import { roomSlice } from '../store-redux/feature/room/room_slice'
 import { useAppDispatch } from '../store-redux/store'
-import { useUser } from '../utilities/context/userContext'
+import { useUser } from '../modules/core/user/context/UserContext'
 
 export const useRoom = () => {
   const { room } = useUser()

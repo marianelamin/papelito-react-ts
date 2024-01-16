@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import { ROOM_SETUP_PATH } from '../../modules/room/routes'
-import { useUser } from '../../utilities/context'
+import { useUser } from '../../modules/core/user/context'
 
 export const Instructions = (): JSX.Element => {
   const { player } = useUser()

@@ -54,6 +54,8 @@ export const Players = (): JSX.Element => {
               icon="pi pi-trash"
               onClick={removePlayer(item)}
             />
+
+            {item.isAdmin ? <span className="font-italic">[Admin]</span> : null}
           </div>
           <span className="font-bold text-900">order: #{item.order}</span>
           <div className="flex align-items-center gap-2">

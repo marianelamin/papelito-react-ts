@@ -45,8 +45,8 @@ const timer: PapelitoClock = {
 }
 
 const activeTeam: Team = {
-  id: 'team123',
-  name: 'Team A',
+  id: 'team123B',
+  name: 'B',
   order: 3,
   score: 0, // not going to be used
   players: [] // not going to be used
@@ -54,8 +54,8 @@ const activeTeam: Team = {
 const activePlayer: Player = {
   name: 'Test Player',
   // id: 'player123',
-  id: 'vwkxtSx7kotuKdb8Ato1',
-  teamId: 'team123',
+  id: 'VdQqt9ref2ibEzfaGx6w',
+  teamId: 'team123B',
   order: 0,
   colorNumber: 0,
   isAdmin: false,
@@ -74,7 +74,7 @@ const round: Round = {
     {
       team: {
         id: 'team123A',
-        name: 'Team A',
+        name: 'A',
         order: 0,
         score: 0, // not going to be used
         players: [] // not going to be used
