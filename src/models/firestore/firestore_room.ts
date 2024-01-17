@@ -7,8 +7,9 @@ export class FirestoreRoom {
     public code: string,
     public password: string,
     public is_private: boolean,
-    public active_round_number: number,
 
+    public has_game_started: boolean,
+    public active_round_number: number,
     public active_player_id: string,
     public active_team_id: string,
     public papelitos_guessed: number,
@@ -27,6 +28,7 @@ export class FirestoreRoom {
       item.code,
       item.password,
       item.is_private,
+      item.has_game_started,
       item.active_round_number,
       item.active_player_id,
       item.active_team_id,
@@ -56,6 +58,7 @@ export class FirestoreRoom {
         this.time_per_turn,
         this.total_rounds
       ),
+      this.has_game_started,
       new Turn( // remove this from here
         false,
         this.active_player_id,
@@ -73,6 +76,7 @@ export class FirestoreRoom {
       room.code,
       room.password,
       room.isPrivate,
+      room.hasGameStarted,
       room.round,
       room.activeTurn.activePlayerId,
       room.activeTurn.activeTeamId,

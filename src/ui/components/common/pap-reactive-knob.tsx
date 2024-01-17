@@ -4,8 +4,12 @@ export const PapReactiveKnob = (props: { label: string; total: number; value: nu
   const { total, value, label } = props
 
   return (
-    <div className="flex-auto card ">
-      <span>{`${label} - ${value}/${total}`}</span>
+    <div className=" text-center	">
+      <span>{`${label}`}</span>
+      <small>
+        {' '}
+        [{value}/{total}]
+      </small>
       <Knob value={value} max={total} readOnly />
     </div>
   )

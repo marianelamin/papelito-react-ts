@@ -1,8 +1,9 @@
 // import { useEffect, useState } from 'react'
 
 import { useCallback, useState } from 'react'
-import { useRoom } from '.'
-import { Papelito, Player, Team } from '../models'
+import { useRoom } from '../../../../../hooks'
+import { Papelito, Player, Team } from '../../../../../models'
+import { usePapelitos } from '.'
 // import { db, doc, onSnapshot } from '../dao'
 
 // import { playersRef } from '../dao/collection_references'
@@ -102,40 +103,6 @@ const round: Round = {
   stats: [{ team: new Team(), score: 2 }]
 }
 
-const papelitosInBowl: Papelito[] = [
-  {
-    id: '0',
-    text: 'Daddy plays start craft 2',
-    inBowl: false,
-    guessed: true
-  },
-  {
-    id: '1',
-    text: 'simon esta pidiendo algo',
-    inBowl: true,
-    guessed: false
-  },
-  {
-    id: '2',
-    text: 'Simoncito habla con papa',
-    inBowl: true,
-    guessed: false
-  },
-  {
-    id: '3',
-    text: 'Ver el Arrow',
-    inBowl: true,
-    guessed: false
-  }
-]
-
-const drawn: Papelito = {
-  id: 'as',
-  text: `Waisting John's time`,
-  inBowl: false,
-  guessed: true
-}
-
 const drawPapelitoFromBowl = (bowl: Papelito[]) => {
   const available = bowl.filter((p) => !p.guessed)
   const index = Math.floor(Math.random() * available.length)
@@ -144,24 +111,34 @@ const drawPapelitoFromBowl = (bowl: Papelito[]) => {
 
 export const useGame = () => {
   const { room } = useRoom()
+  const { bowl } = usePapelitos(room?.id)
 
-  const [bowl, setBowl] = useState<Papelito[]>(papelitosInBowl)
   const [activeRound, setActiveRound] = useState<Round>(round)
   const [activeTurn, setActiveTurn] = useState<Turn>(turn)
+
   // const [drawnPapelito, setDrawnPapelito] = useState<Papelito | undefined>(drawn)
   const [drawnPapelito, setDrawnPapelito] = useState<Papelito | undefined>()
 
   const drawPapelito = useCallback(() => {
+    console.log('drawPapelito')
     const drawn = drawPapelitoFromBowl(bowl)
     setDrawnPapelito(drawn)
     // todo: mark papelito as current
   }, [bowl])
 
   const markAsGuessed = useCallback(() => {
+    console.log('markAsGuessed')
     console.log({ drawnPapelito })
     // todo: mark as guessed and update the bowl
     // todo: push to the papelitos in active turn
     setDrawnPapelito(undefined)
+  }, [])
+
+  const disputePapelito = useCallback(() => {
+    console.log('dispute')
+    console.log({ drawnPapelito })
+    // todo: mark as guessed and update the bowl
+    // todo: push to the papelitos in active turn
   }, [])
 
   // useEffect(() => {
@@ -200,5 +177,16 @@ export const useGame = () => {
   //   }
   // }, [roomId, isFetching])
 
-  return { room, activeTurn, activeRound, timer, bowl, drawnPapelito, drawPapelito, markAsGuessed }
+  return {
+    room,
+    activeTurn,
+    activeRound,
+    timer,
+    bowl,
+    hasGameStarted: room?.hasGameStarted,
+    drawnPapelito,
+    disputePapelito,
+    drawPapelito,
+    markAsGuessed
+  }
 }

@@ -3,25 +3,27 @@ import { PapButton } from './common'
 import { PapCard } from './common/pap-card'
 import { type Papelito } from '../../models'
 
-export const PapelitoDisplayForGuessing = (): JSX.Element => {
+interface PapelitoDisplayForGuessingProps {
+  disputePapelito: () => Promise<void>
+}
+
+export const PapelitoDisplayForGuessing = ({
+  disputePapelito
+}: PapelitoDisplayForGuessingProps): JSX.Element => {
   const [isDisputeDisabled, setIsDisputeDisabled] = useState<boolean>(false)
 
-  const handleDispute = () => {
+  const handleDispute = useCallback(async () => {
     setIsDisputeDisabled(true)
-
+    await disputePapelito()
     setIsDisputeDisabled(false)
-  }
+  }, [disputePapelito])
 
   return (
     <PapCard
-      header={'Adivina el papelito'}
+      subTitle={'Adivina el papelito'}
       footer={
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <PapButton
-            onClick={handleDispute}
-            disabled={isDisputeDisabled}
-            label="Dispute"
-          ></PapButton>
+          <PapButton onClick={handleDispute} disabled={isDisputeDisabled} label="Dispute" />
         </div>
       }
     >
@@ -53,7 +55,7 @@ export const PapelitoDisplayForExplaining = (
 
   return (
     <PapCard
-      header={'Explica el papelito'}
+      subTitle={'Explica el papelito'}
       footer={
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <PapButton onClick={handleDraw} disabled={!!drawnPapelito} label="Draw" />
@@ -66,7 +68,13 @@ export const PapelitoDisplayForExplaining = (
       }
     >
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-        {drawnPapelito ? <h1>{drawnPapelito.text}</h1> : <div>Draw a papelito</div>}
+        {drawnPapelito ? (
+          <h1>{drawnPapelito.text}</h1>
+        ) : (
+          <>
+            <p>Draw a papelito</p>
+          </>
+        )}
       </div>
     </PapCard>
   )

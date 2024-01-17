@@ -1,28 +1,30 @@
 import { Turn, GameSettings } from '.'
 
 export class Room {
-  constructor (
+  constructor(
     public id: string = '-1',
     public code: string = '',
     public password: string = '',
     public isPrivate: boolean = false,
     public settings: GameSettings = new GameSettings(),
+    public hasGameStarted: boolean = false,
     public activeTurn: Turn = new Turn(false), // remove in the future
     public round: number = 0,
     public createdDate: Date = new Date()
   ) {}
 
-  toString () {
+  toString() {
     return JSON.stringify(this)
   }
 
-  static clone (room: Room): Room {
+  static clone(room: Room): Room {
     return new Room(
       room.id,
       room.code,
       room.password,
       room.isPrivate,
       room.settings,
+      room.hasGameStarted,
       room.activeTurn,
       room.round,
       room.createdDate

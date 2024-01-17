@@ -126,18 +126,20 @@ export const Timer = () => {
           {` ${countDown} s  -  ${getTimerStateName(timerState)} `}
         </span>
       </div>
-      <PapButton
-        link
-        icon={getBtnIcon(timerState)}
-        tooltip={getBtnTooltip(timerState)}
-        onClick={handlePlayPause}
-      />
-      <PapButton
-        link
-        icon={<i className="pi pi-replay"></i>}
-        tooltip={'Resetear'}
-        onClick={handleReset}
-      />
+      <div className="flex justify-content-end">
+        <PapButton
+          link
+          icon={getBtnIcon(timerState)}
+          tooltip={getBtnTooltip(timerState)}
+          onClick={handlePlayPause}
+        />
+        <PapButton
+          link
+          icon={<i className="pi pi-replay"></i>}
+          tooltip={'Resetear'}
+          onClick={handleReset}
+        />
+      </div>
     </div>
   )
 }
