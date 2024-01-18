@@ -1,4 +1,4 @@
-import * as collectionsRef from './collection_references'
+import { fs, papelitoRef } from './collection_references'
 import { type Papelito } from '../models'
 import { FirestorePapelito } from '../models/firestore'
 
@@ -16,8 +16,7 @@ export const createPapelito = (roomCode: string, papelito: Papelito) => {
     papelito.author?.id
   )
   console.log('creating papelito from papelito  dao')
-  collectionsRef
-    .addDoc(collectionsRef.papelitoRef(roomCode), fsPapelito)
+  fs.addDoc(papelitoRef(roomCode), fsPapelito)
     .then((docRef) => {
       console.log('Document written with ID: ', docRef.id)
       console.log(docRef)
@@ -28,7 +27,7 @@ export const createPapelito = (roomCode: string, papelito: Papelito) => {
 }
 
 export const removePapelitoById = async (roomCode: string, id: string) => {
-  await collectionsRef.deleteDoc(collectionsRef.doc(collectionsRef.papelitoRef(roomCode), id))
+  await fs.deleteDoc(fs.doc(papelitoRef(roomCode), id))
 }
 
 export const getPapelitosInBowl = () => {
@@ -39,12 +38,9 @@ export const addSinglePapelito = async (
   roomCode: string,
   papelito: Papelito
 ): Promise<Papelito> => {
-  const addedDoc = await collectionsRef.addDoc(
-    collectionsRef.papelitoRef(roomCode),
-    FirestorePapelito.fromPapelito(papelito)
-  )
+  const addedDoc = await fs.addDoc(papelitoRef(roomCode), FirestorePapelito.fromPapelito(papelito))
   console.log('Added pap', addedDoc)
-  const retrievedDoc = await collectionsRef.getDoc(addedDoc)
+  const retrievedDoc = await fs.getDoc(addedDoc)
 
   console.log('doc', retrievedDoc)
   const pap = retrievedDoc.data()?.toPapelito()
@@ -68,8 +64,8 @@ export const addToBowlInBulk = (roomCode: string, papelitos: Papelito[]) => {
   console.log('Add this bulk of papelitos to BOWL')
 
   return papelitos.map(async (p) => {
-    return await collectionsRef
-      .addDoc(collectionsRef.papelitoRef(roomCode), FirestorePapelito.fromPapelito(p))
+    return await fs
+      .addDoc(papelitoRef(roomCode), FirestorePapelito.fromPapelito(p))
       .then((addedDoc) => {
         p.id = addedDoc.id
         console.log(`Added pap ${p.id}`)
@@ -84,7 +80,7 @@ export const addToBowlInBulk = (roomCode: string, papelitos: Papelito[]) => {
 
 // export const drawOnePapelito = (roomCode: string): Papelito => {
 //   console.log(`draw one papelito from roomId: ${roomCode}`)
-//   let ref = collectionsRef.doc(collectionsRef.papelitoRef(roomCode))
+//   let ref = doc(papelitoRef(roomCode))
 
 //   return new Papelito('Hardcoded pepelito')
 // }
@@ -93,7 +89,7 @@ export const addToBowlInBulk = (roomCode: string, papelitos: Papelito[]) => {
 //   papelitoId: string
 // ): boolean => {
 //   console.log(`putBackPapelito on roomId: ${roomCode}`)
-//   let ref = collectionsRef.doc(collectionsRef.papelitoRef(roomCode))
+//   let ref = doc(papelitoRef(roomCode))
 
 //   // update something
 
@@ -104,7 +100,7 @@ export const addToBowlInBulk = (roomCode: string, papelitos: Papelito[]) => {
 //   papelitoID: string
 // ): Papelito => {
 //   console.log(`disputing a papelito (${papelitoID}) from roomId: ${roomCode}`)
-//   let ref = collectionsRef.doc(collectionsRef.papelitoRef(roomCode))
+//   let ref = doc(papelitoRef(roomCode))
 
 //   // update something
 

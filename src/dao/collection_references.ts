@@ -6,9 +6,20 @@ import {
   FirestoreRoom,
   FirestoreTeam,
   FirestorePapelito,
-  FirestoreTurn
+  FirestoreTurn,
+  FirestoreRound,
+  FirestorePapelitoClock
 } from '../models/firestore'
-export { onSnapshot, doc, getDoc, getDocs, addDoc, deleteDoc, updateDoc } from 'firebase/firestore'
+import {
+  onSnapshot,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  addDoc,
+  deleteDoc,
+  updateDoc
+} from 'firebase/firestore'
 
 export const roomRef = () => {
   return collection(db, collections.rooms).withConverter(
@@ -31,8 +42,22 @@ export const papelitoRef = (roomCode: string) =>
     convertToFromFirestore<FirestorePapelito>(FirestorePapelito.clone)
   )
 
-export const turnsRef = (roomCode: string) => {
-  return collection(db, collections.turns(roomCode)).withConverter(
+export const roundsRef = (roomCode: string) => {
+  return collection(db, collections.rounds(roomCode)).withConverter(
+    convertToFromFirestore<FirestoreRound>(FirestoreRound.clone)
+  )
+}
+
+export const turnsRef = (roomCode: string, roundId: string) => {
+  return collection(db, collections.turns(roomCode, roundId)).withConverter(
     convertToFromFirestore<FirestoreTurn>(FirestoreTurn.clone)
   )
 }
+
+export const timerRef = (roomCode: string) => {
+  return collection(db, collections.timer(roomCode)).withConverter(
+    convertToFromFirestore<FirestorePapelitoClock>(FirestorePapelitoClock.clone)
+  )
+}
+
+export const fs = { onSnapshot, doc, getDoc, getDocs, addDoc, setDoc, deleteDoc, updateDoc }

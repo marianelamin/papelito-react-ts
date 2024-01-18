@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useRoom } from '../../../../../hooks'
-
-interface PapelitoClock {
-  countDown: number
-  status: 'in-progress' | 'paused' | 'reset'
-}
+import { FirestorePapelitoClock } from '../../../../../models/firestore'
+import * as fs from '../../../../../dao'
+import { timerRef } from '../../../../../dao/collection_references'
 
 export type TimerStateType = 'in-progress' | 'paused' | 'reset' | 'finished'
 
@@ -15,17 +13,23 @@ export const useTimer = () => {
 
   const ref = useRef<NodeJS.Timeout>()
 
+  const [isFetching, setIsFetching] = useState<boolean>(false)
+
   const [timerState, setTimerState] = useState<TimerStateType>('reset')
   const [initialCountDown, setInitialCountDown] = useState<number>(DEFAULT_TIMER_START_COUNT)
   const [countDown, setCountDown] = useState<number>(initialCountDown)
 
-  const startTimer = useCallback(() => {
+  const startTimer = useCallback(async () => {
+    if (!room) return
+
     console.log('start timer', room?.id)
     console.log('entra en start timer', room?.id)
     setTimerState('in-progress')
   }, [room?.id])
 
-  const pauseTimer = useCallback(() => {
+  const pauseTimer = useCallback(async () => {
+    if (!room) return
+
     console.log('pauseTimer', room?.id)
     setTimerState('paused')
   }, [room?.id])
@@ -38,11 +42,19 @@ export const useTimer = () => {
   const resetTimer = useCallback(() => {
     console.log('resetTimer', room?.id)
     setTimerState('reset')
-    setCountDown(DEFAULT_TIMER_START_COUNT)
-  }, [room?.id])
+    setCountDown(initialCountDown)
+  }, [room?.id, initialCountDown])
 
   useEffect(() => {
-    console.log(timerState)
+    const updateStore = async () => {
+      if (room?.id)
+        await fs.updateDoc(fs.doc(timerRef(room.id), 'timerId'), {
+          count_down: countDown,
+          state: timerState
+        })
+    }
+    updateStore()
+
     if (timerState === 'in-progress') {
       if (ref.current) clearInterval(ref.current)
       ref.current = setInterval(() => {
@@ -54,47 +66,41 @@ export const useTimer = () => {
       }, 1000)
       return () => clearInterval(ref.current)
     } else if (timerState === 'finished') {
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         resetTimer()
       }, 3000)
+      return () => clearTimeout(timeout)
     } else return () => {}
   }, [timerState, markTimesUp])
 
-  // useEffect(() => {
-  //   console.info('-\n\nThis is custom Player hook\n\n\n-', `roomId: ${roomId}`)
-  //   const unsubscribe = onSnapshot(
-  //     // doc(db, 'gamePlayers', playerId),
-  //     doc(playersRef(roomId)),
-  //     (document) => {
-  //       console.log(`Received doc snapshot: `, document)
-  //       console.log(`Received doc snapshot: `, document.data())
-  //       console.log(`Received doc snapshot: `, document.id)
+  useEffect(() => {
+    if (!room) return
 
-  //       // let r = (document.data() as FirestorePlayer).toPlayer()
-  //       // console.log(r instanceof Player)
-  //       // console.log(r)
-  //       // setPlayer(r)
-  //       // setIsFetching(true)
+    const unsubscribe = fs.onSnapshot(
+      fs.doc(timerRef(room.id), 'timerId'),
+      (document) => {
+        if (document.exists()) console.log(`it exists`)
+        else console.log(`it does not exists`)
 
-  //       // let newPlayerRaw = { ...document.data(), id: document.id }
-  //       // newPlayerRaw['id'] = playerId
+        console.log(`Received doc: `, document)
+        console.log(`Received doc data: `, document.data())
+        console.log(`Received doc id: `, document.id)
 
-  //       // console.log(newPlayerRaw)
-  //       // if (document.exists) console.log(`here is the Player:  ${newPlayerRaw}`)
-  //       // setPlayer(newPlayerRaw)
-  //       // else console.log('Player Not Found')
-  //       // if (isFetching) setIsFetching(false)
-  //     },
-  //     (error) => console.error('aqui esta el error pues: \n', error),
-  //     () => {
-  //       console.info('Finished!!!')
-  //     }
-  //   )
+        let timer = document.data() as FirestorePapelitoClock
+        console.log({ timer })
+        setTimerState(timer.state)
+        setInitialCountDown(timer.count_down)
 
-  //   return () => {
-  //     unsubscribe()
-  //   }
-  // }, [roomId, isFetching])
+        if (isFetching) setIsFetching(false)
+      },
+      (error) => console.error('aqui esta el error pues: \n', error),
+      () => {
+        console.info('Finished!!!')
+      }
+    )
+
+    return () => unsubscribe()
+  }, [room?.id])
 
   return {
     timer: { countDown, state: timerState },

@@ -1,11 +1,11 @@
-import * as collectionsRef from './collection_references'
+import { fs, teamsRef } from './collection_references'
 
 import { Team } from '../models'
 import { FirestoreTeam } from '../models/firestore'
 
 export const getTeamDetails = (roomCode: string, teamId: string): Team => {
   console.log(`getting team details: ${teamId} in ${roomCode}`)
-  // const ref = collectionsRef.doc(collectionsRef.teamsRef(roomCode), teamId)
+  // const ref = fs.doc(fs.teamsRef(roomCode), teamId)
 
   const newTeam = new Team()
   newTeam.name = 'returned team'
@@ -17,17 +17,9 @@ export const getTeamDetails = (roomCode: string, teamId: string): Team => {
 // settings for teams
 export const createTeam = (roomCode: string, team: Team): Team => {
   throw new Error(`implement: ${JSON.stringify({ team })}`)
-  console.log('creating a team')
-  const ref = collectionsRef.teamsRef(roomCode)
-
-  const newTeam = new Team()
-  newTeam.name = 'Team A'
-  collectionsRef.addDoc(ref, FirestoreTeam.fromTeam(newTeam))
-
-  return newTeam
 }
 export const removeTeam = async (roomCode: string, teamId: string) => {
-  await collectionsRef.deleteDoc(collectionsRef.doc(collectionsRef.teamsRef(roomCode), teamId))
+  await fs.deleteDoc(fs.doc(teamsRef(roomCode), teamId))
 }
 
 export default this

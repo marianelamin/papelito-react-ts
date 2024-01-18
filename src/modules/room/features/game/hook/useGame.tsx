@@ -25,9 +25,9 @@ import { usePapelitos, useTimer } from '.'
  */
 
 interface Round {
-  id: number
+  id: string
   turns: Turn[]
-  stats: { team: Team; score: number }[]
+  stats: { id: string; team: Team; score: number }[]
 }
 interface Turn {
   team: Team
@@ -60,7 +60,7 @@ const turn: Turn = {
   timerCount: 0
 }
 const round: Round = {
-  id: 0,
+  id: '0',
   turns: [
     {
       team: {
@@ -90,7 +90,7 @@ const round: Round = {
       timerCount: 0
     }
   ],
-  stats: [{ team: new Team(), score: 2 }]
+  stats: [{ id: '1', team: new Team(), score: 2 }]
 }
 
 const drawPapelitoFromBowl = (bowl: Papelito[]) => {
