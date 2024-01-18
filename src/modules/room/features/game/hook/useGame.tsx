@@ -3,7 +3,7 @@
 import { useCallback, useState } from 'react'
 import { useRoom } from '../../../../../hooks'
 import { Papelito, Player, Team } from '../../../../../models'
-import { usePapelitos } from '.'
+import { usePapelitos, useTimer } from '.'
 // import { db, doc, onSnapshot } from '../dao'
 
 // import { playersRef } from '../dao/collection_references'
@@ -24,10 +24,6 @@ import { usePapelitos } from '.'
  *
  */
 
-interface PapelitoClock {
-  countDown: number
-  status: 'in-progress' | 'paused' | 'reset'
-}
 interface Round {
   id: number
   turns: Turn[]
@@ -40,11 +36,6 @@ interface Turn {
   timerCount: number
 }
 
-const timer: PapelitoClock = {
-  countDown: 0,
-  status: 'paused'
-}
-
 const activeTeam: Team = {
   id: 'team123B',
   name: 'B',
@@ -54,7 +45,6 @@ const activeTeam: Team = {
 }
 const activePlayer: Player = {
   name: 'Test Player',
-  // id: 'player123',
   id: 'VdQqt9ref2ibEzfaGx6w',
   teamId: 'team123B',
   order: 0,
@@ -112,6 +102,7 @@ const drawPapelitoFromBowl = (bowl: Papelito[]) => {
 export const useGame = () => {
   const { room } = useRoom()
   const { bowl } = usePapelitos(room?.id)
+  const { timer } = useTimer()
 
   const [activeRound, setActiveRound] = useState<Round>(round)
   const [activeTurn, setActiveTurn] = useState<Turn>(turn)

@@ -4,7 +4,7 @@ import { PapCard } from './common/pap-card'
 import { type Papelito } from '../../models'
 
 interface PapelitoDisplayForGuessingProps {
-  disputePapelito: () => Promise<void>
+  disputePapelito: () => void
 }
 
 export const PapelitoDisplayForGuessing = ({
