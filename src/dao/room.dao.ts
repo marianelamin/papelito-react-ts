@@ -55,7 +55,7 @@ export const remove = async (roomId: string) => {
 }
 
 export const createTimer = async (roomId: string) => {
-  await fs.setDoc(fs.doc(timerRef(roomId), 'timerId'), { count_down: 60, state: 'reset' })
+  await fs.setDoc(fs.doc(timerRef(roomId), 'timerId'), { time_left: 60, state: 'reset' })
 }
 
 export default this

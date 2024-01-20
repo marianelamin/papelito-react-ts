@@ -2,11 +2,12 @@ type PapelitoClockType = 'in-progress' | 'paused' | 'reset'
 
 export class FirestorePapelitoClock {
   constructor(
-    public count_down: number,
-    public state: PapelitoClockType
+    public state: PapelitoClockType,
+    public time_left: number,
+    public end_of_turn?: Date
   ) {}
 
   static clone(item: FirestorePapelitoClock): FirestorePapelitoClock {
-    return new FirestorePapelitoClock(item.count_down, item.state)
+    return new FirestorePapelitoClock(item.state, item.time_left, item.end_of_turn)
   }
 }

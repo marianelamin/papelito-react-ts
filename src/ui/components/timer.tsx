@@ -27,19 +27,6 @@ const getTimerStateName = (state: TimerStateType) => {
   }
 }
 
-// const getBtnTooltip = (state: TimerStateType) => {
-//   switch (state) {
-//     case 'reset':
-//     case 'paused':
-//     case 'finished':
-//       return TimerStateConst.startTooltip
-//     case 'in-progress':
-//       return TimerStateConst.pauseTooltip
-//     default:
-//       return ''
-//   }
-// }
-
 const getBtnIcon = (state: TimerStateType) => {
   switch (state) {
     case 'reset':
@@ -53,31 +40,32 @@ const getBtnIcon = (state: TimerStateType) => {
   }
 }
 
-const prettifyCountDown = (countDown: number): string =>
-  `00:${countDown < 10 ? '0' : ''}${countDown}`
+const prettifyCountDown = (countDown?: number): string =>
+  `00:${(countDown ?? 0) < 10 ? '0' : ''}${countDown}`
 
 export const Timer = () => {
   const {
     timer: { state: timerState, countDown },
     resetTimer: handleReset,
-    startTimer,
-    pauseTimer
+    startTimer: handleStart,
+    pauseTimer: handlePause
   } = useTimer()
+
   const { notifyWarningAlert } = useAlert()
 
-  const handlePlayPause = useCallback(() => {
-    switch (timerState) {
-      case 'reset':
-      case 'paused':
-        startTimer()
-        break
-      case 'in-progress':
-        pauseTimer()
-        break
-      default:
-        break
-    }
-  }, [timerState])
+  // const handlePlayPause = useCallback(async () => {
+  //   switch (timerState) {
+  //     case 'reset':
+  //     case 'paused':
+  //       await startTimer()
+  //       break
+  //     case 'in-progress':
+  //       await pauseTimer()
+  //       break
+  //     default:
+  //       break
+  //   }
+  // }, [timerState])
 
   useEffect(() => {
     if (timerState === 'finished') {
@@ -90,13 +78,17 @@ export const Timer = () => {
   return (
     <div className="">
       <div>
-        <span className="flex-auto">
+        <span className={`flex-auto ${countDown < 10 ? 'text-orange-600 font-bold' : ''}`}>
           <i className="pi pi-stopwatch mr-1" />
           {`${prettifyCountDown(countDown)}  [${getTimerStateName(timerState)}]`}
         </span>
       </div>
       <div className="flex justify-content-end">
-        <PapButton link icon={getBtnIcon(timerState)} onClick={handlePlayPause} />
+        {timerState === 'in-progress' ? (
+          <PapButton link icon={getBtnIcon(timerState)} onClick={handlePause} />
+        ) : (
+          <PapButton link icon={getBtnIcon(timerState)} onClick={handleStart} />
+        )}
         <PapButton link icon={<i className="pi pi-replay"></i>} onClick={handleReset} />
       </div>
     </div>
