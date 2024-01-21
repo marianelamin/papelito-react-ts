@@ -1,8 +1,6 @@
 import { type Player } from '..'
 
 export class FirestorePlayer {
-  id: string = '-1'
-
   constructor(
     public is_admin: boolean,
     public name: string,
@@ -22,8 +20,6 @@ export class FirestorePlayer {
       item.has_submitted_papelitos
     )
 
-    c.id = item.id
-
     return c
   }
 
@@ -38,9 +34,9 @@ export class FirestorePlayer {
     )
   }
 
-  toPlayer(): Player {
+  toPlayer(id: string): Player {
     return {
-      id: this.id,
+      id: id,
       name: this.name,
       isAdmin: this.is_admin,
       order: this.order,

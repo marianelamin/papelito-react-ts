@@ -1,12 +1,17 @@
 import { type Player } from './player'
 
-export class Papelito {
-  constructor(
-    public id: string,
-    public text: string = '',
-    public isCurrentlyDrawn: boolean = false,
-    public guessed: boolean = false,
-    public inBowl: boolean = false,
-    public author?: Player
-  ) {}
+export const defaultPapelito = {
+  text: '',
+  isCurrentlyDrawn: false,
+  guessed: false,
+  inBowl: false
+}
+
+export interface Papelito {
+  id: string
+  text: string
+  isCurrentlyDrawn: boolean
+  guessed: boolean
+  inBowl: boolean
+  author?: Player
 }

@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { ROOM_SETUP_PATH } from '../../modules/room/routes'
 import { useUser } from '../../modules/core/user/context'
+import { PapButton } from './common'
 
 export const Instructions = (): JSX.Element => {
   const { player } = useUser()
@@ -13,9 +14,10 @@ export const Instructions = (): JSX.Element => {
         <ol>
           {player?.isAdmin ? (
             <li>
+              <p>You are an admin.</p>
               <p>
-                Since you are an admin, you can setup the game to your liking.{' '}
-                <NavLink to={ROOM_SETUP_PATH}>Setup Room</NavLink>
+                Open the Room drawer to update room settings. Similarly with Players to make more
+                player admin.
               </p>
             </li>
           ) : null}
@@ -29,6 +31,11 @@ export const Instructions = (): JSX.Element => {
           <li>
             <p>Wait for your peers to do the same</p>
           </li>
+          {player?.isAdmin ? (
+            <li>
+              <p>Start the Game</p>
+            </li>
+          ) : null}
         </ol>
       </div>
     </div>

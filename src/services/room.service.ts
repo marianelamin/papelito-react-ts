@@ -16,12 +16,10 @@ export const createJustRoom = async (): Promise<Room> => {
   return room
 }
 
-export const createRoom = async (playerName: string) => {
+export const createRoomAndSetup = async (playerName: string) => {
   console.log(`creating room for player: ${playerName}...`)
-
-  // create a room
   const room: Room = await createJustRoom()
-  const timer = await roomDao.createTimer(room.id)
+  await roomDao.createTimer(room.id)
   const player: Player = await playerService.addAdminPlayerToRoom(room.id, playerName)
 
   return { room, player }

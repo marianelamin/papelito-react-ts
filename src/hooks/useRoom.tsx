@@ -18,8 +18,8 @@ export const useRoom = () => {
     if (initialRoom?.id) {
       const unsubscribe = fs.onSnapshot(
         fs.doc(roomRef(), initialRoom?.id),
-        async (document) => {
-          console.log('Room Changes: ', document.id, document.data())
+        (document) => {
+          console.log('Room id + data: ', document.id, document.data())
 
           const r = document.data()?.toRoom()
           if (r) {
@@ -41,7 +41,7 @@ export const useRoom = () => {
         unsubscribe()
       }
     }
-  }, [initialRoom?.id, isFetching])
+  }, [initialRoom?.id])
 
   return { isFetching, room }
 }

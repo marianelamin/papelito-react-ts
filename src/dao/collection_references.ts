@@ -19,8 +19,14 @@ import {
   addDoc,
   deleteDoc,
   updateDoc,
-  query
+  query,
+  where,
+  writeBatch
 } from 'firebase/firestore'
+
+export const batch = () => {
+  return writeBatch(db)
+}
 
 export const roomRef = () => {
   return collection(db, collections.rooms).withConverter(
@@ -61,4 +67,16 @@ export const timerRef = (roomCode: string) => {
   )
 }
 
-export const fs = { query, onSnapshot, doc, getDoc, getDocs, addDoc, setDoc, deleteDoc, updateDoc }
+export const fs = {
+  batch,
+  query,
+  where,
+  onSnapshot,
+  doc,
+  getDoc,
+  getDocs,
+  addDoc,
+  setDoc,
+  deleteDoc,
+  updateDoc
+}

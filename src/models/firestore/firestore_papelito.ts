@@ -32,18 +32,18 @@ export class FirestorePapelito {
   }
 
   toPapelito(id: string): Papelito {
-    return new Papelito(
+    return {
       id,
-      this.text,
-      this.is_currently_drawn,
-      this.is_guessed,
-      this.is_in_bowl,
-      this.author_id
+      text: this.text,
+      isCurrentlyDrawn: this.is_currently_drawn,
+      guessed: this.is_guessed,
+      inBowl: this.is_in_bowl,
+      author: this.author_id
         ? {
             ...defaultPlayer,
             id: this.author_id
           }
         : undefined
-    )
+    }
   }
 }

@@ -11,24 +11,31 @@ export const create = async (roomId: string, player: Player) => {
 }
 
 export const getPlayerById = async (roomId: string, id: string) => {
-  return await fs.getDoc(fs.doc(playersRef(roomId), id)).then((doc) => {
-    const retrievedPlayer = doc.data()!.toPlayer()
-    retrievedPlayer.id = doc.id
-    return retrievedPlayer
-  })
+  const doc = await fs.getDoc(fs.doc(playersRef(roomId), id))
+  return (doc.data() as FirestorePlayer).toPlayer(doc.id)
 }
 
 export const markPlayerSubmittedPapelitos = async (roomId: string, id: string) => {
-  // todo mark player as submitted papelitos
   await fs.updateDoc(fs.doc(playersRef(roomId), id), {
     has_submitted_papelitos: true
   })
+}
 
-  // return getDoc().then((doc) => {
-  //   let retrievedPlayer = (doc.data() as FirestorePlayer).toPlayer()
-  //   retrievedPlayer.id = doc.id
-  //   return retrievedPlayer
-  // })
+export const markPlayerForResubmission = async (roomId: string, id: string) => {
+  await fs.updateDoc(fs.doc(playersRef(roomId), id), {
+    has_submitted_papelitos: false
+  })
+}
+
+export const grantAdminRole = async (roomId: string, id: string) => {
+  await fs.updateDoc(fs.doc(playersRef(roomId), id), {
+    is_admin: true
+  })
+}
+export const removeAdminRole = async (roomId: string, id: string) => {
+  await fs.updateDoc(fs.doc(playersRef(roomId), id), {
+    is_admin: false
+  })
 }
 
 export const removePlayerById = async (roomId: string, id: string) => {
@@ -37,11 +44,10 @@ export const removePlayerById = async (roomId: string, id: string) => {
 
 export const getAllPlayers = async (roomId: string) => {
   const players: Player[] = []
-  // todo: make this call work
+
   const querySnapshot = await fs.getDocs(playersRef(roomId))
   querySnapshot.forEach((fsPlayer) => {
-    const retrievedPlayer = fsPlayer.data().toPlayer()
-    retrievedPlayer.id = fsPlayer.id
+    const retrievedPlayer = fsPlayer.data().toPlayer(fsPlayer.id)
     players.push(retrievedPlayer)
   })
 

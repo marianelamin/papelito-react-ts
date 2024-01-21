@@ -16,11 +16,12 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
     "@types/react-router-dom": "^5.3.3",
+    "chart.js": "^4.4.1",
+    "date-fns": "^3.3.0",
     "firebase": "^10.7.1",
     "primeflex": "^3.3.1",
     "primeicons": "^6.0.1",
     "primereact": "^10.3.1",
-    "chart.js": "^4.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.2",
@@ -40,7 +41,7 @@
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
-    "prettier": "^3.1.1",
+    "prettier": "3.2.4",
     "redux-devtools-extension": "^2.13.9",
     "typescript": "^5.2.2",
     "vite": "^5.0.8"

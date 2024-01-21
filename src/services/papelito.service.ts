@@ -1,14 +1,14 @@
 import * as papelitoDao from '../dao/papelito.dao'
-import { Papelito } from '../models'
+import { Papelito, defaultPapelito } from '../models'
 
 export const fetchAllPapelitos = (roomId: string) => {
   // TODO: dispatch fetch all papelitos action
   console.log(`room requested: ${roomId}...`)
   return [
-    new Papelito('12', `room es ${roomId}`),
-    new Papelito('adf3', 'hola'),
-    new Papelito('234', 'la cosa esta difcil 2'),
-    new Papelito('232', 'la tercera es la vencida')
+    { ...defaultPapelito, id: '12', text: `room es ${roomId}` },
+    { ...defaultPapelito, id: 'adf3', text: 'hola' },
+    { ...defaultPapelito, id: '234', text: 'la cosa esta difcil 2' },
+    { ...defaultPapelito, id: '232', text: 'la tercera es la vencida' }
   ]
 }
 export const addPapelito = (roomId: string, papelito: Papelito) => {

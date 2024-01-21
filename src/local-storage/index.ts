@@ -1,1 +1,1 @@
-export * as PapelitoLocalStorage from './local_storage'
+export * as PapelitoLocalStorage from './local-storage'

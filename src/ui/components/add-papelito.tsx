@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { GameSettings, Papelito, type Player } from '../../models'
+import { GameSettings, Papelito, defaultPapelito, type Player } from '../../models'
 import { PapButton, PapInputText } from './common'
 import { type RootState, useAppDispatch } from '../../store-redux/store'
 import { papelitoSlice } from '../../store-redux/feature/papelito/papelito_slice'
@@ -29,9 +29,12 @@ const AddPapelitoComponent = () => {
       const generatedId = new Date().valueOf()
       if (text !== '') {
         appDispatch(
-          papelitoSlice.actions.addToMyPapelitos(
-            new Papelito(generatedId + '', text, false, false, currentPlayer)
-          )
+          papelitoSlice.actions.addToMyPapelitos({
+            ...defaultPapelito,
+            id: generatedId + '',
+            text: text,
+            author: currentPlayer
+          })
         )
       }
       setPapelitoText(initialText)

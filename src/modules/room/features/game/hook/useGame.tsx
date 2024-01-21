@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { useRoom } from '../../../../../hooks'
-import { Papelito, Player, Team } from '../../../../../models'
+import { Player, Team } from '../../../../../models'
 import { useTimer } from '.'
+import { Round } from '../../../../../models/round.interface'
+import { Turn } from '../../../../../models/turn.interface'
 
 /** @todo: hacer un objeto que se contenga informacion que esta constantemente cambiando
  * puede llamarse partida.
@@ -18,18 +20,6 @@ import { useTimer } from '.'
  *
  *
  */
-
-interface Round {
-  id: string
-  turns: Turn[]
-  stats: { id: string; team: Team; score: number }[]
-}
-interface Turn {
-  team: Team
-  presenter: Player
-  papelitos: Papelito[]
-  timerCount: number
-}
 
 const activeTeam: Team = {
   id: 'team123B',

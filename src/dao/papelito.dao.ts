@@ -9,13 +9,8 @@ export const getPapelitoDetails = (roomCode: string, papelitoId: string) => {
 }
 
 export const createPapelito = (roomCode: string, papelito: Papelito) => {
-  const fsPapelito = new FirestorePapelito(
-    papelito.text,
-    papelito.guessed,
-    papelito.inBowl,
-    papelito.author?.id
-  )
-  console.log('creating papelito from papelito  dao')
+  const fsPapelito = FirestorePapelito.fromPapelito(papelito)
+  console.log('creating papelito from papelito  dao', fsPapelito)
   fs.addDoc(papelitoRef(roomCode), fsPapelito)
     .then((docRef) => {
       console.log('Document written with ID: ', docRef.id)
@@ -28,6 +23,19 @@ export const createPapelito = (roomCode: string, papelito: Papelito) => {
 
 export const removePapelitoById = async (roomCode: string, id: string) => {
   await fs.deleteDoc(fs.doc(papelitoRef(roomCode), id))
+}
+
+export const removePapelitosFromPlayerId = async (roomCode: string, playerId: string) => {
+  const batch1 = fs.batch()
+  const query = fs.query(papelitoRef(roomCode), fs.where('author_id', '==', playerId))
+  const paps = await fs.getDocs(query)
+  const allPaps = await fs.getDocs(papelitoRef(roomCode))
+  console.log({ paps, allPaps })
+  paps.docs.forEach((doc) => {
+    console.log({ doc })
+    batch1.delete(doc.ref)
+  })
+  await batch1.commit()
 }
 
 export const getPapelitosInBowl = () => {
@@ -43,7 +51,7 @@ export const addSinglePapelito = async (
   const retrievedDoc = await fs.getDoc(addedDoc)
 
   console.log('doc', retrievedDoc)
-  const pap = retrievedDoc.data()?.toPapelito()
+  const pap = retrievedDoc.data()?.toPapelito(retrievedDoc.id)
   if (!pap) {
     throw new Error('Papelito not found')
   } else {
@@ -77,34 +85,5 @@ export const addToBowlInBulk = (roomCode: string, papelitos: Papelito[]) => {
       })
   })
 }
-
-// export const drawOnePapelito = (roomCode: string): Papelito => {
-//   console.log(`draw one papelito from roomId: ${roomCode}`)
-//   let ref = doc(papelitoRef(roomCode))
-
-//   return new Papelito('Hardcoded pepelito')
-// }
-// export const putBackPapelito = (
-//   roomCode: string,
-//   papelitoId: string
-// ): boolean => {
-//   console.log(`putBackPapelito on roomId: ${roomCode}`)
-//   let ref = doc(papelitoRef(roomCode))
-
-//   // update something
-
-//   return true
-// }
-// export const disputePapelito = (
-//   roomCode: string,
-//   papelitoID: string
-// ): Papelito => {
-//   console.log(`disputing a papelito (${papelitoID}) from roomId: ${roomCode}`)
-//   let ref = doc(papelitoRef(roomCode))
-
-//   // update something
-
-//   return new Papelito('Some papelito text')
-// }
 
 export default this

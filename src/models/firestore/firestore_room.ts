@@ -1,4 +1,4 @@
-import { Room, GameSettings, Turn } from '..'
+import { Room, GameSettings } from '..'
 
 export class FirestoreRoom {
   id: string = '-1'
@@ -9,11 +9,11 @@ export class FirestoreRoom {
     public is_private: boolean,
 
     public has_game_started: boolean,
-    public active_round_number: number,
-    public active_player_id: string,
-    public active_team_id: string,
-    public papelitos_guessed: number,
-    public timer_count: number,
+    // public active_round_number: number,
+    // public active_player_id: string,
+    // public active_team_id: string,
+    // public papelitos_guessed: number,
+    // public timer_count: number,
 
     public settings_papelito_per_player: number,
     public settings_papelito_text_limit: number,
@@ -29,11 +29,11 @@ export class FirestoreRoom {
       item.password,
       item.is_private,
       item.has_game_started,
-      item.active_round_number,
-      item.active_player_id,
-      item.active_team_id,
-      item.papelitos_guessed,
-      item.timer_count,
+      // item.active_round_number,
+      // item.active_player_id,
+      // item.active_team_id,
+      // item.papelitos_guessed,
+      // item.timer_count,
       item.settings_papelito_per_player,
       item.settings_papelito_text_limit,
       item.total_rounds,
@@ -51,42 +51,37 @@ export class FirestoreRoom {
       this.id,
       this.code,
       this.password,
-      this.is_private,
       new GameSettings(
+        this.is_private,
         this.settings_papelito_per_player,
         this.settings_papelito_text_limit,
         this.time_per_turn,
         this.total_rounds
       ),
       this.has_game_started,
-      new Turn( // remove this from here
-        false,
-        this.active_player_id,
-        this.active_team_id,
-        this.papelitos_guessed,
-        this.timer_count
-      ),
-      this.total_rounds,
+      // new Turn( // remove this from here
+      //   false,
+      //   this.active_player_id,
+      //   this.active_team_id,
+      //   this.papelitos_guessed,
+      //   this.timer_count
+      // ),
+      // this.total_rounds,
       new Date(this.created_date)
     )
   }
 
-  static fromRoom(room: Room): FirestoreRoom {
+  static fromRoom(item: Room): FirestoreRoom {
     return new FirestoreRoom(
-      room.code,
-      room.password,
-      room.isPrivate,
-      room.hasGameStarted,
-      room.round,
-      room.activeTurn.activePlayerId,
-      room.activeTurn.activeTeamId,
-      room.activeTurn.guessedPapelitos,
-      room.activeTurn.timerCount,
-      room.settings.papelitoPerPlayer,
-      room.settings.papelitoTextLimit,
-      room.settings.rounds,
-      room.settings.timerTurn,
-      room.createdDate.toISOString()
+      item.code,
+      item.password,
+      item.settings.isPrivate,
+      item.hasGameStarted,
+      item.settings.papelitoPerPlayer,
+      item.settings.papelitoTextLimit,
+      item.settings.rounds,
+      item.settings.timerTurn,
+      item.createdDate.toISOString()
     )
   }
 }

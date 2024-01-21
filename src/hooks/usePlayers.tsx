@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { type Player } from '../models'
 
 import { onSnapshot } from '../dao'
 import { playersRef } from '../dao/collection_references'
 import { useUser } from '../modules/core/user/context/UserContext'
+import { removePapelitosFromPlayerId } from '../dao/papelito.dao'
+import { markPlayerForResubmission, grantAdminRole, removeAdminRole } from '../dao/player.dao'
 
 export const usePlayer = () => {
   const { room, player } = useUser()
@@ -12,6 +14,11 @@ export const usePlayer = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [allPlayers, setAllPlayer] = useState<Player[]>([])
   const [currentPlayer, setCurrentPlayer] = useState<Player>()
+
+  const resubmitPapelitos = useCallback(async () => {
+    await removePapelitosFromPlayerId(room?.id!, currentPlayer?.id!)
+    await markPlayerForResubmission(room?.id!, currentPlayer?.id!)
+  }, [room?.id, currentPlayer?.id])
 
   useEffect(() => {
     console.info('-\n\nThis is custom Player hook\n\n\n-', `roomId: ${room?.id}`)
@@ -25,19 +32,16 @@ export const usePlayer = () => {
         console.log('Received doc snapshot for all players: ', document)
 
         document.forEach((d) => {
-          const p = d.data().toPlayer()
-          p.id = d.id
+          const p = d.data().toPlayer(d.id)
           console.log('leyendo cada uno de los players', p)
           console.log({ playerID: player?.id, id: p.id })
           if (player?.id === p.id) {
             setCurrentPlayer(p)
-            // appDispatch(playerSlice.actions.setCurrentPlayer(p))
           }
           players.push(p)
         })
 
         setAllPlayer(players)
-        // appDispatch(teamsSlice.actions.setAllPlayers(players))
         setIsLoading(false)
       },
       (error) => {
@@ -51,7 +55,15 @@ export const usePlayer = () => {
     return () => {
       unsubscribe()
     }
-  }, [player?.id, isLoading, room?.id])
+  }, [player?.id, room?.id])
 
-  return { roomId: room?.id, currentPlayer, isLoading, allPlayers }
+  return {
+    roomId: room?.id,
+    currentPlayer,
+    isLoading,
+    allPlayers,
+    resubmitPapelitos,
+    grantAdminRole,
+    removeAdminRole
+  }
 }

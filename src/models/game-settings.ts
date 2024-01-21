@@ -1,9 +1,10 @@
 export class GameSettings {
   constructor (
+    public isPrivate: boolean = false,
     public papelitoPerPlayer: number = 3,
     public papelitoTextLimit: number = 140,
     public timerTurn: number = 60,
-    public rounds: number = 3
+    public rounds: number = 3,
   ) {}
 
   static fromJson (map: Map<string, any>) {

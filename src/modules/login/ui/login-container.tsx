@@ -1,13 +1,6 @@
 import { type FC, useCallback, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useAppDispatch } from '../../../store-redux/store'
-import { roomSlice } from '../../../store-redux/feature/room/room_slice'
-import { playerSlice } from '../../../store-redux/feature/player/player_slice'
-import { PapelitoLocalStorage } from '../../../local-storage'
-
-import * as roomService from '../../../services/room.service'
-
 import { PapButton, PapDivider } from '../../../ui/components/common'
 import { useAlert } from '../../../utilities/context/globalAlertContext'
 import {
@@ -18,77 +11,52 @@ import {
 import { useParams } from 'react-router'
 import { ROOM_PATH } from '../../room/routes'
 import Footer from '../../shared/footer'
+import { useRoomGameSetup } from '../hook/useRoomGameSetup'
 
 const LoginContainer: FC = () => {
-  const appDispatch = useAppDispatch()
   const navigate = useNavigate()
   const { notifyErrorAlert } = useAlert()
   const { showModal, hideModal } = useGlobalDialog()
-  const { roomId } = useParams()
+  const { roomId: roomIdFromParams } = useParams()
+  const { createRoomAndSetup, joinRoom } = useRoomGameSetup()
 
   const [_roomCodeInput, setRoomCodeInput] = useState<string>('')
   const [_playerNameInput, setPlayerNameInput] = useState<string>('')
-
-  const handleHideDialog = useCallback(() => {
-    clearDialog()
-  }, [])
 
   const clearDialog = useCallback(() => {
     setPlayerNameInput('')
     setRoomCodeInput('')
   }, [])
 
+  const handleHideDialog = useCallback(() => {
+    clearDialog()
+  }, [clearDialog])
+
   const closeDialogAndClearForm = useCallback(() => {
     clearDialog()
     handleHideDialog()
-  }, [])
+  }, [clearDialog, handleHideDialog])
 
-  const joinRoom = useCallback(async (playerName: string, roomCode: string): Promise<void> => {
-    // if (playerName === '') {
-    //   notifyErrorAlert({
-    //     title: 'Missing info',
-    //     text: 'need player name'
-    //   })
-    //   return
-    // }
-    // if (roomCode === '') {
-    //   notifyErrorAlert({
-    //     title: 'Missing info',
-    //     text: 'need room code'
-    //   })
-    //   return
-    // }
-
-    try {
-      const res = await roomService.joinRoom(roomCode, playerName)
-
-      appDispatch(roomSlice.actions.setRoom(res.room))
-      appDispatch(playerSlice.actions.setCurrentPlayer(res.player))
-
-      PapelitoLocalStorage.setRoomId(res.room.id)
-      PapelitoLocalStorage.setUserId(res.player.id)
-      closeDialogAndClearForm()
-      navigate(ROOM_PATH)
-    } catch (error) {
-      notifyErrorAlert({
-        title: 'Oops!',
-        text: 'Error joining a room'
-      })
-    }
-  }, [])
-
-  const createRoom = useCallback(
-    async (playerName: string): Promise<void> => {
-      // if (playerName === '') {
-      //   return
-      // }
-
+  const handleJoinRoom = useCallback(
+    async (playerName: string, roomCode: string): Promise<void> => {
       try {
-        const res = await roomService.createRoom(playerName)
-        appDispatch(roomSlice.actions.setRoom(res.room))
-        appDispatch(playerSlice.actions.setCurrentPlayer(res.player))
-        PapelitoLocalStorage.setRoomId(res.room.id)
-        PapelitoLocalStorage.setUserId(res.player.id)
+        await joinRoom(roomCode, playerName)
+        closeDialogAndClearForm()
+        navigate(ROOM_PATH)
+      } catch (error) {
+        notifyErrorAlert({
+          title: 'Oops!',
+          text: 'Error joining a room'
+        })
+      }
+    },
+    [joinRoom, closeDialogAndClearForm, notifyErrorAlert, navigate]
+  )
+
+  const handleCreateRoom = useCallback(
+    async (playerName: string): Promise<void> => {
+      try {
+        await createRoomAndSetup(playerName)
         closeDialogAndClearForm()
         navigate(ROOM_PATH)
       } catch (error) {
@@ -98,21 +66,25 @@ const LoginContainer: FC = () => {
         })
       }
     },
-    [appDispatch, notifyErrorAlert, closeDialogAndClearForm]
+    [createRoomAndSetup, closeDialogAndClearForm, notifyErrorAlert, navigate]
   )
 
   const onShowJoinDialog = useCallback(() => {
-    showModal(JOIN_ROOM_DIALOG, { join: joinRoom, roomCode: roomId, close: hideModal })
-  }, [roomId, joinRoom, hideModal])
+    showModal(JOIN_ROOM_DIALOG, {
+      join: handleJoinRoom,
+      roomCode: roomIdFromParams,
+      close: hideModal
+    })
+  }, [roomIdFromParams, handleJoinRoom, hideModal])
 
   const onShowCreateDialog = useCallback(() => {
-    showModal(CREATE_ROOM_DIALOG, { create: createRoom, close: hideModal })
-  }, [createRoom, hideModal])
+    showModal(CREATE_ROOM_DIALOG, { create: handleCreateRoom, close: hideModal })
+  }, [handleCreateRoom, hideModal])
 
   useEffect(() => {
-    if (roomId) onShowJoinDialog()
+    if (roomIdFromParams) onShowJoinDialog()
     return () => {}
-  }, [roomId])
+  }, [roomIdFromParams])
 
   return (
     <>
