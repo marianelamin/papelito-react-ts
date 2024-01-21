@@ -3,9 +3,12 @@ import { useGame } from '../../../../hooks'
 import { Timer } from '../../../../ui/components'
 import { PapReactiveKnob } from '../../../../ui/components/common'
 import { Divider } from 'primereact/divider'
+import { useBowl } from './hook'
 
 const GameStatusSection = () => {
-  const { activeRound, activeTurn, bowl } = useGame()
+  const { activeRound, activeTurn } = useGame()
+  const { bowl } = useBowl()
+
   return (
     <div className="flex flex-wrap py-3">
       <div className="py-1 flex flex-1">

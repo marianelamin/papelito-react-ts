@@ -8,7 +8,7 @@ import GameStatusSection from './game-status-section'
 
 const GameHome = () => {
   const { player: user } = useUser()
-  const { activeTurn, drawnPapelito, disputePapelito, drawPapelito, markAsGuessed } = useGame()
+  const { activeTurn } = useGame()
 
   return (
     <div>
@@ -16,13 +16,9 @@ const GameHome = () => {
         <GameStatusSection />
       </div>
       {activeTurn.presenter.id === user?.id ? (
-        <PapelitoDisplayForExplaining
-          drawnPapelito={drawnPapelito}
-          drawPapelito={drawPapelito}
-          markAsGuessed={markAsGuessed}
-        />
+        <PapelitoDisplayForExplaining />
       ) : (
-        <PapelitoDisplayForGuessing disputePapelito={disputePapelito} />
+        <PapelitoDisplayForGuessing />
       )}
     </div>
   )

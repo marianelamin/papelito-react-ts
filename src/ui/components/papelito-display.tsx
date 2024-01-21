@@ -1,29 +1,16 @@
-import { useCallback, useState } from 'react'
 import { PapButton } from './common'
 import { PapCard } from './common/pap-card'
-import { type Papelito } from '../../models'
+import { useBowl } from '../../modules/room/features/game/hook'
 
-interface PapelitoDisplayForGuessingProps {
-  disputePapelito: () => void
-}
-
-export const PapelitoDisplayForGuessing = ({
-  disputePapelito
-}: PapelitoDisplayForGuessingProps): JSX.Element => {
-  const [isDisputeDisabled, setIsDisputeDisabled] = useState<boolean>(false)
-
-  const handleDispute = useCallback(async () => {
-    setIsDisputeDisabled(true)
-    await disputePapelito()
-    setIsDisputeDisabled(false)
-  }, [disputePapelito])
+export const PapelitoDisplayForGuessing = (): JSX.Element => {
+  const { disputePapelito: handleDispute, drawnPapelito } = useBowl()
 
   return (
     <PapCard
       subTitle={'Adivina el papelito'}
       footer={
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <PapButton onClick={handleDispute} disabled={isDisputeDisabled} label="Dispute" />
+          <PapButton onClick={handleDispute} disabled={!drawnPapelito} label="Dispute" />
         </div>
       }
     >
@@ -34,31 +21,24 @@ export const PapelitoDisplayForGuessing = ({
   )
 }
 
-interface PapelitoDisplayForExplainingProps {
-  drawnPapelito?: Papelito
-  markAsGuessed: () => void
-  drawPapelito: () => void
-}
-
-export const PapelitoDisplayForExplaining = (
-  props: PapelitoDisplayForExplainingProps
-): JSX.Element => {
-  const { drawnPapelito, markAsGuessed, drawPapelito } = props
-
-  const handleDraw = useCallback(() => {
-    drawPapelito()
-  }, [])
-
-  const handleGuess = useCallback(() => {
-    markAsGuessed()
-  }, [])
+export const PapelitoDisplayForExplaining = (): JSX.Element => {
+  const {
+    availableToDraw,
+    drawnPapelito,
+    drawPapelito: handleDraw,
+    markAsGuessed: handleGuess
+  } = useBowl()
 
   return (
     <PapCard
       subTitle={'Explica el papelito'}
       footer={
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <PapButton onClick={handleDraw} disabled={!!drawnPapelito} label="Draw" />
+          <PapButton
+            onClick={handleDraw}
+            disabled={!!drawnPapelito || availableToDraw.length === 0}
+            label="Draw"
+          />
           <PapButton
             onClick={handleGuess}
             disabled={drawnPapelito?.guessed ?? true}

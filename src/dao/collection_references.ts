@@ -18,7 +18,8 @@ import {
   setDoc,
   addDoc,
   deleteDoc,
-  updateDoc
+  updateDoc,
+  query
 } from 'firebase/firestore'
 
 export const roomRef = () => {
@@ -60,4 +61,4 @@ export const timerRef = (roomCode: string) => {
   )
 }
 
-export const fs = { onSnapshot, doc, getDoc, getDocs, addDoc, setDoc, deleteDoc, updateDoc }
+export const fs = { query, onSnapshot, doc, getDoc, getDocs, addDoc, setDoc, deleteDoc, updateDoc }

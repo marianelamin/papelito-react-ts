@@ -1,3 +1,3 @@
 export * from './useGame'
-export * from './usePapelitos'
+export * from './useBowl'
 export * from './useTimer'
