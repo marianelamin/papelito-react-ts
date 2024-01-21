@@ -9,15 +9,7 @@ export type TimerStateType = 'in-progress' | 'paused' | 'reset' | 'finished'
 
 export const DEFAULT_TIMER_START_COUNT = 2
 
-const getTimeAtWhichTurnMustEnd = (gap?: number) => {
-  const now = addSeconds(new Date(), gap ?? 0)
-  const now1 = addSeconds(new Date().getUTCDate(), gap ?? 0)
-  const now2 = addSeconds(new Date(), gap ?? 0).toISOString()
-  console.log({ now })
-  console.log({ now1 })
-  console.log({ now2 })
-  return now2
-}
+const getTimeAtWhichTurnMustEnd = (gap?: number) => addSeconds(new Date(), gap ?? 0).toISOString()
 
 export const useTimer = () => {
   const { room } = useRoom()
@@ -104,10 +96,9 @@ export const useTimer = () => {
       fs.doc(timerRef(room.id), 'timerId'),
       (document) => {
         if (document.exists()) {
-          console.log(`Received doc data: `, document.data())
+          console.log(`TimerData: `, document.data())
 
           let timer = document.data() as FirestorePapelitoClock
-          console.log({ timer })
 
           setTimerState(timer.state)
           setTimeLeft(timer.time_left)

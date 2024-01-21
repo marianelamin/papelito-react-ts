@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react'
+import { useEffect } from 'react'
 import { PapButton } from './common'
 import { useAlert } from '../../utilities/context'
 import { TimerStateType, useTimer } from '../../modules/room/features/game/hook'
@@ -44,28 +44,13 @@ const prettifyCountDown = (countDown?: number): string =>
   `00:${(countDown ?? 0) < 10 ? '0' : ''}${countDown}`
 
 export const Timer = () => {
+  const { notifyWarningAlert } = useAlert()
   const {
     timer: { state: timerState, countDown },
     resetTimer: handleReset,
     startTimer: handleStart,
     pauseTimer: handlePause
   } = useTimer()
-
-  const { notifyWarningAlert } = useAlert()
-
-  // const handlePlayPause = useCallback(async () => {
-  //   switch (timerState) {
-  //     case 'reset':
-  //     case 'paused':
-  //       await startTimer()
-  //       break
-  //     case 'in-progress':
-  //       await pauseTimer()
-  //       break
-  //     default:
-  //       break
-  //   }
-  // }, [timerState])
 
   useEffect(() => {
     if (timerState === 'finished') {
