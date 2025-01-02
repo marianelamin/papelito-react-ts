@@ -7,9 +7,11 @@ export const attemptToGetPlayerAndRoomDetails = async () => {
 
   if (roomId && myUserId) {
     try {
+      // john is super cool
       // todo: fix the data being stored in redux store. after reload and verify user
-      await isUserValidInRoom(roomId, myUserId)
-      return true
+      const player = await isUserValidInRoom(roomId, myUserId)
+      console.log(player)
+      return player
     } catch (err) {
       console.error(err)
     }

@@ -9,9 +9,9 @@ import {
   useGlobalDialog
 } from '../../../utilities/context/globalDialogContext'
 import { useParams } from 'react-router'
-import { ROOM_PATH } from '../../room/routes'
 import Footer from '../../shared/footer'
 import { useRoomGameSetup } from '../hook/useRoomGameSetup'
+import { ROOM_PATH } from '../../../routes'
 
 const LoginContainer: FC = () => {
   const navigate = useNavigate()

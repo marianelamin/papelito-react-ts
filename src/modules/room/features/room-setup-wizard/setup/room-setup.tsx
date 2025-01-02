@@ -11,10 +11,10 @@ const RoomSetup = () => {
   // }, [nextStep])
 
   return (
-    <div>
-      <RoomDetails />
-      {/* <PapButton link label={'Next'} onClick={goNext}></PapButton> */}
-    </div>
+    // <div>
+    <RoomDetails />
+    // {/* <PapButton link label={'Next'} onClick={goNext}></PapButton> */}
+    // </div>
   )
 }
 

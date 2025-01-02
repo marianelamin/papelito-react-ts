@@ -2,11 +2,11 @@ import { Navigate, useLoaderData } from 'react-router'
 import { ReactNode } from 'react'
 
 interface ProtectedRouteProps {
-  defaultPath: string
+  redirectPath: string
   children: ReactNode
 }
 
-export const ProtectedRoute = ({ children, defaultPath }: ProtectedRouteProps): ReactNode => {
+export const ProtectedRoute = ({ children, redirectPath }: ProtectedRouteProps): ReactNode => {
   const data = useLoaderData()
-  return data ? children : <Navigate to={{ pathname: defaultPath }} replace />
+  return data ? children : <Navigate to={{ pathname: redirectPath }} replace />
 }

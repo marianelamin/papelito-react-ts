@@ -7,12 +7,11 @@ import { type Papelito, GameSettings } from '../../models'
 import { PapButton } from './common'
 import { RootState, useAppDispatch } from '../../store-redux/store'
 import { useSelector } from 'react-redux'
-import { PapelitoState, papelitoSlice } from '../../store-redux/feature/papelito/papelito_slice'
+import { papelitoSlice } from '../../store-redux/feature/papelito/papelito_slice'
 import { addToBowl } from '../../store-redux/feature/bowl/bowl_slice'
 import { useAlert } from '../../utilities/context/globalAlertContext'
 import { markPlayerSubmittedPapelitos } from '../../store-redux/feature/player/player_slice'
 import { usePlayer } from '../../hooks'
-import { RoomState } from '../../store-redux/feature/room/room_slice'
 
 const DEFAULT_PAPELITOS_PER_PLAYER = 3
 

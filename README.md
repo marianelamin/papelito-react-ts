@@ -69,17 +69,6 @@ Requirements:
 
 In the project directory, you need to:
 
-#### CRA - [create-react-app](https://github.com/facebook/create-react-app)
-
-1. Install all dependencies
-   ```sh
-   npm install
-   ```
-2. Start the application in dev mode. Open http://localhost:3000/ to view it in the browser.
-   ```sh
-   npm start
-   ```
-
 #### Vite - [vitejs](https://vitejs.dev/)
 
 1. Install all dependencies
@@ -98,12 +87,6 @@ You will also see any lint errors in the console.
 
 Need to build the app and deploy to Firebase. This can be achieved simply by using custom script.
 
-#### CRA
-
-```sh
-npm deploy
-```
-
 #### Vite
 
 ```sh
@@ -117,3 +100,11 @@ yarn deploy
 Currently a WIP.
 
 In order to play, you will be able to do so by visiting [https://papelito-en-los-mendoza.web.app](https://papelito-en-los-mendoza.web.app).
+
+---
+
+# Mari:
+
+- finish upgrading to latest router.
+- get rid of redux. Use context, app simple enough.
+- Remove so many layers if most of the stuff is CRUD.

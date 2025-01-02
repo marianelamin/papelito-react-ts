@@ -14,7 +14,7 @@ const getTimeAtWhichTurnMustEnd = (gap?: number) => addSeconds(new Date(), gap ?
 export const useTimer = () => {
   const { room } = useRoom()
 
-  const ref = useRef<NodeJS.Timeout>()
+  const ref = useRef<NodeJS.Timeout>(null)
 
   const [isFetching, setIsFetching] = useState<boolean>(false)
 
@@ -76,7 +76,7 @@ export const useTimer = () => {
         console.log({ diff: countD })
       }, 200)
     } else {
-      ref && clearInterval(ref.current)
+      ref.current && clearInterval(ref.current)
     }
 
     if (timerState === 'finished') {
@@ -86,7 +86,7 @@ export const useTimer = () => {
       return () => clearTimeout(timeout)
     }
 
-    return () => ref && clearInterval(ref.current)
+    return () => ref.current && clearInterval(ref.current)
   }, [timerState])
 
   useEffect(() => {

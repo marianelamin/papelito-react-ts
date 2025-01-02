@@ -7,7 +7,7 @@ import {
   ROOM_SETUP_PATH,
   ROOM_SET_TEAMS_PATH,
   ROOM_START_GAME_PATH
-} from '../../../../routes'
+} from '../../../../../../routes'
 import { Steps, StepsSelectEvent } from 'primereact/steps'
 import StartGame from '../../setup/start-game'
 

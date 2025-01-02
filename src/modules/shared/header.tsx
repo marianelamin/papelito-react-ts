@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import { Toolbar } from 'primereact/toolbar'
 import { PapButton, PapSideBar } from '../../ui/components/common'
-import { PapGameStats } from '../room/features/game/game_stats'
+import { PapGameStats } from '../room/features/game/game-stats'
 import { RoomDetails } from '../../ui/components/room-details'
 import { useNavigate } from 'react-router-dom'
 

@@ -5,7 +5,7 @@ import { Players } from '../players/players'
 import EnterPapelitos from './enter-papelitos'
 import { Button } from 'primereact/button'
 import { useCallback } from 'react'
-import { ROOM_GAME_PATH } from '../../routes'
+import { ROOM_GAME_PATH } from '../../../../routes'
 import { PapButton, PapReactiveKnob } from '../../../../ui/components/common'
 
 const Lobby = () => {
@@ -42,6 +42,11 @@ const Lobby = () => {
               <p className="text-center">Let's wait for other players to submit their papelitos.</p>
               {currentPlayer?.isAdmin ? (
                 <div className="text-center py-4">
+                  {/* todo: mari to start the game
+                  Rules:
+                   - 3 papelitos * # player are already in the bowl => enables the button
+                   - Upon click, All screen should show a different view.
+                  */}
                   <PapButton disabled label="Start Game" />
                 </div>
               ) : null}
