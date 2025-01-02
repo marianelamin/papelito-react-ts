@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 import { Header } from '../shared/header'
 import { UserContextProvider, useUser } from '../core/user/context'
@@ -26,25 +26,27 @@ const RoomPage: React.FC = () => {
   )
 }
 
-const RoomContainer = (): JSX.Element => {
+const RoomContainer = (): ReactNode => {
   const { player } = useUser()
   const { enableAdminRoute, enableRoomSetupRoute } = useFlags()
   return (
     <Routes>
-      <Route index={true} Component={Lobby} />
+      <Route path={''} element={<Lobby />} />
       {player?.isAdmin ? (
         <>
           {enableRoomSetupRoute ? (
             <>
-              <Route path={`${ROOM_SETUP_PATH}/:step`} Component={() => <RoomSetupWizardPage />} />
-              <Route path={`${ROOM_SETUP_PATH}/*`} Component={() => <RoomSetupWizardPage />} />
+              <Route path={`${ROOM_SETUP_PATH}/:step/*`} element={<RoomSetupWizardPage />} />
+              <Route path={`${ROOM_SETUP_PATH}/*`} element={<RoomSetupWizardPage />} />
             </>
           ) : null}
-          {enableAdminRoute ? <Route path={`${ROOM_ADMIN_PATH}/*`} Component={AdminHome} /> : null}
+          {enableAdminRoute ? (
+            <Route path={`${ROOM_ADMIN_PATH}/*`} element={<AdminHome />} />
+          ) : null}
         </>
       ) : null}
-      <Route path={`${ROOM_GAME_PATH}/*`} Component={GameHome} />
-      <Route path={'*'} Component={() => <Navigate to={`/${ROOM_PATH}`} replace />} />
+      <Route path={`${ROOM_GAME_PATH}/*`} element={<GameHome />} />
+      <Route path={'*'} element={<Navigate to={`/${ROOM_PATH}`} replace />} />
     </Routes>
   )
 }

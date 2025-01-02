@@ -6,7 +6,6 @@ export const setRoomId = (id: string) => {
 }
 export const getRoomId = () => {
   const id = localStorage.getItem(ROOM_ID)
-  if (!id) throw new Error()
   return id
 }
 export const removeRoomId = () => {
@@ -18,7 +17,6 @@ export const setUserId = (id: string) => {
 }
 export const getUserId = () => {
   const id = localStorage.getItem(USER_ID)
-  if (!id) throw new Error()
   return id
 }
 

@@ -1,6 +1,7 @@
+import { ReactNode } from 'react'
 import { useUser } from '../../modules/core/user/context'
 
-export const Instructions = (): JSX.Element => {
+export const Instructions = (): ReactNode => {
   const { player } = useUser()
   return (
     <div className={'col-12'}>

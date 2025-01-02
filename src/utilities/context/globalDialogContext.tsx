@@ -1,6 +1,7 @@
 import {
   type FC,
   type PropsWithChildren,
+  ReactNode,
   createContext,
   useCallback,
   useContext,
@@ -14,7 +15,7 @@ export const ROOM_DETAILS_DIALOG = 'ROOM_DETAILS_DIALOG'
 export const CREATE_ROOM_DIALOG = 'CREATE_ROOM_DIALOG'
 export const JOIN_ROOM_DIALOG = 'JOIN_ROOM_DIALOG'
 
-const DIALOG_COMPONENTS: Record<string, (...props: any) => JSX.Element> = {
+const DIALOG_COMPONENTS: Record<string, (...props: any) => ReactNode> = {
   PLAYER_DETAILS_DIALOG: PlayerDetailsDialog,
   ROOM_DETAILS_DIALOG: RoomDetailsDialog,
   CREATE_ROOM_DIALOG: CreateRoomDialog,
@@ -56,15 +57,15 @@ export const GlobalDialogContextProvider: FC<PropsWithChildren> = ({ children })
 
   const showModal: GlobalDialogContextParams['showModal'] = useCallback(
     (dialogType, dialogProps = {}) => {
-      setCurrentDialog({ ...currentDialog, dialogType, dialogProps })
+      setCurrentDialog((prev) => ({ ...prev, dialogType, dialogProps }))
     },
     [currentDialog]
   )
   const hideModal: GlobalDialogContextParams['hideModal'] = useCallback(() => {
-    setCurrentDialog({ ...currentDialog, dialogType: '', dialogProps: {} })
+    setCurrentDialog((prev) => ({ ...prev, dialogType: '', dialogProps: {} }))
   }, [currentDialog])
 
-  const renderDialogComponent = (): JSX.Element | null => {
+  const renderDialogComponent = (): ReactNode | null => {
     const DialogComponent = DIALOG_COMPONENTS[dialogType]
     return dialogType ? <DialogComponent {...dialogProps} /> : null
   }

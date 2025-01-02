@@ -12,7 +12,7 @@ export const create = async (roomId: string, player: Player) => {
 
 export const getPlayerById = async (roomId: string, id: string) => {
   const doc = await fs.getDoc(fs.doc(playersRef(roomId), id))
-  return (doc.data() as FirestorePlayer).toPlayer(doc.id)
+  return (doc.data() as FirestorePlayer)?.toPlayer(doc.id)
 }
 
 export const markPlayerSubmittedPapelitos = async (roomId: string, id: string) => {

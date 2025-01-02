@@ -1,5 +1,5 @@
 import { type FC, useCallback, useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 
 import { PapButton, PapDivider } from '../../../ui/components/common'
 import { useAlert } from '../../../utilities/context/globalAlertContext'
@@ -12,9 +12,11 @@ import { useParams } from 'react-router'
 import Footer from '../../shared/footer'
 import { useRoomGameSetup } from '../hook/useRoomGameSetup'
 import { ROOM_PATH } from '../../../routes'
+import { useAuth } from '../../core/user/context/AuthContext'
 
 const LoginContainer: FC = () => {
   const navigate = useNavigate()
+  const { login } = useAuth()
   const { notifyErrorAlert } = useAlert()
   const { showModal, hideModal } = useGlobalDialog()
   const { roomId: roomIdFromParams } = useParams()
@@ -40,7 +42,8 @@ const LoginContainer: FC = () => {
   const handleJoinRoom = useCallback(
     async (playerName: string, roomCode: string): Promise<void> => {
       try {
-        await joinRoom(roomCode, playerName)
+        const success = await joinRoom(roomCode, playerName)
+        login(success)
         closeDialogAndClearForm()
         navigate(ROOM_PATH)
       } catch (error) {
@@ -50,13 +53,14 @@ const LoginContainer: FC = () => {
         })
       }
     },
-    [joinRoom, closeDialogAndClearForm, notifyErrorAlert, navigate]
+    [joinRoom, closeDialogAndClearForm, notifyErrorAlert, navigate, login]
   )
 
   const handleCreateRoom = useCallback(
     async (playerName: string): Promise<void> => {
       try {
-        await createRoomAndSetup(playerName)
+        const success = await createRoomAndSetup(playerName)
+        login(success)
         closeDialogAndClearForm()
         navigate(ROOM_PATH)
       } catch (error) {
@@ -66,7 +70,7 @@ const LoginContainer: FC = () => {
         })
       }
     },
-    [createRoomAndSetup, closeDialogAndClearForm, notifyErrorAlert, navigate]
+    [createRoomAndSetup, closeDialogAndClearForm, notifyErrorAlert, navigate, login]
   )
 
   const onShowJoinDialog = useCallback(() => {

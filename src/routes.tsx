@@ -1,9 +1,10 @@
-import { createBrowserRouter } from 'react-router-dom'
-import { Root } from './modules/routes/root'
-import { ProtectedRoute } from './modules/routes/guarded_route'
-import { attemptToGetPlayerAndRoomDetails } from './modules/core/auth-helper'
-import { lazy } from 'react'
+import { Route, Routes } from 'react-router'
+import { ProtectedRoute } from './modules/routes/protected-route'
+import Login from './modules/login/login.page'
+import RoomPage from './modules/room/room.page'
+import { AuthContextProvider } from './modules/core/user/context/AuthContext'
 
+export const LOGIN_PATH = '/'
 export const ROOM_PATH = 'room'
 export const ROOM_SETUP_PATH = 'setup'
 export const ROOM_SET_TEAMS_PATH = 'form-teams'
@@ -11,40 +12,18 @@ export const ROOM_START_GAME_PATH = 'start'
 export const ROOM_ADMIN_PATH = 'admin'
 export const ROOM_GAME_PATH = 'game'
 
-const LAZY_VIEWS = {
-  HOME: lazy(async () => await import('./modules/login/login.page')),
-  ROOM: lazy(async () => await import('./modules/room/room.page')),
-  LOADING: lazy(async () => await import('./modules/shared/loading/loading'))
+export const PapelitoRoutes = () => {
+  return (
+    <AuthContextProvider>
+      <Routes>
+        <Route index element={<Login />} />
+        <Route path={'/new/:roomId'} element={<Login />} />
+
+        <Route element={<ProtectedRoute redirectPath={'/'} />}>
+          <Route path={`${ROOM_PATH}/*`} element={<RoomPage />} />
+          <Route path={'*'} element={<RoomPage />} />
+        </Route>
+      </Routes>
+    </AuthContextProvider>
+  )
 }
-
-const routes = [
-  { path: '/', Component: LAZY_VIEWS.HOME },
-  { path: '/new/:roomId', Component: LAZY_VIEWS.HOME },
-  {
-    path: ROOM_PATH,
-    loader: async () => {
-      return await attemptToGetPlayerAndRoomDetails()
-    },
-    children: [
-      {
-        path: '',
-        Component: () => (
-          <ProtectedRoute redirectPath={'/'}>
-            <LAZY_VIEWS.ROOM />
-          </ProtectedRoute>
-        )
-      },
-      { path: '*', element: <h1>Page does not exist</h1> }
-    ]
-  },
-  { path: '*', Component: Root }
-]
-
-export const router = createBrowserRouter(routes, {
-  future: {
-    v7_relativeSplatPath: true,
-    v7_fetcherPersist: true,
-    v7_normalizeFormMethod: true,
-    v7_skipActionErrorRevalidation: true
-  }
-})

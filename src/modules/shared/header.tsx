@@ -1,9 +1,9 @@
-import { useCallback } from 'react'
+import { ReactNode, useCallback } from 'react'
 import { Toolbar } from 'primereact/toolbar'
 import { PapButton, PapSideBar } from '../../ui/components/common'
 import { PapGameStats } from '../room/features/game/game-stats'
 import { RoomDetails } from '../../ui/components/room-details'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 
 import { useAppDispatch } from '../../store-redux/store'
 import { exitRoom } from '../../store-redux/feature/room/room_slice'
@@ -12,7 +12,7 @@ import { useAlert } from '../../utilities/context/globalAlertContext'
 import { useUser } from '../core/user/context/UserContext'
 import { Players } from '../room/features/players/players'
 
-export const Header = (): JSX.Element => {
+export const Header = (): ReactNode => {
   const appDispatch = useAppDispatch()
   const navigate = useNavigate()
   const { notifyInfoAlert, notifySuccessAlert, notifyErrorAlert } = useAlert()
@@ -52,11 +52,11 @@ export const Header = (): JSX.Element => {
             <RoomDetails />
           </PapSideBar>
 
-          <PapSideBar icon="pi-user" tooltip="Players" position={'right'}>
+          <PapSideBar icon="pi-user" tooltip="Players">
             <Players />
           </PapSideBar>
 
-          <PapSideBar icon="pi-chart-bar" tooltip="Stats" position={'right'}>
+          <PapSideBar icon="pi-chart-bar" tooltip="Stats">
             <PapGameStats />
           </PapSideBar>
 

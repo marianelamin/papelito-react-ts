@@ -1,8 +1,9 @@
 import { PapButton } from './common'
 import { PapCard } from './common/pap-card'
 import { useBowl } from '../../modules/room/features/game/hook'
+import { ReactNode } from 'react'
 
-export const PapelitoDisplayForGuessing = (): JSX.Element => {
+export const PapelitoDisplayForGuessing = (): ReactNode => {
   const { disputePapelito: handleDispute, drawnPapelito } = useBowl()
 
   return (
@@ -21,7 +22,7 @@ export const PapelitoDisplayForGuessing = (): JSX.Element => {
   )
 }
 
-export const PapelitoDisplayForExplaining = (): JSX.Element => {
+export const PapelitoDisplayForExplaining = (): ReactNode => {
   const {
     availableToDraw,
     drawnPapelito,

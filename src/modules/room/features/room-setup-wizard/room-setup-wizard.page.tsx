@@ -5,8 +5,9 @@ import RoomSetup from './setup/room-setup'
 import ArrangeTeams from './setup/arrange-teams'
 import StartGame from './setup/start-game'
 import { useUser } from '../../../core/user/context'
+import { ReactNode } from 'react'
 
-const RoomSetupWizardPage = (): JSX.Element => {
+const RoomSetupWizardPage = (): ReactNode => {
   const { player } = useUser()
 
   console.log({ is: player?.isAdmin })
