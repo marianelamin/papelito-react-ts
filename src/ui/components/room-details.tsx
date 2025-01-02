@@ -1,10 +1,10 @@
 import { type RootState } from '../../store-redux/store'
 import { type Room } from '../../models'
-import { useMemo } from 'react'
+import { ReactNode, useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { format } from 'date-fns'
 
-export const RoomDetails = (): JSX.Element => {
+export const RoomDetails = (): ReactNode => {
   const room = useSelector<RootState, Room | undefined>((state) => state.room.room)
 
   const createdDate = useMemo(() => {

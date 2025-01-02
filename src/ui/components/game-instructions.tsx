@@ -1,9 +1,7 @@
-import { NavLink } from 'react-router-dom'
-import { ROOM_SETUP_PATH } from '../../modules/room/routes'
+import { ReactNode } from 'react'
 import { useUser } from '../../modules/core/user/context'
-import { PapButton } from './common'
 
-export const Instructions = (): JSX.Element => {
+export const Instructions = (): ReactNode => {
   const { player } = useUser()
   return (
     <div className={'col-12'}>

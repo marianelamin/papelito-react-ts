@@ -1,20 +1,20 @@
 import './App.css'
-import { RouterProvider } from 'react-router-dom'
+import { BrowserRouter } from 'react-router'
 import { AlertContextProvider, GlobalDialogContextProvider } from './utilities/context'
 import { Provider } from 'react-redux'
 import store from './store-redux/store'
-import { router } from './modules/routes/routes'
+import { PapelitoRoutes } from './routes'
 
-function App() {
+export function App() {
   return (
     <Provider store={store}>
       <AlertContextProvider>
-        <GlobalDialogContextProvider>
-          <RouterProvider router={router} />
-        </GlobalDialogContextProvider>
+        <BrowserRouter>
+          <GlobalDialogContextProvider>
+            <PapelitoRoutes />
+          </GlobalDialogContextProvider>
+        </BrowserRouter>
       </AlertContextProvider>
     </Provider>
   )
 }
-
-export default App

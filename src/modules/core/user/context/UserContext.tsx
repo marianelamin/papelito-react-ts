@@ -15,7 +15,7 @@ interface UserState {
 export const UserContext = createContext<UserState | undefined>(undefined)
 UserContext.displayName = 'UserContext'
 
-export function UserContextProvider({ children }: { children: ReactNode }): JSX.Element {
+export function UserContextProvider({ children }: { children: ReactNode }): ReactNode {
   const [player, setPlayer] = useState<Player>()
   const [room, setRoom] = useState<Room>()
   const appDispatch = useAppDispatch()

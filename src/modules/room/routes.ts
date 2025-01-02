@@ -1,6 +1,0 @@
-export const ROOM_PATH = 'room'
-export const ROOM_SETUP_PATH = 'setup'
-export const ROOM_SET_TEAMS_PATH = 'form-teams'
-export const ROOM_START_GAME_PATH = 'start'
-export const ROOM_ADMIN_PATH = 'admin'
-export const ROOM_GAME_PATH = 'game'

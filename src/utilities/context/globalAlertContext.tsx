@@ -1,4 +1,4 @@
-import { type Toast } from 'primereact/toast'
+import { Toast } from 'primereact/toast'
 import {
   type FC,
   type PropsWithChildren,
@@ -7,7 +7,6 @@ import {
   useContext,
   useRef
 } from 'react'
-import { PapToast } from '../../ui/components/common'
 
 interface AlertConfig {
   title: string
@@ -74,7 +73,7 @@ export const AlertContextProvider: FC<PropsWithChildren> = ({ children }) => {
       }}
     >
       {children}
-      <PapToast toast={toast} />
+      <Toast ref={toast} />
     </AlertContext.Provider>
   )
 }

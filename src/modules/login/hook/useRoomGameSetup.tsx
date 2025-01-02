@@ -10,26 +10,37 @@ export const useRoomGameSetup = () => {
 
   const createRoomAndSetup = useCallback(
     async (playerName: string) => {
-      const res = await roomService.createRoomAndSetup(playerName)
+      try {
+        const res = await roomService.createRoomAndSetup(playerName)
 
-      appDispatch(roomSlice.actions.setRoom(res.room))
-      appDispatch(playerSlice.actions.setCurrentPlayer(res.player))
+        appDispatch(roomSlice.actions.setRoom(res.room))
+        appDispatch(playerSlice.actions.setCurrentPlayer(res.player))
 
-      PapelitoLocalStorage.setRoomId(res.room.id)
-      PapelitoLocalStorage.setUserId(res.player.id)
+        PapelitoLocalStorage.setRoomId(res.room.id)
+        PapelitoLocalStorage.setUserId(res.player.id)
+
+        return true
+      } catch (e) {
+        return false
+      }
     },
     [appDispatch]
   )
 
   const joinRoom = useCallback(
     async (roomId: string, playerName: string) => {
-      const res = await roomService.joinRoom(roomId, playerName)
+      try {
+        const res = await roomService.joinRoom(roomId, playerName)
 
-      appDispatch(roomSlice.actions.setRoom(res.room))
-      appDispatch(playerSlice.actions.setCurrentPlayer(res.player))
+        appDispatch(roomSlice.actions.setRoom(res.room))
+        appDispatch(playerSlice.actions.setCurrentPlayer(res.player))
 
-      PapelitoLocalStorage.setRoomId(res.room.id)
-      PapelitoLocalStorage.setUserId(res.player.id)
+        PapelitoLocalStorage.setRoomId(res.room.id)
+        PapelitoLocalStorage.setUserId(res.player.id)
+        return true
+      } catch (e) {
+        return false
+      }
     },
     [appDispatch]
   )

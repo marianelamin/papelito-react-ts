@@ -2,11 +2,11 @@ import { type Player } from '../../../../models'
 import { DataView, PapButton, Tooltip } from '../../../../ui/components/common'
 import { usePlayer } from '../../../../hooks'
 import { getColor } from '../../../../helpers'
-import { useCallback } from 'react'
+import { ReactNode, useCallback } from 'react'
 import { removePlayerById } from '../../../../store-redux/feature/player/player_slice'
 import { useAppDispatch } from '../../../../store-redux/store'
 
-export const Players = (): JSX.Element => {
+export const Players = (): ReactNode => {
   const { allPlayers, roomId } = usePlayer()
   const appDispatch = useAppDispatch()
 
@@ -21,7 +21,7 @@ export const Players = (): JSX.Element => {
     [appDispatch, roomId]
   )
 
-  const playerTemplate = (item: Player): JSX.Element => {
+  const playerTemplate = (item: Player): ReactNode => {
     return (
       <div className="col-12">
         <div className="flex flex-column flex-1 gap-1">
@@ -57,13 +57,14 @@ export const Players = (): JSX.Element => {
 
             {item.isAdmin ? <span className="font-italic">[Admin]</span> : null}
           </div>
-          <span className="font-bold text-900">order: #{item.order}</span>
+          <span>order: #{item.order}</span>
           <div className="flex align-items-center gap-2">
             <i className="pi pi-tag text-sm"></i>
             <span>team: {item.teamId}</span>
           </div>
           <span>submitted: {item.hasSubmittedPapelitos ? 'yes' : 'no'}</span>
         </div>
+        <hr />
       </div>
     )
   }

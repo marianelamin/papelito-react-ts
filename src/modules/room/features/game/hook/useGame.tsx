@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useRoom } from '../../../../../hooks'
-import { Player, Team } from '../../../../../models'
+import { defaultPlayer, Player, Team } from '../../../../../models'
 import { useTimer } from '.'
 import { Round } from '../../../../../models/round.interface'
 import { Turn } from '../../../../../models/turn.interface'
@@ -86,6 +86,12 @@ export const useGame = () => {
   const [activeRound, setActiveRound] = useState<Round>(round)
   const [activeTurn, setActiveTurn] = useState<Turn>(turn)
 
+  setActiveRound({
+    id: 'string',
+    turns: [],
+    stats: [{ id: 'stringId', team: new Team(), score: 1 }]
+  })
+  setActiveTurn({ team: new Team(), presenter: defaultPlayer, papelitos: [], timerCount: 0 })
   return {
     room,
     activeTurn,

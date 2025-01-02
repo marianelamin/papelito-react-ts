@@ -3,7 +3,6 @@ import React from 'react'
 import { PapButton } from '.'
 
 interface PapDialogIO {
-  /** @todo: add style prop */
   headerLabel: string
   visible: boolean
   onVisibleChange: (value: boolean) => any
@@ -25,6 +24,10 @@ interface PapDialogIO {
 }
 
 export const PapDialog = (props: PapDialogIO) => {
+  /**
+   * TODO: Reported bug about dialog and ref as a prop
+   *  https://github.com/primefaces/primereact/issues/7403
+   */
   const {
     headerLabel = 'Header',
     visible,
@@ -71,9 +74,9 @@ export const PapDialog = (props: PapDialogIO) => {
               ></PapButton>
             ) : null}
             <br />
-            {showPrimaryButtonError ? showPrimaryButtonErrorText ?? (
-                  <small className="p-error">There was an error</small>
-            ) : ''}
+            {showPrimaryButtonError
+              ? showPrimaryButtonErrorText ?? <small className="p-error">There was an error</small>
+              : ''}
           </div>
           {onSecondaryButton ? (
             <div>
