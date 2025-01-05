@@ -104,7 +104,6 @@ export const Players = (): ReactNode => {
                   </Button>
                 )
               )}
-              {JSON.stringify(adminPlayersCount)}
               <Tooltip
                 target=".player-erase-trash-action"
                 content="Erase player"

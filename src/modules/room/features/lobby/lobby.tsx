@@ -1,11 +1,8 @@
-import { useNavigate } from 'react-router'
 import { usePlayer } from '../../../../hooks'
 import { Instructions } from '../../../../ui/components'
 import { Players } from '../players/players'
 import EnterPapelitos from './enter-papelitos'
-import { Button } from 'primereact/button'
 import { useCallback, useMemo, useState } from 'react'
-import { ROOM_GAME_PATH } from '../../../../routes'
 import { PapButton, PapReactiveKnob } from '../../../../ui/components/common'
 import { Chip } from 'primereact/chip'
 
