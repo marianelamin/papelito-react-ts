@@ -37,13 +37,28 @@ export const CreateRoomDialog = (props: CreateRoomDialogProps) => {
       onVisibleChange={setDisplayBasic}
       onHideDialog={handleClose}
     >
-      <div style={{ marginTop: '1rem' }}>
+      <div
+        style={{
+          marginTop: '1rem',
+          display: 'flex',
+          flexFlow: 'column',
+          justifyContent: 'center',
+          gap: '0.5rem'
+        }}
+      >
         <PapInputText
           id="playerNameField"
           label="Player name"
           value={playerNameInput}
           onValueChange={handleChangePlayerText}
         ></PapInputText>
+        <div style={{ backgroundColor: '#f3f4f6', padding: '1rem' }}>
+          <small>You will have an admin role in the game.</small>
+          <br />
+          <small>If you leave the room, the game will end</small>
+          <br />
+          <small>unless you make other players admin.</small>
+        </div>
       </div>
     </PapDialog>
   )

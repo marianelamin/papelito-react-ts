@@ -31,3 +31,10 @@ export const markPlayerSubmittedPapelitos = async (
 export const removePlayerById = async (roomId: string, playerId: string): Promise<void> => {
   await playerDao.removePlayerById(roomId, playerId)
 }
+
+export const grantAdminRole = async (roomId: string, playerId: string): Promise<void> => {
+  await playerDao.grantAdminRole(roomId, playerId)
+}
+export const removeAdminRole = async (roomId: string, playerId: string): Promise<void> => {
+  await playerDao.removeAdminRole(roomId, playerId)
+}

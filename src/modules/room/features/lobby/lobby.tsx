@@ -35,7 +35,6 @@ const Lobby = () => {
               <Chip
                 key={player.id}
                 label={`${player.name}${currentPlayer?.id === player.id ? '(me)' : ''}`}
-                // removable onRemove={handleRemovePlayer}
               />
             ))}
           </div>

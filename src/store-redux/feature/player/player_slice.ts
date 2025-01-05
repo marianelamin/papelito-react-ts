@@ -92,6 +92,18 @@ export const removePlayerById = createAsyncThunk(
     await playerService.removePlayerById(data.roomId, data.playerId)
   }
 )
+export const grantAdminRole = createAsyncThunk(
+  `${PLAYER_FEATURE_KEY}/grantAdminRole`,
+  async (data: { roomId: string; playerId: string }, _thunkAPI) => {
+    await playerService.grantAdminRole(data.roomId, data.playerId)
+  }
+)
+export const removeAdminRole = createAsyncThunk(
+  `${PLAYER_FEATURE_KEY}/grantAdminRole`,
+  async (data: { roomId: string; playerId: string }, _thunkAPI) => {
+    await playerService.removeAdminRole(data.roomId, data.playerId)
+  }
+)
 
 export const removeMyPlayer = createAsyncThunk(
   `${PLAYER_FEATURE_KEY}/removeMyPlayer`,

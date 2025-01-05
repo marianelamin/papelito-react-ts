@@ -10,17 +10,7 @@ export const Instructions = (): ReactNode => {
       </div>
       <div className={'grid p-3 gap-3'}>
         <ol>
-          {player?.isAdmin ? (
-            <li>
-              <p>You are an admin.</p>
-              <p>
-                Open the Room drawer to update room settings. Similarly with Players to make more
-                player admin.
-              </p>
-            </li>
-          ) : null}
           <li>
-            {' '}
             <p> Write papelitos</p>
           </li>
           <li>
@@ -31,6 +21,9 @@ export const Instructions = (): ReactNode => {
           </li>
           {player?.isAdmin ? (
             <li>
+              <p>As an admin</p>
+              <p>You can update the game settings</p>
+              <p>You can set other players as admins</p>
               <p>Start the Game</p>
             </li>
           ) : null}
