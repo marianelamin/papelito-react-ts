@@ -56,7 +56,6 @@ export function useAuth(): AuthState {
 
 export const attemptToGetPlayerAndRoomDetails = async () => {
   const { roomId, myUserId } = PapelitoLocalStorage.getRoomAndPlayerId()
-  console.info('- useAuth hook -\n\n', `roomId: ${roomId}, myPlayerId: ${myUserId}`)
 
   if (roomId && myUserId) {
     try {

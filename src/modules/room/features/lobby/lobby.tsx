@@ -11,12 +11,11 @@ import { Chip } from 'primereact/chip'
 
 const Lobby = () => {
   const { currentPlayer, allPlayers, resubmitPapelitos: handleReSubmit } = usePlayer()
-  const [hasGameStarted, _] = useState<boolean>(false)
-  const navigate = useNavigate()
+  const [hasGameStarted, setHasGameStarted] = useState<boolean>(false)
 
-  const handleGoToGame = useCallback(() => {
-    navigate(ROOM_GAME_PATH)
-  }, [navigate])
+  const handleStartGame = useCallback(() => {
+    setHasGameStarted(true)
+  }, [])
 
   const allSubmitted = useMemo(() => {
     const pendingSubmissions = allPlayers.filter((p) => p.hasSubmittedPapelitos === false)
@@ -66,7 +65,11 @@ const Lobby = () => {
                    - 3 papelitos * # player are already in the bowl => enables the button
                    - Upon click, All screen should show a different view.
                   */}
-                  <PapButton disabled label="Start Game" />
+                  <PapButton
+                    disabled={!allSubmitted}
+                    label="Start Game"
+                    onClick={handleStartGame}
+                  />
                 </div>
               ) : null}
               <Players />
@@ -74,10 +77,20 @@ const Lobby = () => {
           )}
         </div>
       ) : (
-        <div className="flex align-items-center">
-          <div className="w-full text-center">
-            <p>Game has already started:</p>
-            <Button label="Go to Game" link onClick={handleGoToGame} />
+        <div>
+          <p>Game has started........</p>
+          <div className="flex align-items-center">
+            <div className="w-full text-center">
+              <ol>
+                <li>Update game status on the DB</li>
+                <li>Set teams randomly and update the database</li>
+                <li>Place timer buttons and counter</li>
+                <li>Place papelito box with `?` and `actual text`</li>
+                <li>Place button to draw papelito</li>
+                <li>Place button to guess papelito</li>
+                <li>Place button to guess papelito</li>
+              </ol>
+            </div>
           </div>
         </div>
       )}

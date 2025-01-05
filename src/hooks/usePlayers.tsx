@@ -21,20 +21,20 @@ export const usePlayer = () => {
   }, [room?.id, currentPlayer?.id])
 
   useEffect(() => {
-    console.info('-\n\nThis is custom Player hook\n\n\n-', `roomId: ${room?.id}`)
-
-    if (!room?.id) return
+    if (!room?.id) {
+      console.error('roomId not defined ', room?.id)
+      return
+    }
 
     const unsubscribe = onSnapshot(
       playersRef(room?.id),
       (document) => {
         const players: Player[] = []
-        console.log('Received doc snapshot for all players: ', document)
+
+        if (!document) console.error('Received doc snapshot for all players: ', document)
 
         document.forEach((d) => {
           const p = d.data().toPlayer(d.id)
-          console.log('leyendo cada uno de los players', p)
-          console.log({ playerID: player?.id, id: p.id })
           if (player?.id === p.id) {
             setCurrentPlayer(p)
           }
